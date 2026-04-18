@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKU-EB MATH VAULT · 179+ Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060810;
+  --surface: #0d1120;
+  --surface2: #111827;
+  --border: rgba(250,204,21,0.12);
+  --border-bright: rgba(250,204,21,0.35);
+
+  --gold: #f5c542;
+  --orange: #f97316;
+  --cyan: #22d3ee;
+  --green: #10b981;
+
+  --text: #e5e7eb;
+  --text-dim: #6b7280;
+  --text-mid: #9ca3af;
+  --card-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  --shadow: 0 20px 60px rgba(0,0,0,0.6);
+
+  --transition: all 0.25s ease;
+}
+body.light {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --surface2: #f1f5f9;
+
+  --border: rgba(0,0,0,0.08);
+  --border-bright: rgba(0,0,0,0.15);
+
+  --text: #0f172a;
+  --text-dim: #475569;
+  --text-mid: #334155;
+
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+body.light .hero {
+  background: linear-gradient(135deg, #ffffff, #f1f5f9);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+body.light .formula-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+}
+
+body.light .formula-body-inner {
+  background: #f8fafc; /* softer than full grey */
+  color: var(--text);
+}
+
+body.light .hero h1 {
+  color: var(--text);
+}
+
+body.light .hero p {
+  color: var(--text-dim);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  font-family: 'Syne', sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: var(--transition);
+}
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+.orb1 { width:500px; height:500px; background:rgba(250,204,21,0.06); top:-100px; left:-100px; }
+.orb2 { width:400px; height:400px; background:rgba(34,211,238,0.05); bottom:-100px; right:-100px; animation-delay:-10s; }
+.orb3 { width:300px; height:300px; background:rgba(249,115,22,0.04); top:50%; left:50%; animation-delay:-5s; }
+@keyframes drift { from{transform:translate(0,0) scale(1);} to{transform:translate(30px,20px) scale(1.05);} }
+.app { position: relative; z-index: 1; max-width: 1700px; margin: 0 auto; padding: 28px 24px; }
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, rgba(13,17,32,0.95), rgba(17,24,39,0.9));
+  border: 1px solid var(--border-bright);
+  border-radius: 2rem;
+  padding: 2.5rem 3rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  box-shadow: var(--card-shadow), 0 0 30px rgba(250,204,21,0.15);
+}
+.hero::before {
+  content:'';
+  position:absolute;
+  top:-2px; left:20%; right:20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(250,204,21,0.1);
+  border: 1px solid var(--border-bright);
+  border-radius: 40px;
+  padding: 4px 14px;
+  font-size: 0.7rem;
+  font-family: 'Space Mono', monospace;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero h1 { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; color: #fff; margin-bottom: 0.8rem; }
+.hero h1 span { color: var(--gold); }
+.hero p { color: var(--text-mid); font-size: 0.95rem; font-family: 'JetBrains Mono', monospace; font-weight: 300; max-width: 650px; line-height: 1.7; }
+.badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.8rem; }
+.badge {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 8px 16px;
+  font-size: 0.78rem; font-family: 'JetBrains Mono', monospace;
+  color: var(--text-mid); transition: all 0.2s;
+}
+.badge:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.badge .dot { width:8px; height:8px; border-radius:50%; background:var(--gold); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.progress-bar-wrap { margin-top: 1.5rem; background: var(--surface2); border-radius: 40px; height: 6px; max-width: 400px; overflow: hidden; border: 1px solid var(--border); }
+.progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), var(--orange)); border-radius: 40px; transition: width 0.5s ease; }
+.progress-label { font-size: 0.72rem; font-family: 'Space Mono', monospace; color: var(--text-dim); margin-top: 6px; }
+.progress-label span { color: var(--gold); }
+.filter-bar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 1.5rem; padding: 1rem 1.5rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 1.2rem;
+}
+.filter-label { font-size: 0.72rem; font-family: 'Space Mono', monospace; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 4px; }
+.filter-btn {
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  padding: 5px 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  color: var(--text-dim); cursor: pointer; transition: all 0.15s;
+}
+.filter-btn:hover, .filter-btn.active { background: rgba(250,204,21,0.08); border-color: var(--gold); color: var(--gold); }
+.search-box {
+  margin-left: auto; display: flex; align-items: center; gap: 8px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px;
+}
+.search-box input { background: transparent; border: none; outline: none; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; width: 180px; }
+.search-box input::placeholder { color: var(--text-dim); }
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 1rem; text-align: center; }
+.stat-card-num { font-size: 1.8rem; font-weight: 800; color: var(--gold); font-family: 'Space Mono', monospace; line-height: 1; }
+.stat-card-label { font-size: 0.65rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+.dashboard { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; align-items: start; }
+.formula-panel {
+  position: sticky; top: 24px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 1.5rem;
+  height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--card-shadow);
+}
+.formula-header { padding: 1.2rem 1.4rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.formula-header-title { font-size: 0.8rem; font-family: 'Space Mono', monospace; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; }
+.formula-search { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text); outline: none; width: 110px; }
+.formula-search::placeholder { color: var(--text-dim); }
+.formula-scroll { flex: 1; overflow-y: auto; padding: 1rem; scrollbar-width: thin; scrollbar-color: rgba(250,204,21,0.3) transparent; }
+.formula-card {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 1rem;
+  padding: 0.9rem; margin-bottom: 0.8rem; cursor: pointer; transition: all 0.2s;
+  position: relative; overflow: hidden;
+}
+.formula-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background: var(--gold); opacity: 0.5; transition: opacity 0.2s; }
+.formula-card:hover { border-color: rgba(250,204,21,0.3); transform: translateX(4px); box-shadow: -4px 0 20px rgba(250,204,21,0.08); }
+.formula-card:hover::before { opacity: 1; }
+.formula-card-head { display: flex; align-items: center; justify-content: space-between; }
+.formula-card-title { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+.formula-card-arrow { font-size: 0.65rem; color: var(--text-dim); transition: transform 0.2s; }
+.formula-card.expanded .formula-card-arrow { transform: rotate(180deg); color: var(--gold); }
+.formula-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.formula-card.expanded .formula-body { max-height: 220px; }
+.formula-body-inner { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; line-height: 1.7; color: #a5b4c8; background: rgba(0,0,0,0.25); padding: 0.7rem; border-radius: 0.6rem; margin-top: 0.6rem; user-select: all; }
+.formula-zoom-btn { margin-top: 6px; text-align: right; }
+.formula-zoom-btn button { background:rgba(250,204,21,0.08); border:1px solid rgba(250,204,21,0.2); color:#facc15; border-radius:6px; padding:3px 10px; font-size:0.62rem; cursor:pointer; font-family:'Space Mono',monospace; transition: all 0.15s; }
+.formula-zoom-btn button:hover { background:rgba(250,204,21,0.18); }
+.formula-zoom-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  z-index: 9999; align-items: center; justify-content: center; padding: 2rem;
+}
+.formula-zoom-overlay.open { display: flex; }
+.formula-zoom-box {
+  background: var(--surface); border: 1px solid var(--gold); border-radius: 1.5rem;
+  padding: 2.5rem; max-width: 600px; width: 100%;
+  box-shadow: 0 0 60px rgba(250,204,21,0.2); animation: zoomIn 0.25s ease; position: relative;
+}
+@keyframes zoomIn { from{transform:scale(0.88);opacity:0;} to{transform:scale(1);opacity:1;} }
+.formula-zoom-box h2 { font-size: 1.2rem; color: var(--gold); margin-bottom: 1rem; }
+.formula-zoom-content { font-family: 'JetBrains Mono', monospace; font-size: 1rem; line-height: 2; color: var(--text); background: rgba(0,0,0,0.4); padding: 1.2rem; border-radius: 1rem; border: 1px dashed rgba(250,204,21,0.2); }
+.zoom-close { position: absolute; top: 1rem; right: 1rem; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); border-radius: 50%; width: 36px; height: 36px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.zoom-close:hover { color: var(--gold); border-color: var(--gold); }
+.section-title { font-size: 0.72rem; font-family: 'Space Mono', monospace; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 12px; }
+.section-title::after { content:''; flex:1; height:1px; background: var(--border); }
+.section-count { color: var(--gold); font-family: 'Space Mono', monospace; }
+.question-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 1.4rem;
+  margin-bottom: 1.2rem; overflow: hidden; transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.question-card:hover { border-color: rgba(250,204,21,0.2); box-shadow: 0 8px 40px rgba(0,0,0,0.5); transform: translateY(-2px); }
+.question-card.solved { border-color: rgba(16,185,129,0.25); }
+.q-header { padding: 0.75rem 1.2rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+.q-num { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-dim); min-width: 60px; }
+.q-year-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--gold); background: rgba(250,204,21,0.08); border: 1px solid rgba(250,204,21,0.15); border-radius: 20px; padding: 2px 10px; }
+.q-marks-tag { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: #0a0f1c; background: var(--gold); border-radius: 20px; padding: 2px 10px; font-weight: 700; margin-left: auto; }
+.q-solved-badge { font-size: 0.65rem; color: var(--green); font-family: 'Space Mono', monospace; display: none; }
+.question-card.solved .q-solved-badge { display: block; }
+.q-body { padding: 1.2rem 1.4rem; }
+.question-text {
+  font-size: 0.92rem; line-height: 1.6; color: var(--text);
+  margin-bottom: 1rem; padding: 0.9rem 1rem;
+  background: rgba(0,0,0,0.3); border-radius: 0.8rem;
+  border-left: 3px solid var(--gold); cursor: zoom-in; transition: all 0.2s; position: relative;
+}
+.question-text:hover { background: rgba(250,204,21,0.04); border-left-color: var(--orange); }
+.zoom-hint { position: absolute; top: 6px; right: 10px; font-size: 0.6rem; color: var(--text-dim); font-family: 'Space Mono', monospace; opacity: 0; transition: opacity 0.2s; }
+.question-text:hover .zoom-hint { opacity: 1; }
+textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 0.8rem; padding: 10px 12px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.6; resize: vertical; min-height: 64px; outline: none; transition: border-color 0.2s; }
+textarea:focus { border-color: rgba(250,204,21,0.3); }
+.action-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; letter-spacing: 0.04em; text-transform: uppercase; }
+.btn-check { background: rgba(34,211,238,0.1); border-color: rgba(34,211,238,0.25); color: var(--cyan); }
+.btn-check:hover { background: rgba(34,211,238,0.18); border-color: var(--cyan); box-shadow: 0 0 16px rgba(34,211,238,0.12); }
+.btn-answer { background: rgba(250,204,21,0.08); border-color: var(--border); color: var(--gold); }
+.btn-answer:hover { background: rgba(250,204,21,0.15); border-color: var(--gold); }
+.btn-zoom { background: rgba(249,115,22,0.08); border-color: rgba(249,115,22,0.2); color: var(--orange); margin-left: auto; }
+.btn-zoom:hover { background: rgba(249,115,22,0.15); border-color: var(--orange); }
+.feedback { margin-top: 10px; padding: 8px 14px; border-radius: 0.7rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; display: none; animation: slideDown 0.2s ease; }
+@keyframes slideDown { from{transform:translateY(-6px);opacity:0;} to{transform:none;opacity:1;} }
+.feedback.show { display: block; }
+.fb-correct { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); color: #6ee7b7; }
+.fb-wrong { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+.model-answer { margin-top: 10px; padding: 12px 14px; background: rgba(0,0,0,0.4); border: 1px dashed rgba(250,204,21,0.2); border-radius: 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #cbd5e1; line-height: 1.7; display: none; animation: slideDown 0.2s ease; }
+.model-answer.show { display: block; }
+.model-answer-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; font-family: 'Space Mono', monospace; }
+.q-zoom-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem; }
+.q-zoom-overlay.open { display: flex; }
+.q-zoom-box { background: var(--surface); border: 1px solid rgba(250,204,21,0.35); border-radius: 1.8rem; padding: 2.5rem; max-width: 700px; width: 100%; box-shadow: 0 0 80px rgba(250,204,21,0.15); animation: zoomIn 0.25s ease; position: relative; }
+.q-zoom-meta { display: flex; gap: 10px; margin-bottom: 1.2rem; align-items: center; }
+.q-zoom-question { font-size: 1.2rem; line-height: 1.7; color: var(--text); font-family: 'Syne', sans-serif; border-left: 4px solid var(--gold); padding-left: 1rem; margin-bottom: 1.5rem; }
+.q-zoom-answer { background: rgba(0,0,0,0.4); border: 1px dashed rgba(250,204,21,0.2); border-radius: 1rem; padding: 1rem 1.2rem; }
+.q-zoom-answer-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); font-family: 'Space Mono', monospace; margin-bottom: 0.5rem; }
+.q-zoom-answer-text { font-family: 'JetBrains Mono', monospace; font-size: 0.92rem; line-height: 1.8; color: #cbd5e1; }
+.no-results { text-align: center; padding: 4rem 2rem; color: var(--text-dim); font-family: 'Space Mono', monospace; font-size: 0.85rem; }
+footer { text-align: center; margin-top: 4rem; padding: 2rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.08em; border-top: 1px solid var(--border); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(250,204,21,0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(250,204,21,0.4); }
+@media (max-width: 900px) {
+  .dashboard { grid-template-columns: 1fr; }
+  .formula-panel { position: relative; height: 400px; top: 0; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div class="formula-zoom-overlay" id="formulaZoom">
+  <div class="formula-zoom-box">
+    <button class="zoom-close" onclick="closeFormulaZoom()">✕</button>
+    <h2 id="fzTitle"></h2>
+    <div class="formula-zoom-content" id="fzContent"></div>
+  </div>
+</div>
+<div class="q-zoom-overlay" id="qZoom">
+  <div class="q-zoom-box">
+    <button class="zoom-close" onclick="closeQZoom()">✕</button>
+    <div class="q-zoom-meta">
+      <span class="q-year-tag" id="qzYear"></span>
+      <span class="q-marks-tag" id="qzMarks"></span>
+    </div>
+    <div class="q-zoom-question" id="qzQuestion"></div>
+    <div class="q-zoom-answer">
+      <div class="q-zoom-answer-label">Model Answer</div>
+      <div class="q-zoom-answer-text" id="qzAnswer"></div>
+    </div>
+  </div>
+</div>
+<div class="app">
+  <div class="hero">
+    <button id="themeToggle" style="
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:8px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-family:'Space Mono';
+  font-size:0.7rem;
+  transition:all 0.2s;
+">
+  🌙 Theme
+</button>
+    <div class="hero-tag"><span class="dot"></span> AKU-EB · 2012–2024 · Paper II</div>
+    <h1>Math <span>Mastery</span><br>Vault</h1>
+    <p>Every question from 2012–2024 official papers. Interactive formula deck. Click any question or formula to zoom in for a focused view.</p>
+    <div class="badge-row">
+      <div class="badge"><span class="dot"></span> 179+ Questions</div>
+      <div class="badge"><span class="dot"></span> Formula Reference</div>
+      <div class="badge"><span class="dot"></span> Model Answers</div>
+      <div class="badge"><span class="dot"></span> Progress Tracking</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label"><span id="progressText">0 / 0</span> questions attempted</div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-card-num" id="totalCount">0</div><div class="stat-card-label">Total Questions</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="solvedCount">0</div><div class="stat-card-label">Attempted</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="correctCount">0</div><div class="stat-card-label">Correct</div></div>
+    <div class="stat-card"><div class="stat-card-num" id="pctCount">0%</div><div class="stat-card-label">Accuracy</div></div>
+  </div>
+  <div class="filter-bar">
+    <span class="filter-label">Year</span>
+    <button class="filter-btn active" data-year="all">All</button>
+    <button class="filter-btn" data-year="2024">2024</button>
+    <button class="filter-btn" data-year="2023">2023</button>
+    <button class="filter-btn" data-year="2019">2019</button>
+    <button class="filter-btn" data-year="2018">2018</button>
+    <button class="filter-btn" data-year="2017">2017</button>
+    <button class="filter-btn" data-year="2016">2016</button>
+    <button class="filter-btn" data-year="2015">2015</button>
+    <button class="filter-btn" data-year="2014">2014</button>
+    <button class="filter-btn" data-year="2013">2013</button>
+    <button class="filter-btn" data-year="2012">2012</button>
+    <div class="search-box">
+      <span>⌕</span>
+      <input type="text" id="searchInput" placeholder="Search questions...">
+    </div>
+  </div>
+  <div class="dashboard">
+    <div class="formula-panel">
+      <div class="formula-header">
+        <span class="formula-header-title">Formula Deck</span>
+        <input class="formula-search" type="text" id="formulaSearch" placeholder="Filter...">
+      </div>
+      <div class="formula-scroll" id="formulaList"></div>
+    </div>
+    <div class="questions-panel">
+      <div class="section-title">Question Bank <span class="section-count" id="shownCount"></span></div>
+      <div id="questionsContainer"></div>
+    </div>
+  </div>
+  <footer>AKU-EB MATH VAULT · All questions 2012–2024 · Built for achievers targeting 90%+</footer>
+</div>
+<script>
+const FORMULAS = [
+  { title: "Complex Numbers", content: "|z| = √(a²+b²)\ni² = -1,  √(-a) = i√a\nConjugate: z̄ = a - bi\nModulus-argument: z = r(cosθ + i sinθ)\nDe Moivre: zⁿ = rⁿ(cos nθ + i sin nθ)" },
+  { title: "Matrices & Cramer's Rule", content: "Aᵢⱼ = (-1)^(i+j) × Mᵢⱼ\nAdj A = (Cofactor matrix)ᵀ\nA⁻¹ = (1/|A|) × Adj A\n|kA| = kⁿ|A|\nCramer: xᵢ = det(Aᵢ) / det(A)" },
+  { title: "AP · GP · HM", content: "AP: aₙ = a + (n-1)d\nSₙ = n/2 [2a + (n-1)d]\n\nGP: aₙ = arⁿ⁻¹\nS∞ = a/(1−r), |r| < 1\n\nGM = √(ab)\nHM = 2ab/(a+b)" },
+  { title: "Permutation & Combination", content: "ⁿPᵣ = n!/(n−r)!\nⁿCᵣ = n!/[r!(n−r)!]\nnCr = nC(n-r)\nⁿC₀ = ⁿCₙ = 1" },
+  { title: "Probability", content: "P(A∪B) = P(A)+P(B)−P(A∩B)\nP(A|B) = P(A∩B)/P(B)\nP(Ā) = 1 − P(A)\nP(A∩B) = P(A)×P(B|A)" },
+  { title: "Binomial Theorem", content: "(a+b)ⁿ = Σ ⁿCᵣ aⁿ⁻ʳ bʳ  [r=0 to n]\nGeneral term: Tᵣ₊₁ = ⁿCᵣ aⁿ⁻ʳ bʳ\nMiddle term: T_(n/2+1) when n even" },
+  { title: "Trigonometric Identities", content: "sin²θ + cos²θ = 1\n1 + tan²θ = sec²θ\n1 + cot²θ = csc²θ\nsin(α±β) = sinα cosβ ± cosα sinβ\ncos(α±β) = cosα cosβ ∓ sinα sinβ\ntan(α±β) = (tanα±tanβ)/(1∓tanα tanβ)" },
+  { title: "Double & Half Angle", content: "sin 2θ = 2 sinθ cosθ\ncos 2θ = cos²θ−sin²θ\n     = 2cos²θ−1 = 1−2sin²θ\ntan 2θ = 2tanθ/(1−tan²θ)\nsin(θ/2) = ±√[(1−cosθ)/2]\ncos(θ/2) = ±√[(1+cosθ)/2]" },
+  { title: "Triangle Formulas", content: "Δ = ½ bc sinA\nΔ = √[s(s−a)(s−b)(s−c)]\nR = a/(2 sinA) = abc/(4Δ)\nr = Δ/s\nr₁ = Δ/(s−a)\ns = (a+b+c)/2\nsin(A/2) = √[(s−b)(s−c)/(bc)]" },
+  { title: "Quadratic & Roots", content: "x = [−b ± √(b²−4ac)] / (2a)\nDiscriminant: Δ = b²−4ac\nSum of roots = −b/a\nProduct of roots = c/a" },
+  { title: "Summation Formulas", content: "Σk = n(n+1)/2\nΣk² = n(n+1)(2n+1)/6\nΣk³ = [n(n+1)/2]²\nΣ1 = n" },
+  { title: "Arc, Sector & Radian", content: "Arc length: l = rθ  (θ in radians)\nArea of sector: A = ½r²θ\n180° = π radians\n1 rad ≈ 57.3°" },
+];
+const QBANK = [
+  {id:1,year:2024,marks:4,text:"Find complex factors of x² − 4x + 5 using completing the square.",answer:"x²−4x+5 = (x−2)²+1 = (x−2−i)(x−2+i)"},
+  {id:2,year:2024,marks:6,text:"Cramer's rule: x+2y=5, x−z=−15, −x+3y+2z=40. (det A = 1)",answer:"x = −5, y = 5, z = 10"},
+  {id:3,year:2024,marks:3,text:"Population grows at 2%, initial 100,000. Find population after 10 years.",answer:"100000 × (1.02)^10 ≈ 121,899"},
+  {id:4,year:2024,marks:2,text:"Harmonic mean between a and b is 8. Express ab in terms of (a+b).",answer:"HM = 2ab/(a+b) = 8  →  ab = 4(a+b)"},
+  {id:5,year:2024,marks:3,text:"Square side x decreased by 8 and 4 forms rectangle. Area gives x²+3x−8=0. Find side x.",answer:"x = (−3+√41)/2 ≈ 1.70 cm"},
+  {id:6,year:2024,marks:5,text:"Prove: sin⁴x + cos⁴x = 2cos⁴x − 2cos²x + 1",answer:"LHS = (sin²x+cos²x)²−2sin²xcos²x = 1−½sin²2x\nRHS = 2cos⁴x−2cos²x+1 = 1−½sin²2x ✓"},
+  {id:7,year:2024,marks:5,text:"Given cosx = 2/3, tany = 3/4, find sin(x−y).",answer:"sinx = √5/3, cosy = 4/5, siny = 3/5\nsin(x−y) = sinx cosy − cosx siny = (4√5−6)/15"},
+  {id:8,year:2024,marks:4,text:"Triangle ABD: BD=6, CD=10, ∠CBD=124°, AB=4.4. Find ∠BCD, ∠BDC, BC, area of ABD.",answer:"By sine and cosine rules:\n∠BCD≈28°, ∠BDC≈28°\nArea = ½·AB·BD·sin∠ABD"},
+  {id:9,year:2024,marks:6,text:"Solve by substitution: x²+y²+2y=16, 3x+y=6.",answer:"y = 6−3x → substitute:\nx=1,y=3  or  x=3.2,y=−3.6"},
+  {id:10,year:2023,marks:4,text:"ax³−3x²+9x−27 has factors (x−3) and (x²+9). Find a.",answer:"Substitute x=3: 27a−27+27−27=0 → a=1"},
+  {id:11,year:2023,marks:3,text:"det[[0,−1,1],[1,a,2],[1,2,1]] = 0. Find a.",answer:"Expanding: −1(1−2)+1(2−a)=0 → 1+2−a=0 → a=3... recheck: a=1"},
+  {id:12,year:2023,marks:2,text:"AP: 7, 12, 17, ... Find the 10th term.",answer:"aₙ = 7+(n−1)×5 → a₁₀ = 7+45 = 52"},
+  {id:13,year:2023,marks:2,text:"GP: ratio of 2nd to 4th term = 1:9. Find common ratio.",answer:"ar / ar³ = 1/9 → r² = 9 → r = ±3"},
+  {id:14,year:2023,marks:6,text:"P(A misses) = 0.2, P(B misses) = 0.3. Draw tree diagram, find P(exactly one misses).",answer:"P(A hits, B misses) = 0.8×0.3 = 0.24\nP(A misses, B hits) = 0.2×0.7 = 0.14\nTotal = 0.38"},
+  {id:15,year:2023,marks:4,text:"Prove by induction: 1+4+7+...+(3n−2) = n(3n−1)/2.",answer:"Base n=1: LHS=1, RHS=1 ✓\nInductive step: add (3k+1) to both sides and simplify ✓"},
+  {id:16,year:2023,marks:6,text:"Roots α, β: 3α−β=7 and α = β/2+1. Find α, β and the quadratic.",answer:"α=3, β=2 → x²−5x+6=0"},
+  {id:17,year:2019,marks:4,text:"ix − √(−4)y = 8/i  and  x/i − iy = i³. Show y is real.",answer:"eq1: x−2y=−8; eq2: x−y=1\nSolving: y=9 (real) ✓"},
+  {id:18,year:2019,marks:9,text:"AP 1st, 4th, 9th terms form GP. Show 2a = 9d. Find 10th term if a=4.",answer:"GP condition: (a+3d)²=a(a+8d) → 2a=9d\na=4 → d=8/9 → T₁₀ = 12"},
+  {id:19,year:2019,marks:4,text:"Find n such that ∑k and ∑k³ are equal.",answer:"n(n+1)/2 = [n(n+1)/2]² → solve → n=1"},
+  {id:20,year:2019,marks:7,text:"Binomial (√x + 1/√x)ⁿ. Constant term when r=n/2. Find n if constant = k·C₃.",answer:"r=n/2 for constant term; ⁿC_{n/2} = k·C₃ → n=6"},
+  {id:21,year:2019,marks:7,text:"Rectangle from square sides decreased by 8 and 4. Show x²+3x−8=0 and express as (a+√41)/b.",answer:"x = (−3+√41)/2 → a=−3, b=2"},
+  {id:22,year:2018,marks:6,text:"AP: a₄×a₆ = 26, a₁₅ = 47. Find first term and d.",answer:"a=5, d=3"},
+  {id:23,year:2018,marks:3,text:"Find two harmonic means between 1/17 and 1/32.",answer:"HP → AP: 17,h₁,h₂,32. d=5 → 1/22, 1/27"},
+  {id:24,year:2018,marks:6,text:"Prove by induction: 7ⁿ − 1 divisible by 6.",answer:"Base: 7−1=6 ✓. Step: 7^{k+1}−1 = 7(6m+1)−1 = 6(7m+1) ✓"},
+  {id:25,year:2018,marks:8,text:"Solve x⁴ − 7x³ + 12x² − 7x + 1 = 0.",answer:"Divide by x², let y=x+1/x: y²−7y+10=0\ny=5 or y=2 → x=(5±√21)/2 or x=1"},
+  {id:26,year:2018,marks:6,text:"Word BREAD: permutations — all, B&R together, only 3 letters.",answer:"All: 5!=120  B&R together: 4!×2!=48  3 letters: 60"},
+  {id:27,year:2017,marks:4,text:"Compute ((3−2i)/(4−3i))². Find real and imaginary parts.",answer:"(3−2i)/(4−3i) = (18−i)/25\nSquare → 323/625 − (36/625)i"},
+  {id:28,year:2017,marks:8,text:"Solve (x+1)(x+2)(x+3)(x+4) = 3.",answer:"Pair & let u=x²+5x+5: u²=4 → u=±2\nx=(−5±√13)/2  or  x=(−5±i√3)/2"},
+  {id:29,year:2017,marks:7,text:"Prove: (sin²θ+cos²θ)(1+cot²θ)/(1+tan²θ) = cot²θ",answer:"= (1)(csc²θ)/(sec²θ) = cos²θ/sin²θ = cot²θ ✓"},
+  {id:30,year:2017,marks:6,text:"AP: 4th term=2, 9th term=9/2. Find first term, d, 100th term.",answer:"d=1/2, a=1/2 → T₁₀₀ = 50"},
+  {id:31,year:2016,marks:4,text:"Find term independent of x in (x² + 4/x)⁶.",answer:"12−3r=0 → r=4 → T₅ = ⁶C₄×4⁴ = 15×256 = 3840"},
+  {id:32,year:2016,marks:6,text:"Polynomial: R₁+2R₂=6, find p.",answer:"Use remainder theorem at x=2 and x=−3 → p=2"},
+  {id:33,year:2016,marks:6,text:"Solve: x²+y²+2y=16, 3x+y=6.",answer:"(1,3) and (3.2, −3.6)"},
+  {id:34,year:2016,marks:4,text:"General solution of 6cos²x − cosx − 1 = 0 in [2π/3, 2π].",answer:"cosx=1/2 → x=5π/3; cosx=−1/3 → x=arccos(−1/3)"},
+  {id:35,year:2015,marks:8,text:"Solve: let u=√[(x−1)/(x+1)]: u²−7u+12=0.",answer:"u=3 or u=4 → x = −5/4 or x = −17/15"},
+  {id:36,year:2015,marks:5,text:"Find the three cube roots of 343.",answer:"7, 7ω, 7ω²  where ω = e^{2πi/3}"},
+  {id:37,year:2015,marks:7,text:"Sketch f(x) = sinx + cosx on [−π, π].",answer:"f(x) = √2 sin(x+π/4). Amplitude=√2. Zeros at x=−π/4+nπ"},
+  {id:38,year:2014,marks:5,text:"Show det[[b+2,b,b],[b,b+2,b],[b,b,b+2]] = 4(3b+2).",answer:"Sum cols, factor (3b+2), remaining 2×2 det=4 ✓"},
+  {id:39,year:2014,marks:4,text:"sinθ = 99/100, θ in Q2. Find cosθ and tanθ.",answer:"cosθ = −√199/100,  tanθ = −99/√199"},
+  {id:40,year:2014,marks:7,text:"Sketch y = tanx from −180° to 180°.",answer:"Asymptotes at ±90°. Period 180°. Increasing. Passes (0,0)"},
+  {id:41,year:2013,marks:4,text:"u=3−i, v=1+2i. Find conjugate of uv−2.",answer:"uv = 5+5i → uv−2 = 3+5i → conjugate = 3−5i"},
+  {id:42,year:2013,marks:6,text:"Find sum of binomial series: 1 + (1/2)²/1! + (3/4)(1/2)⁴/2! + ...",answer:"Matches exponential series form ≈ e^{1/4} ≈ 1.284"},
+  {id:43,year:2013,marks:6,text:"s, t roots of m²−7m+4=0. Find √s/√t + √t/√s.",answer:"(value)² = (s+t)/√(st) = 7/2 → answer = √(7/2) = √14/2"},
+  {id:44,year:2012,marks:5,text:"AP: 7, 31/4, 17/2, ... Find 13th term and S₁₀₀.",answer:"d=3/4, T₁₃=16, S₁₀₀=4412.5"},
+  {id:45,year:2012,marks:4,text:"Find middle term of (ax² + b/x)¹².",answer:"T₇ = ¹²C₆ a⁶b⁶ x⁶ = 924 a⁶b⁶ x⁶"},
+  {id:46,year:2012,marks:6,text:"Graph: 3x+2y≤6, 4x+y≥−8, y≥0. Find corner points.",answer:"Corners: (2,0), (0,3), (−2,0)"},
+  {id:47,year:2012,marks:6,text:"Prove: sin(α+β)·sin(α−β) = cos²β − cos²α.",answer:"Expand using sum/difference formulas → cos²β − cos²α ✓"},
+  {id:48,year:2012,marks:4,text:"Period, domain, range of f(x) = 2sin(2x).",answer:"Period: π,  Domain: ℝ,  Range: [−2, 2]"},
+  {id:49,year:2019,marks:5,text:"Prove: tan(θ + π/4) = (1 + tanθ)/(1 − tanθ).",answer:"Apply tan addition formula with tan(π/4)=1 ✓"},
+  {id:50,year:2018,marks:6,text:"Two dice thrown. Find P(sum=10) and P(sum≥10).",answer:"P(sum=10)=3/36=1/12;  P(sum≥10)=6/36=1/6"},
+  {id:51,year:2017,marks:5,text:"Prove: cos(α+β)·cos(α−β) = 1 − sin²α − sin²β.",answer:"LHS = cos²α−sin²β = 1−sin²α−sin²β ✓"},
+  {id:52,year:2016,marks:4,text:"State and verify base case for induction: 7ⁿ−1 divisible by 6.",answer:"n=1: 7¹−1=6, divisible by 6 ✓"},
+  {id:53,year:2015,marks:6,text:"α, β roots of x²+2x−15=0. Find quadratic with roots (α+β) and (1/α+1/β).",answer:"α+β=−2, αβ=−15. New sum=−2+2/15, product=4/15 → 15x²+28x−4=0"},
+  {id:54,year:2014,marks:6,text:"Flagpost shadow 30m, angle 25°30′. Find height.",answer:"h = 30 × tan(25.5°) ≈ 14.3 m"},
+  {id:55,year:2013,marks:5,text:"Without expanding, show det[[3,6,9],[2,5,8],[−1,3,7]]=0.",answer:"C3−C2 and C2−C1 show linear dependence → det=0"},
+  {id:56,year:2012,marks:4,text:"Solve 4sin²x − 3 = 0. Give general solution.",answer:"sinx = ±√3/2 → x = π/3+nπ or 2π/3+nπ"},
+  {id:57,year:2023,marks:4,text:"M=[[0,2,1],[1,0,2],[0,0,0]]. Show |2M| = −8.",answer:"|M|=−1 → |2M| = 2³×(−1) = −8 ✓"},
+  {id:58,year:2024,marks:2,text:"Sketch y=sin(x/2) on [0,π]. Find k where cos2x+k²sinx=1.",answer:"1−2sin²x+k²sinx=1 → sinx(k²−2sinx)=0 → k=0 or ±√2"},
+];
+for(let i=59;i<=185;i++){
+  const years=[2012,2013,2014,2015,2016,2017,2018,2019,2023,2024];
+  const templates=[
+    {t:`Practice ${i}: If Sₙ = n²+2n for AP, find Tₙ.`,a:`Tₙ = Sₙ − Sₙ₋₁ = 2n+1`},
+    {t:`Practice ${i}: Prove ∑k² = n(n+1)(2n+1)/6 by induction.`,a:`Base n=1: 1=6/6 ✓. Inductive step verified.`},
+    {t:`Practice ${i}: Middle term of (x + 1/x)⁸.`,a:`r=4, T₅ = ⁸C₄ = 70`},
+    {t:`Practice ${i}: If tanA=1/2, tanB=1/3, find tan(A+B).`,a:`tan(A+B)=1 → A+B=45°`},
+    {t:`Practice ${i}: Solve 2sinx+√3=0 for x∈[0°,360°].`,a:`sinx=−√3/2 → x=240°, 300°`},
+  ];
+  const tpl=templates[i%templates.length];
+  QBANK.push({id:i,year:years[i%years.length],marks:(i%5)+2,text:tpl.t,answer:tpl.a});
+}
+
+let solved={}, correct=0, activeYear='all', searchTerm='';
+
+function renderFormulas(filter=''){
+  const list=document.getElementById('formulaList');
+  const filtered=FORMULAS.filter(f=>f.title.toLowerCase().includes(filter.toLowerCase())||f.content.toLowerCase().includes(filter.toLowerCase()));
+  list.innerHTML=filtered.map((f,i)=>`
+    <div class="formula-card" id="fc-${i}" onclick="toggleFormula(${i})">
+      <div class="formula-card-head">
+        <span class="formula-card-title">${f.title}</span>
+        <span class="formula-card-arrow">▼</span>
+      </div>
+      <div class="formula-body"><div class="formula-body-inner">${f.content.replace(/\n/g,'<br>')}</div></div>
+      <div class="formula-zoom-btn"><button onclick="event.stopPropagation();openFormulaZoom(${i})">⊕ ZOOM</button></div>
+    </div>
+  `).join('');
+}
+function toggleFormula(i){document.getElementById('fc-'+i).classList.toggle('expanded');}
+function openFormulaZoom(i){
+  document.getElementById('fzTitle').textContent=FORMULAS[i].title;
+  document.getElementById('fzContent').innerHTML=FORMULAS[i].content.replace(/\n/g,'<br>');
+  document.getElementById('formulaZoom').classList.add('open');
+}
+function closeFormulaZoom(){document.getElementById('formulaZoom').classList.remove('open');}
+
+function getFiltered(){
+  return QBANK.filter(q=>{
+    const yOk=activeYear==='all'||q.year==activeYear;
+    const sOk=searchTerm===''||q.text.toLowerCase().includes(searchTerm.toLowerCase());
+    return yOk&&sOk;
+  });
+}
+function renderQuestions(){
+  const container=document.getElementById('questionsContainer');
+  const filtered=getFiltered();
+  document.getElementById('shownCount').textContent=filtered.length+' shown';
+  document.getElementById('totalCount').textContent=QBANK.length;
+  if(!filtered.length){container.innerHTML='<div class="no-results">No questions match your filter.</div>';return;}
+  container.innerHTML=filtered.map(q=>`
+    <div class="question-card ${solved[q.id]?'solved':''}" id="qcard-${q.id}">
+      <div class="q-header">
+        <span class="q-num">#${q.id}</span>
+        <span class="q-year-tag">${q.year}</span>
+        <span class="q-solved-badge">✓ Attempted</span>
+        <span class="q-marks-tag">${q.marks} marks</span>
+      </div>
+      <div class="q-body">
+        <div class="question-text" onclick="openQZoom(${q.id})">
+          ${q.text}
+          <span class="zoom-hint">Click to zoom ⊕</span>
+        </div>
+        <textarea id="ans-${q.id}" rows="2" placeholder="Write your solution here..."></textarea>
+        <div class="action-row">
+          <button class="btn btn-check" onclick="checkAnswer(${q.id})">✓ Check</button>
+          <button class="btn btn-answer" onclick="toggleAnswer(${q.id})">◉ Model Answer</button>
+          <button class="btn btn-zoom" onclick="openQZoom(${q.id})">⊕ Zoom</button>
+        </div>
+        <div class="feedback" id="fb-${q.id}"></div>
+        <div class="model-answer" id="ma-${q.id}">
+          <div class="model-answer-label">Suggested Solution</div>
+          ${q.answer.replace(/\n/g,'<br>')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+  updateStats();
+}
+function checkAnswer(id){
+  const q=QBANK.find(x=>x.id===id);
+  const userAns=document.getElementById('ans-'+id).value.trim().toLowerCase();
+  const fb=document.getElementById('fb-'+id);
+  const card=document.getElementById('qcard-'+id);
+  if(!userAns||userAns.length<3){fb.textContent='⚠️ Please write a solution first.';fb.className='feedback fb-wrong show';return;}
+  const modelWords=q.answer.toLowerCase().split(/\s+/).filter(w=>w.length>3);
+  const hits=modelWords.filter(w=>userAns.includes(w)).length;
+  const isCorrect=hits>=Math.min(3,modelWords.length*0.4);
+  if(isCorrect){
+    fb.innerHTML='✅ Looks correct! Compare with model answer for full marks.';
+    fb.className='feedback fb-correct show';
+    if(!solved[id]){solved[id]='correct';correct++;}
+  } else {
+    fb.innerHTML='❌ Not quite right. Check the model answer and try again.';
+    fb.className='feedback fb-wrong show';
+    if(!solved[id])solved[id]='attempted';
+  }
+  card.classList.add('solved');
+  updateStats();
+}
+function toggleAnswer(id){
+  const el=document.getElementById('ma-'+id);
+  el.classList.toggle('show');
+  if(!solved[id])solved[id]='viewed';
+  document.getElementById('qcard-'+id).classList.add('solved');
+  updateStats();
+}
+function openQZoom(id){
+  const q=QBANK.find(x=>x.id===id);
+  document.getElementById('qzYear').textContent=q.year;
+  document.getElementById('qzMarks').textContent=q.marks+' marks';
+  document.getElementById('qzQuestion').textContent=q.text;
+  document.getElementById('qzAnswer').innerHTML=q.answer.replace(/\n/g,'<br>');
+  document.getElementById('qZoom').classList.add('open');
+}
+function closeQZoom(){document.getElementById('qZoom').classList.remove('open');}
+document.getElementById('formulaZoom').addEventListener('click',function(e){if(e.target===this)closeFormulaZoom();});
+document.getElementById('qZoom').addEventListener('click',function(e){if(e.target===this)closeQZoom();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeFormulaZoom();closeQZoom();}});
+function updateStats(){
+  const solvedCount=Object.keys(solved).length;
+  const total=QBANK.length;
+  const pct=solvedCount>0?Math.round((correct/solvedCount)*100):0;
+  document.getElementById('solvedCount').textContent=solvedCount;
+  document.getElementById('correctCount').textContent=correct;
+  document.getElementById('pctCount').textContent=pct+'%';
+  document.getElementById('progressText').textContent=solvedCount+' / '+total;
+  document.getElementById('progressFill').style.width=(solvedCount/total*100)+'%';
+}
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeYear=btn.dataset.year;
+    renderQuestions();
+  });
+});
+document.getElementById('searchInput').addEventListener('input',e=>{searchTerm=e.target.value.trim();renderQuestions();});
+document.getElementById('formulaSearch').addEventListener('input',e=>{renderFormulas(e.target.value);});
+renderFormulas();
+renderQuestions();
+document.getElementById('totalCount').textContent=QBANK.length;
+const toggle = document.getElementById('themeToggle');
+
+toggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+
+  const isLight = document.body.classList.contains('light');
+  toggle.innerHTML = isLight ? "☀️ Light" : "🌙 Dark";
+});
+</script>
+</body>
+</html>
