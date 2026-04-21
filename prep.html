@@ -364,6 +364,7 @@ footer { text-align: center; margin-top: 4rem; padding: 2rem; font-family: 'Spac
   </div>
   <footer>AKU-EB MATH VAULT · All questions 2012–2024 · Built for achievers targeting 90%+</footer>
 </div>
+<script src="solutions.js"></script>
 <script>
 const FORMULAS = [
   { title: "Complex Numbers", content: "|z| = √(a²+b²)\ni² = -1,  √(-a) = i√a\nConjugate: z̄ = a - bi\nModulus-argument: z = r(cosθ + i sinθ)\nDe Moivre: zⁿ = rⁿ(cos nθ + i sin nθ)" },
@@ -505,13 +506,14 @@ function renderQuestions(){
         <textarea id="ans-${q.id}" rows="2" placeholder="Write your solution here..."></textarea>
         <div class="action-row">
           <button class="btn btn-check" onclick="checkAnswer(${q.id})">✓ Check</button>
-          <button class="btn btn-answer" onclick="toggleAnswer(${q.id})">◉ Model Answer</button>
+          <button class="btn btn-answer" onclick="toggleAnswer(${q.id})">Short</button>
+          <button class="btn btn-answer" onclick="toggleFull(${q.id})">Full</button>
           <button class="btn btn-zoom" onclick="openQZoom(${q.id})">⊕ Zoom</button>
         </div>
         <div class="feedback" id="fb-${q.id}"></div>
         <div class="model-answer" id="ma-${q.id}">
           <div class="model-answer-label">Suggested Solution</div>
-          ${q.answer.replace(/\n/g,'<br>')}
+          ${FULL_SOLUTIONS[q.id]?.short || q.answer}
         </div>
       </div>
     </div>
@@ -589,6 +591,20 @@ toggle.addEventListener('click', () => {
   const isLight = document.body.classList.contains('light');
   toggle.innerHTML = isLight ? "☀️ Light" : "🌙 Dark";
 });
+  function toggleFull(id){
+  const el = document.getElementById('ma-'+id);
+
+  const sol = FULL_SOLUTIONS[id];
+
+  if(!sol) return;
+
+  el.innerHTML = `
+  <div class="model-answer-label">Complete Solution</div>
+  ${sol.detailed.replace(/\n/g,'<br>')}
+  `;
+
+  el.classList.toggle('show');
+}
 </script>
 </body>
 </html>
