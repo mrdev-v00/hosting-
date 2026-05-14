@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKU-EB CS Notes – Ch 1 to 7</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,Arial,sans-serif}
+body{background:#f8fafc;color:#1e293b;display:flex;min-height:100vh}
+
+/* ─── SIDEBAR ─── */
+#sidebar{width:320px;background:#0f172a;color:#e2e8f0;position:fixed;height:100vh;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+#sidebar h1{font-size:18px;padding:20px 20px 10px;color:#38bdf8;border-bottom:1px solid #1e293b;letter-spacing:-0.3px}
+#sidebar h1 small{display:block;font-size:11px;color:#64748b;font-weight:400;margin-top:2px}
+.chapter-btn{display:flex;align-items:center;gap:10px;padding:12px 20px;cursor:pointer;border:none;background:none;color:#cbd5e1;font-size:14px;font-weight:600;width:100%;text-align:left;border-bottom:1px solid #1e293b;transition:0.2s}
+.chapter-btn:hover{background:#1e293b;color:#fff}
+.chapter-btn .arrow{font-size:10px;transition:0.3s;color:#64748b}
+.chapter-btn.open .arrow{transform:rotate(90deg);color:#38bdf8}
+.chapter-btn .num{color:#38bdf8;font-size:12px;background:#1e293b;padding:2px 8px;border-radius:6px}
+.slo-list{max-height:0;overflow:hidden;transition:max-height 0.35s ease,opacity 0.3s;opacity:0;background:#0a0f1e}
+.slo-list.open{max-height:5000px;opacity:1}
+.slo-link{display:block;padding:7px 20px 7px 44px;color:#94a3b8;font-size:12.5px;cursor:pointer;transition:0.2s;border-left:3px solid transparent}
+.slo-link:hover{background:#1e293b;color:#e2e8f0;border-left-color:#38bdf8}
+.slo-link.active{border-left-color:#38bdf8;color:#38bdf8;background:#1e293b;font-weight:500}
+.tag-sm{display:inline-block;font-size:9px;padding:1px 6px;border-radius:4px;margin-right:5px;font-weight:700;vertical-align:middle}
+.tag-sm-r{background:#ef4444;color:#fff}
+.tag-sm-u{background:#3b82f6;color:#fff}
+.tag-sm-a{background:#10b981;color:#fff}
+.tag-sm-e{background:#f59e0b;color:#fff}
+.tag-sm-c{background:#ec4899;color:#fff}
+.tag-sm-an{background:#8b5cf6;color:#fff}
+
+/* ─── CONTENT ─── */
+#content{flex:1;margin-left:320px;padding:30px 40px;min-height:100vh}
+#welcome{max-width:700px;margin:80px auto;text-align:center;padding:40px;background:#fff;border-radius:20px;box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+#welcome h2{color:#0f172a;font-size:26px;margin-bottom:8px}
+#welcome p{color:#64748b;font-size:15px;line-height:1.7}
+#welcome ul{text-align:left;display:inline-block;margin:15px 0;color:#475569;font-size:14px}
+#welcome ul li{margin:5px 0}
+
+.slo-view{display:none;animation:fadeIn 0.4s ease}
+.slo-view.show{display:block}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:20px;border:1px solid #e2e8f0}
+.card h3{font-size:18px;color:#0f172a;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #e2e8f0}
+.card h4{font-size:14px;color:#3b82f6;margin:16px 0 8px}
+.card p{margin:6px 0;line-height:1.7;font-size:13.5px;color:#334155}
+.card ul{margin:6px 0 6px 18px}
+.card ul li{margin:5px 0;line-height:1.65;font-size:13.5px;color:#334155}
+.card ol{margin:6px 0 6px 18px}
+.card ol li{margin:5px 0;line-height:1.65;font-size:13.5px;color:#334155}
+.card .key{color:#d97706;font-weight:600}
+.card .hl{color:#059669;font-weight:500}
+
+.code{background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:10px;font-family:'Consolas','Fira Code',monospace;font-size:12.5px;margin:10px 0;overflow-x:auto;white-space:pre-wrap;line-height:1.6}
+.tb{border-collapse:collapse;margin:10px 0;font-size:12.5px;width:100%}
+.tb th{background:#f1f5f9;color:#0f172a;padding:8px 12px;border:1px solid #e2e8f0;text-align:center;font-weight:600}
+.tb td{background:#fff;padding:7px 12px;border:1px solid #e2e8f0;text-align:center}
+.diagram{background:#0f172a;color:#e2e8f0;padding:14px;border-radius:10px;font-family:'Consolas',monospace;font-size:12px;margin:10px 0;overflow-x:auto;white-space:pre;line-height:1.5}
+
+#back-top{position:fixed;bottom:30px;right:30px;background:#0f172a;color:#fff;border:none;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:18px;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.2);transition:0.3s}
+#back-top:hover{background:#1e293b;transform:scale(1.1)}
+
+/* scrollbar */
+#sidebar::-webkit-scrollbar{width:5px}
+#sidebar::-webkit-scrollbar-track{background:#0f172a}
+#sidebar::-webkit-scrollbar-thumb{background:#334155;border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<div id='sidebar'>
+<h1>AKU-EB CS Notes <small>HSSC – Chapters 1 to 7</small><small style="color:#f59e0b;margin-top:4px;font-size:11px">Credits: M.Yassa</small></h1>
+
+<div id='chapters-container'></div>
+</div>
+
+<!-- ═══ CONTENT ═══ -->
+<div id='content'>
+<div id='welcome'>
+<h2>Welcome</h2>
+<p>Select a chapter from the sidebar, then choose an SLO to view its detailed explanation. Each SLO includes definitions, key points, tables, code examples, and exam-ready answers.</p>
+<ul>
+<li><b>7 Chapters</b> – Computing Systems through Digital Literacy</li>
+<li><b>125+ SLOs</b> – Every outcome covered in depth</li>
+<li><b>Bloom's Levels</b> – Tagged by cognitive difficulty</li>
+</ul>
+</div>
+
+<!-- All SLO views injected here by JS -->
+<div id='slo-container'></div>
+</div>
+
+<button id='back-top' onclick='window.scrollTo({top:0,behavior:"smooth"})'>↑</button>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA: All chapters, SLOs, and content as HTML
+// ══════════════════════════════════════════════════
+
+const chapters = [
+  {
+    id: 'ch1',
+    title: 'Chapter 1 — Computing Systems',
+    color: '#38bdf8',
+    slos: [
+      { id:'s1_1_1', tag:'U', label:'1.1.1 Analog vs Digital Signals', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.1.1 — Differentiate Analog and Digital Signals</h3>
+<h4>Definitions</h4>
+<p><span class="key">Analog Signal:</span> A continuous time-varying signal that can take any value within a range (e.g., human voice, thermometer). <span class="key">Digital Signal:</span> A discrete signal with only two states — 0 (LOW/OFF) and 1 (HIGH/ON) — used by all computers.</p>
+<table class="tb">
+<tr><th>Parameter</th><th>Analog</th><th>Digital</th></tr>
+<tr><td>Nature</td><td>Continuous</td><td>Discrete</td></tr>
+<tr><td>Values</td><td>Infinite range</td><td>Two (0 and 1)</td></tr>
+<tr><td>Waveform</td><td>Sine wave</td><td>Square wave</td></tr>
+<tr><td>Noise immunity</td><td>Low</td><td>High</td></tr>
+<tr><td>Error correction</td><td>Not possible</td><td>Possible</td></tr>
+<tr><td>Storage</td><td>Degrades over time</td><td>Stored indefinitely</td></tr>
+<tr><td>Examples</td><td>Mic, CRT, mercury thermometer</td><td>Computer, digital watch, USB</td></tr>
+</table>
+<h4>Why Digital is Preferred</h4>
+<p>Noise resilience (4.5V still reads as 1), perfect reproducibility, easy miniaturisation into ICs, and maps cleanly to Boolean algebra.</p>
+<h4>Exam Format</h4>
+<p>Define both → comparison table (8+ parameters) → 2 examples each → explain why computers use digital.</p>
+`},
+      { id:'s1_1_2', tag:'U', label:'1.1.2 Binary Data Representation', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.1.2 — Binary Data Representation Using Pulses</h3>
+<p>Computers represent all data using <span class="key">two voltage states</span>: 0 = LOW/OFF (~0V) and 1 = HIGH/ON (~3.3-5V). Billions of transistors act as switches — ON = 1, OFF = 0.</p>
+<h4>Data Type Mapping</h4>
+<ul>
+<li><span class="key">Integers:</span> Base-2. Decimal 13 = 1101 (HIGH, HIGH, LOW, HIGH)</li>
+<li><span class="key">Characters:</span> ASCII code. 'A' = 65 = 01000001</li>
+<li><span class="key">Images:</span> 24 bits/pixel (8 each for R, G, B)</li>
+<li><span class="key">Sound:</span> Samples of amplitude → 16-bit binary numbers</li>
+<li><span class="key">Instructions:</span> CPU opcodes like ADD R1,R2 encoded as binary</li>
+</ul>
+<h4>Why Binary?</h4>
+<p>Two states are easy to distinguish electronically, noise-tolerant, maps perfectly to Boolean logic (AND/OR/NOT), and enables billions of storage cells on one chip.</p>
+</div>
+`},
+      { id:'s1_2_1', tag:'R', label:'1.2.1 Logic Terms Defined', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-r">R</span> SLO 1.2.1 — Define Digital Logic, Gates, Circuits, Truth Tables</h3>
+<ul>
+<li><span class="key">Digital Logic:</span> Two-state (0/1) electronics using Boolean algebra (George Boole, 1854). Foundation of all computers.</li>
+<li><span class="key">Logic Gate:</span> Electronic component with 1-2 binary inputs and 1 output (AND, OR, NOT, NAND, NOR, XOR, XNOR). Built from transistors.</li>
+<li><span class="key">Logic Circuit:</span> Interconnected gates performing a function (e.g., half-adder, ALU). Output depends only on current inputs (combinational).</li>
+<li><span class="key">Truth Table:</span> Lists ALL input combos (2<sup>n</sup> rows for n inputs) and outputs. Used to define, verify, and simplify circuits.</li>
+</ul>
+<p>NAND and NOR are <span class="key">universal gates</span> — any circuit can be built using only NANDs (or only NORs).</p>
+</div>
+`},
+      { id:'s1_2_2', tag:'U', label:'1.2.2 7 Gate Truth Tables', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.2.2 — AND, OR, NOT, NAND, NOR, XOR, XNOR Truth Tables</h3>
+<table class="tb">
+<tr><th>Inputs</th><th>AND</th><th>OR</th><th>NAND</th><th>NOR</th><th>XOR</th><th>XNOR</th></tr>
+<tr><td>0 0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>0 1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1 0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1 1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+</table>
+<ul>
+<li><span class="key">AND:</span> All 1s → 1 (switches in series)</li>
+<li><span class="key">OR:</span> Any 1s → 1 (switches in parallel)</li>
+<li><span class="key">NOT:</span> Flips the value (1→0, 0→1)</li>
+<li><span class="key">NAND:</span> Opposite of AND (only 0 when all 1s). Universal gate.</li>
+<li><span class="key">NOR:</span> Opposite of OR (only 1 when all 0s). Universal gate.</li>
+<li><span class="key">XOR:</span> 1 when inputs differ. Used in adders, parity checkers.</li>
+<li><span class="key">XNOR:</span> 1 when inputs match. Equality detector.</li>
+</ul>
+</div>
+`},
+      { id:'s1_2_3', tag:'U', label:'1.2.3 Identify Gates from TT', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.2.3 — Identify Logic Gates from Truth Tables</h3>
+<p><span class="key">Method:</span> 2 rows → NOT (1 input). 4 rows → 2 inputs. Compare pattern:</p>
+<ul>
+<li>Only (1,1)=1 → AND</li>
+<li>Only (0,0)=0 → OR</li>
+<li>Only (1,1)=0 → NAND</li>
+<li>Only (0,0)=1 → NOR</li>
+<li>1 when different → XOR</li>
+<li>1 when same → XNOR</li>
+</ul>
+<p><span class="key">Ex 1:</span> 00→0, 01→0, 10→0, 11→1 → <span class="hl">AND</span></p>
+<p><span class="key">Ex 2:</span> 00→0, 01→1, 10→1, 11→0 → <span class="hl">XOR</span></p>
+<p><span class="key">Ex 3:</span> 00→1, 01→0, 10→0, 11→0 → <span class="hl">NOR</span></p>
+</div>
+`},
+      { id:'s1_2_4', tag:'U', label:'1.2.4 Uses of Logic Gates', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.2.4 — Uses of Logic Gates in Digital Devices</h3>
+<ul>
+<li><span class="key">Arithmetic:</span> XOR+AND form adders (core of ALU)</li>
+<li><span class="key">Memory:</span> NAND/NOR cross-connected create flip-flops → RAM</li>
+<li><span class="key">Multiplexers:</span> AND+OR+NOT select input signals</li>
+<li><span class="key">Decoders:</span> AND+NOT convert binary to output lines (7-segment display)</li>
+<li><span class="key">Comparators:</span> XOR/XNOR compare numbers (password verification)</li>
+<li><span class="key">Parity Check:</span> XOR detects transmission errors (USB, UART)</li>
+<li><span class="key">Counters:</span> Flip-flops form binary counters (digital clocks)</li>
+<li><span class="key">CPU:</span> Massive network of all gates performs addition, subtraction, logic</li>
+</ul>
+</div>
+`},
+      { id:'s1_2_5', tag:'A', label:'1.2.5 Circuits to Truth Tables', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-a">A</span> SLO 1.2.5 — Represent Logic Circuits as Truth Tables</h3>
+<p><span class="key">Steps:</span> (1) Label inputs (2) 2<sup>n</sup> rows (3) Label intermediate gate outputs (4) Evaluate gate-by-gate (5) Compute final output.</p>
+<p><span class="key">Example:</span> Y = (A·B) + (A'·C)</p>
+<table class="tb">
+<tr><th>A</th><th>B</th><th>C</th><th>A·B</th><th>A'</th><th>A'·C</th><th>Y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+</table>
+</div>
+`},
+      { id:'s1_2_6', tag:'U', label:'1.2.6 Boolean Identities', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.2.6 — Boolean Identities Explained</h3>
+<table class="tb">
+<tr><th>Law</th><th>AND Form</th><th>OR Form</th></tr>
+<tr><td>Identity</td><td>A·1 = A</td><td>A+0 = A</td></tr>
+<tr><td>Null</td><td>A·0 = 0</td><td>A+1 = 1</td></tr>
+<tr><td>Idempotent</td><td>A·A = A</td><td>A+A = A</td></tr>
+<tr><td>Inverse</td><td>A·A' = 0</td><td>A+A' = 1</td></tr>
+<tr><td>Commutative</td><td>A·B = B·A</td><td>A+B = B+A</td></tr>
+<tr><td>Associative</td><td>(A·B)·C = A·(B·C)</td><td>(A+B)+C = A+(B+C)</td></tr>
+<tr><td>Distributive</td><td>A·(B+C) = A·B+A·C</td><td>A+(B·C) = (A+B)·(A+C)</td></tr>
+<tr><td>Absorption</td><td>A·(A+B) = A</td><td>A+A·B = A</td></tr>
+<tr><td>De Morgan</td><td>(A·B)' = A'+B'</td><td>(A+B)' = A'·B'</td></tr>
+</table>
+<p><span class="key">Why they matter:</span> Circuit minimisation — (A·B)+(A·B') simplifies to A, reducing 3 gates to 0. Fewer gates = cheaper, faster, lower power.</p>
+</div>
+`},
+      { id:'s1_2_7', tag:'A', label:'1.2.7 Real-Life Logic Circuit', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-a">A</span> SLO 1.2.7 — Construct a Logic Circuit for a Real Problem</h3>
+<p><span class="key">Method:</span> Understand problem → assign variables → truth table → Boolean expression → simplify → draw circuit.</p>
+<h4>Security Alarm System</h4>
+<p>Alarm triggers when: (Door D AND Motion M) OR (Window W AND After-hours A).</p>
+<p>Y = (D·M) + (W·A) → Two AND gates feeding one OR gate.</p>
+<h4>Majority Voting (3 judges)</h4>
+<p>Y = AB + BC + AC → Three AND gates feeding a 3-input OR gate.</p>
+</div>
+`},
+      { id:'s1_3_1', tag:'A', label:'1.3.1 K-Map Simplification', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-a">A</span> SLO 1.3.1 — 2 &amp; 3 Variable K-Map Simplification</h3>
+<p>Karnaugh maps graphically simplify Boolean expressions. Adjacent cells differ by one variable — grouping eliminates that variable.</p>
+<h4>2-Variable Example</h4>
+<p>F(A,B) = A'B' + A'B + AB → Group A=0 row (gives A') + Group B=1 column (gives B) → <span class="hl">F = A' + B</span></p>
+<h4>3-Variable Example</h4>
+<p>F = Σ(0,1,4,5) → 1s in columns BC=00 and BC=01 across both rows. Only B=0 constant → <span class="hl">F = B'</span></p>
+<h4>Rules</h4>
+<p>Groups: powers of 2 (1,2,4,8 cells). Rectangular only. Wrap-around edges. Overlap allowed. Cover all 1s. Don't cares (X) can help form larger groups.</p>
+</div>
+`},
+      { id:'s1_3_2', tag:'A', label:'1.3.2 SOP & POS Forms', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-a">A</span> SLO 1.3.2 — SOP and POS Conversion</h3>
+<ul>
+<li><span class="key">SOP (Sum of Products):</span> Y = A·B + C·D'. Derived from TT rows where Y=1. Each term = minterm (all variables present).</li>
+<li><span class="key">POS (Product of Sums):</span> Y = (A+B)·(C+D'). Derived from TT rows where Y=0. Each term = maxterm.</li>
+</ul>
+<p><span class="key">Conversion:</span> For each Y=1 row: write variable if input=1, complement if input=0 → OR terms. For Y=0 rows with POS: write variable if input=0, complement if input=1 → AND terms.</p>
+</div>
+`},
+      { id:'s1_4_1', tag:'U', label:'1.4.1 SDLC Phases', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.4.1 — SDLC and Its 7 Phases</h3>
+<p><span class="key">SDLC</span> = Structured process for building software. Ensures quality, budget, and timeline goals.</p>
+<ol>
+<li><span class="key">Planning:</span> Scope, budget, timeline, feasibility. Output: Project plan.</li>
+<li><span class="key">Requirements Analysis:</span> Functional + non-functional needs. Use cases, SRS document.</li>
+<li><span class="key">Design:</span> Architecture, DB design, UI mockups. Output: HLD + LLD documents.</li>
+<li><span class="key">Implementation (Coding):</span> Write code. Git, code reviews, standards.</li>
+<li><span class="key">Testing:</span> Unit → Integration → System → UAT. Bug reports.</li>
+<li><span class="key">Deployment:</span> Release to production. Big Bang, Phased, or Parallel.</li>
+<li><span class="key">Maintenance:</span> Corrective, Adaptive, Perfective, Preventive fixes.</li>
+</ol>
+</div>
+`},
+      { id:'s1_4_2', tag:'A', label:'1.4.2 Waterfall vs Agile', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-a">A</span> SLO 1.4.2 — Waterfall vs Agile Comparison</h3>
+<table class="tb">
+<tr><th>Feature</th><th>Waterfall</th><th>Agile</th></tr>
+<tr><td>Process</td><td>Linear sequential</td><td>Iterative (sprints 1-4 weeks)</td></tr>
+<tr><td>Requirements</td><td>Fixed at start</td><td>Evolving, changes welcomed</td></tr>
+<tr><td>Customer</td><td>Beginning + end only</td><td>Continuous involvement</td></tr>
+<tr><td>Delivery</td><td>Single at project end</td><td>Frequent (every sprint)</td></tr>
+<tr><td>Testing</td><td>After coding (late)</td><td>Continuous (TDD)</td></tr>
+<tr><td>Documentation</td><td>Extensive</td><td>Minimal, just enough</td></tr>
+<tr><td>Change cost</td><td>Very high late</td><td>Low — change is expected</td></tr>
+</table>
+<p><span class="key">Best for:</span> Waterfall = safety-critical, fixed specs (aerospace, banking). Agile = evolving products, startups, web/mobile apps.</p>
+</div>
+`},
+      { id:'s1_5_1', tag:'R', label:'1.5.1 Network Topology', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-r">R</span> SLO 1.5.1 — Define Network Topology</h3>
+<p><span class="key">Network Topology:</span> The arrangement of devices (nodes) and connections (links) in a network.</p>
+<ul>
+<li><span class="key">Physical Topology:</span> Actual cable/hardware layout</li>
+<li><span class="key">Logical Topology:</span> How data flows regardless of physical layout</li>
+<li>Topology determines: performance, cost, reliability, scalability, maintenance</li>
+</ul>
+</div>
+`},
+      { id:'s1_5_2', tag:'U', label:'1.5.2 Topology Diagrams', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.5.2 — Bus, Ring, Star, Tree, Mesh, Hybrid Topologies</h3>
+<ul>
+<li><span class="key">Bus:</span> Single backbone cable. Cheap but backbone fails = all down.</li>
+<li><span class="key">Ring:</span> Closed loop. Predictable but break disrupts (dual ring helps).</li>
+<li><span class="key">Star:</span> Central switch. Most reliable for LANs. Most common today.</li>
+<li><span class="key">Tree:</span> Hierarchical stars on a backbone. Good for large networks.</li>
+<li><span class="key">Mesh:</span> Every device to every other. Very reliable but expensive. n(n-1)/2 links.</li>
+<li><span class="key">Hybrid:</span> Mix of topologies. Flexible for large enterprises.</li>
+</ul>
+</div>
+`},
+      { id:'s1_5_3', tag:'U', label:'1.5.3 Pros/Cons/Apps', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.5.3 — Advantages, Disadvantages, Applications</h3>
+<ul>
+<li><span class="key">Bus:</span> Simple, cheap. Used in small/temp networks. Backbone fails = all down.</li>
+<li><span class="key">Ring:</span> Predictable. Used in telecom (SONET/SDH). Break disrupts ring.</li>
+<li><span class="key">Star:</span> Reliable, easy to manage. Office LANs, school labs. Switch = SPOF.</li>
+<li><span class="key">Tree:</span> Easy expansion. Campus/WAN networks. Backbone critical.</li>
+<li><span class="key">Mesh:</span> Extremely reliable. Military, air traffic control. Very expensive.</li>
+<li><span class="key">Hybrid:</span> Flexible. Large enterprises. Complex management.</li>
+</ul>
+</div>
+`},
+      { id:'s1_5_4', tag:'An', label:'1.5.4 Scalability & Reliability', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-an">An</span> SLO 1.5.4 — Compare Scalability &amp; Reliability</h3>
+<p><span class="key">Scalability:</span> Easy to add nodes without performance drop. <span class="key">Reliability:</span> Continues working despite failures.</p>
+<ul>
+<li><span class="key">Star</span> = Best balance — highly scalable and reliable at moderate cost</li>
+<li><span class="key">Mesh</span> = Most reliable but least scalable (cost grows quadratically)</li>
+<li><span class="key">Bus</span> = Worst for both — obsolete for modern networks</li>
+<li><span class="key">Hybrid</span> = Best overall if budget permits</li>
+</ul>
+</div>
+`},
+      { id:'s1_6_1', tag:'U', label:'1.6.1 Cloud Computing', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.6.1 — Cloud Computing, Characteristics, Impact</h3>
+<p><span class="key">Cloud Computing:</span> On-demand delivery of computing over the internet. Pay-as-you-go.</p>
+<h4>5 NIST Characteristics</h4>
+<ol>
+<li>On-Demand Self-Service — provision without provider interaction</li>
+<li>Broad Network Access — available over network, any device</li>
+<li>Resource Pooling — multi-tenant, dynamic assignment</li>
+<li>Rapid Elasticity — scales up/down, appears unlimited</li>
+<li>Measured Service — metered, pay-per-use</li>
+</ol>
+<h4>Impact</h4>
+<p>Cost reduction (CapEx → OpEx), global scale, minutes-to-deploy, built-in DR, automatic updates, access to AI/ML services. Examples: Netflix (AWS), Spotify (GCP).</p>
+</div>
+`},
+      { id:'s1_6_2', tag:'U', label:'1.6.2 SaaS/PaaS/IaaS', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.6.2 — SaaS, PaaS, IaaS with Examples</h3>
+<table class="tb">
+<tr><th>Model</th><th>You Manage</th><th>Provider Manages</th><th>Examples</th></tr>
+<tr><td><span class="key">IaaS</span></td><td>OS, runtime, app, data</td><td>Physical hardware</td><td>AWS EC2, GCE, Azure VMs</td></tr>
+<tr><td><span class="key">PaaS</span></td><td>App code, data</td><td>Hardware + OS + runtime</td><td>Heroku, Google App Engine</td></tr>
+<tr><td><span class="key">SaaS</span></td><td>Nothing (just use)</td><td>Everything</td><td>Gmail, Office 365, Zoom</td></tr>
+</table>
+</div>
+`},
+      { id:'s1_6_3', tag:'U', label:'1.6.3 Cloud Types', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.6.3 — Public, Private, Community, Hybrid Cloud</h3>
+<ul>
+<li><span class="key">Public:</span> Multi-tenant, pay-as-you-go (AWS, Azure). Best for startups, web apps.</li>
+<li><span class="key">Private:</span> Single-tenant, max security (banks, government). High CapEx.</li>
+<li><span class="key">Community:</span> Shared by orgs with common goals (healthcare research).</li>
+<li><span class="key">Hybrid:</span> Private + public. Keep sensitive data private, burst to public. Best of both.</li>
+</ul>
+</div>
+`},
+      { id:'s1_7_1', tag:'R', label:'1.7.1 Cybersecurity', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-r">R</span> SLO 1.7.1 — Cybersecurity and Its Importance</h3>
+<p><span class="key">Cybersecurity:</span> Protecting systems, networks, data from digital attacks. Encompasses network security, application security, information security, operational security, DR, and user education.</p>
+<h4>Why It Matters</h4>
+<ul>
+<li>Average data breach cost: $4.88M (IBM 2024)</li>
+<li>Global cybercrime: predicted $10.5T/year by 2025</li>
+<li>Regulatory: GDPR, HIPAA, PCI-DSS fines</li>
+<li>National security: power grids, hospitals, defence</li>
+<li>Privacy: identity, financial, medical data protection</li>
+</ul>
+</div>
+`},
+      { id:'s1_7_2', tag:'U', label:'1.7.2 CIA Triad', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.7.2 — Confidentiality, Integrity, Availability</h3>
+<ul>
+<li><span class="key">Confidentiality:</span> Only authorised access. Controls: encryption, MFA, access control. Breach: Equifax (147M records).</li>
+<li><span class="key">Integrity:</span> Data accurate and untampered. Controls: hashing (SHA-256), digital signatures, audit logs. Breach: Stuxnet.</li>
+<li><span class="key">Availability:</span> Accessible when needed. Controls: redundancy, backups (3-2-1 rule), DDoS protection. Breach: Dyn DDoS (Twitter/Netflix down).</li>
+</ul>
+</div>
+`},
+      { id:'s1_8_1', tag:'U', label:'1.8.1 Threats & Impact', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.8.1 — Cybersecurity Threats and Impact</h3>
+<ul>
+<li><span class="key">Malware:</span> Viruses, worms, trojans, spyware. ILOVEYOU ($10B).</li>
+<li><span class="key">Phishing:</span> Fraudulent emails stealing credentials. Types: spear, whaling, smishing, vishing.</li>
+<li><span class="key">Pharming:</span> DNS poisoning redirects to fake sites even with correct URL.</li>
+<li><span class="key">DoS:</span> Overwhelm server with traffic. SYN flood, Ping of Death.</li>
+<li><span class="key">DDoS:</span> Multiple sources (botnet). Mirai botnet took down Twitter, Netflix.</li>
+<li><span class="key">Ransomware:</span> Encrypts files, demands ransom. WannaCry (150+ countries, $4B).</li>
+</ul>
+</div>
+`},
+      { id:'s1_8_2', tag:'A', label:'1.8.2 Protection Methods', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-a">A</span> SLO 1.8.2 — Protection Against Threats</h3>
+<ul>
+<li><span class="key">Malware:</span> Antivirus, OS updates, don't download untrusted files</li>
+<li><span class="key">Phishing:</span> Check sender, hover links, email filtering, MFA, user training</li>
+<li><span class="key">Pharming:</span> Trusted DNS (1.1.1.1), DNSSEC, verify HTTPS certs</li>
+<li><span class="key">DoS/DDoS:</span> Cloudflare, rate limiting, load balancers, auto-scaling</li>
+<li><span class="key">Ransomware:</span> 3-2-1 backups, email filtering, disable macros, least-privilege</li>
+</ul>
+</div>
+`},
+      { id:'s1_8_3', tag:'C', label:'1.8.3 Multi-Layered Security', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-c">C</span> SLO 1.8.3 — Design a Multi-Layered Security Strategy</h3>
+<table class="tb">
+<tr><th>Layer</th><th>Purpose</th><th>DoS/DDoS</th><th>Ransomware</th></tr>
+<tr><td>Preventive</td><td>Stop attacks</td><td>Firewalls, rate limiting</td><td>Email filtering, patching</td></tr>
+<tr><td>Detective</td><td>Identify in progress</td><td>IDS/IPS, monitoring</td><td>Antivirus, file integrity monitoring</td></tr>
+<tr><td>Corrective</td><td>Recover</td><td>Auto-scaling, rerouting</td><td>Backup restoration, incident response</td></tr>
+</table>
+</div>
+`},
+      { id:'s1_8_4', tag:'C', label:'1.8.4 Awareness Campaign', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-c">C</span> SLO 1.8.4 — Create a Cybersecurity Awareness Campaign</h3>
+<p><span class="key">Target:</span> Students/Employees. <span class="key">Name:</span> "Stay Safe Online".</p>
+<p><span class="key">Messages:</span> (1) Recognise phishing — check sender, urgency, hover links. (2) Strong passwords + password manager. (3) Enable MFA. (4) Keep software updated. (5) Regular backups. (6) Don't overshare.</p>
+<p><span class="key">Methods:</span> Posters, email newsletters, videos, workshops, simulated phishing, quiz competitions.</p>
+</div>
+`},
+      { id:'s1_9_1', tag:'R', label:'1.9.1 Encryption', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-r">R</span> SLO 1.9.1 — Encryption and Its Importance</h3>
+<p><span class="key">Encryption:</span> Converting readable data (plaintext) into unreadable format (ciphertext) using an algorithm + key. Only authorised parties with the key can decrypt.</p>
+<p><span class="key">Importance:</span> Protects data at rest and in transit, ensures privacy of communications (HTTPS, email), compliance (GDPR, HIPAA), prevents identity theft.</p>
+</div>
+`},
+      { id:'s1_9_2', tag:'U', label:'1.9.2 Cryptography vs Encryption', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.9.2 — Relate Cryptography and Encryption</h3>
+<p><span class="key">Cryptography</span> = Broader science of secure communication. Includes encryption, hashing (SHA-256), digital signatures (RSA), key exchange (Diffie-Hellman).</p>
+<p><span class="key">Encryption</span> = A specific cryptographic technique (converting plaintext to ciphertext).</p>
+<p>Analogy: Cryptography = entire security system. Encryption = one specific lock.</p>
+</div>
+`},
+      { id:'s1_9_3', tag:'U', label:'1.9.3 Symmetric vs Asymmetric', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.9.3 — Symmetric vs Asymmetric Encryption</h3>
+<table class="tb">
+<tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr>
+<tr><td>Keys</td><td>Single shared key</td><td>Public + Private key pair</td></tr>
+<tr><td>Speed</td><td>Very fast (100-1000x)</td><td>Slow</td></tr>
+<tr><td>Key length</td><td>128-256 bits</td><td>2048-4096 bits</td></tr>
+<tr><td>Algorithms</td><td>AES, DES, Blowfish</td><td>RSA, ECC, ElGamal</td></tr>
+<tr><td>Use case</td><td>Bulk data encryption</td><td>Key exchange, digital signatures, SSL/TLS</td></tr>
+</table>
+</div>
+`},
+      { id:'s1_9_4', tag:'U', label:'1.9.4 Pros/Cons', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 1.9.4 — Advantages &amp; Disadvantages</h3>
+<ul>
+<li><span class="key">Symmetric Pros:</span> Fast, suitable for large data, shorter keys</li>
+<li><span class="key">Symmetric Cons:</span> Key distribution problem, no non-repudiation</li>
+<li><span class="key">Asymmetric Pros:</span> No key distribution, provides non-repudiation, scalable</li>
+<li><span class="key">Asymmetric Cons:</span> Slow, larger keys, computationally expensive</li>
+<li><span class="key">Best practice:</span> Hybrid — asymmetric to exchange session key, then symmetric for bulk data. This is how SSL/TLS works.</li>
+</ul>
+</div>
+`}
+    ]
+  },
+  {
+    id: 'ch2',
+    title: 'Chapter 2 — Computational Thinking & Algorithms',
+    color: '#10b981',
+    slos: [
+      { id:'s2_1_1', tag:'R', label:'2.1.1 Define CT', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-r">R</span> SLO 2.1.1 — Define Computational Thinking</h3>
+<p><span class="key">Computational Thinking (CT):</span> A problem-solving methodology that formulates problems so a computer can execute them. Four pillars: Decomposition, Pattern Recognition, Abstraction, Algorithm Design. A fundamental skill for everyone (Jeannette Wing, 2006).</p>
+</div>
+`},
+      { id:'s2_1_2', tag:'U', label:'2.1.2 Steps of CT', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 2.1.2 — Steps of Computational Thinking</h3>
+<ol>
+<li><span class="key">Decomposition:</span> Break complex problem into smaller parts (building a house → foundation, walls, roof, plumbing, electrical)</li>
+<li><span class="key">Pattern Recognition:</span> Identify similarities across problems (all login systems follow username + password pattern)</li>
+<li><span class="key">Abstraction:</span> Filter out unnecessary details, keep essentials (city map shows streets, not every tree)</li>
+<li><span class="key">Algorithm Design:</span> Create step-by-step instructions (recipe for cooking)</li>
+</ol>
+</div>
+`},
+      { id:'s2_1_3', tag:'U', label:'2.1.3 Computational Artefacts', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-u">U</span> SLO 2.1.3 — Computational Artefacts</h3>
+<ul>
+<li><span class="key">Solution Design:</span> Planning architecture and structure (like architect's blueprint)</li>
+<li><span class="key">Planning &amp; Development:</span> Actual creation — writing code, building DB, designing UI</li>
+<li><span class="key">Testing:</span> Verify correctness — unit testing, integration testing, UAT, debugging</li>
+</ul>
+</div>
+`},
+      { id:'s2_2_1', tag:'A', label:'2.2.1 Apply Algorithms', html: `
+<div class="card">
+<h3><span class="tag-sm tag-sm-a">A</span> SLO 2.2.1 — Apply Basic Algorithms</h3>
+<h4>Arithmetic</h4>
+<div class="code">Algorithm Add(a, b): return a + b</div>
+<h4>Selection (Grading)</h4>
+<div class="code">if marks >= 90: return "A"
+elif marks >= 80: return "B"
+else: return "F"</div>
+<h4>Insertion Sort</h4>
+<div class="code">for i = 1 to n-1:
+  key = arr[i], j = i-1
+  while j >= 0 AND arr[j] > key:
+    arr[j+1] = arr[j], j--
+  arr[j+1] = key</div>
+<h4>Binary Search (sorted array)</h4>
+<div class="code">left = 0, right = n-1
+while left <= right:
+  mid = (left+right)/2
+  if arr[mid]==target: return mid
+  if arr[mid] < target: left = mid+1
+  else: right = mid-1
+return -1</div>
+</div>
+`}
+    ]
+  },
+  {
+    id: 'ch3',
+    title: 'Chapter 3 — Programming Fundamentals (Python)',
+    color: '#8b5cf6',
+    slos: [
+      { id:'s3_1_1', tag:'R', label:'3.1.1 Program & Language', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 3.1.1 — Program &amp; Programming Language</h3><p><span class="key">Program:</span> Sequence of instructions telling a computer what to do. <span class="key">Programming Language:</span> Formal language with syntax and semantics for writing programs. Examples: Python, Java, C++.</p></div>
+`},
+      { id:'s3_1_2', tag:'U', label:'3.1.2 Syntax vs Semantics', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.1.2 — Syntax vs Semantics</h3><p><span class="key">Syntax:</span> Rules for correct structure (grammar). <span class="key">Semantics:</span> Meaning of correct code. Analogy: "Colorless green ideas sleep furiously" — syntactically correct, semantically meaningless. A program can be syntactically correct but semantically wrong (logic error).</p></div>
+`},
+      { id:'s3_1_3', tag:'U', label:'3.1.3 Language Types', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.1.3 — Language Types</h3><p><span class="key">Low-level:</span> Machine (binary) and Assembly (mnemonics like ADD, MOV). Fast, hardware-specific.<br><span class="key">High-level:</span> Procedural (C), Structured (Pascal), Object-Oriented (Java, Python). Easier, portable.</p></div>
+`},
+      { id:'s3_1_4', tag:'U', label:'3.1.4 Assembler/Compiler/Interpreter', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.1.4 — Assembler, Compiler, Interpreter</h3><ul><li><span class="key">Assembler:</span> Assembly → Machine code (NASM, MASM)</li><li><span class="key">Compiler:</span> Entire source → executable at once (GCC, javac). Faster execution, errors reported after full compile.</li><li><span class="key">Interpreter:</span> Line-by-line translation (Python, Node.js). Slower, easier debugging.</li><li>Python: compiles to bytecode (.pyc), interprets on PVM.</li></ul></div>
+`},
+      { id:'s3_1_5', tag:'U', label:'3.1.5 Python & Apps', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.1.5 — Python and Its Applications</h3><p>Created by Guido van Rossum (1991). High-level, interpreted, general-purpose. Features: simple syntax, dynamic typing, garbage collection, extensive libraries. <span class="key">Apps:</span> Web (Django, Flask), Data Science (NumPy, Pandas), ML (TensorFlow), Automation, IoT (Raspberry Pi), Cybersecurity.</p></div>
+`},
+      { id:'s3_1_6', tag:'U', label:'3.1.6 Python IDE', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.1.6 — Python IDE</h3><p><span class="key">IDE:</span> Software providing code editor, debugger, terminal, etc. Python IDEs: IDLE (built-in), PyCharm, VS Code, Thonny, Spyder. Features: syntax highlighting, breakpoints, variable inspection, code completion.</p></div>
+`},
+      { id:'s3_1_7', tag:'U', label:'3.1.7 Comments', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.1.7 — Comments in Python</h3><p>Non-executable lines explaining code. <span class="key">#</span> for single-line. <span class="key">""" """</span> for multi-line (docstrings). Purpose: explain logic, document functions, TODO notes.</p></div>
+`},
+      { id:'s3_1_8', tag:'A', label:'3.1.8 Comments Program', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.1.8 — Program with Comments</h3><div class="code"># Calculate circle area\nPI = 3.14159\nradius = float(input("Enter radius: "))\narea = PI * radius * radius\nprint(f"Area = {area:.2f}")</div></div>
+`},
+      { id:'s3_2_1', tag:'R', label:'3.2.1 Turtle Graphics', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 3.2.1 — Turtle Graphics</h3><p>A Python library with a virtual turtle that draws lines as it moves. Originally from Logo (1967). Used to teach programming fundamentals (loops, functions, geometry). Properties: position, heading, pen state, colour, pensize.</p></div>
+`},
+      { id:'s3_2_2', tag:'A', label:'3.2.2 Turtle Library', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.2.2 — Use Turtle</h3><div class="code">import turtle\nt = turtle.Turtle()\nt.forward(100)\nt.right(90)\nt.forward(100)\nturtle.done()</div></div>
+`},
+      { id:'s3_2_3', tag:'A', label:'3.2.3 Turtle Functions', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.2.3 — Turtle Functions</h3><p><span class="key">Movement:</span> fd(), bk(), rt(), lt(), goto()<br><span class="key">Screen:</span> bgcolor(), title(), clear(), reset()<br><span class="key">Attributes:</span> pensize(), pencolor(), fillcolor(), speed(), shape(), penup/pendown, begin_fill/end_fill<br><span class="key">Shapes:</span> circle(r), dot(size)</p><div class="code">import turtle\nt = turtle.Turtle()\nt.pensize(3); t.pencolor("blue")\nfor i in range(4):\n    t.forward(100)\n    t.right(90)\nturtle.done()</div></div>
+`},
+      { id:'s3_3_1', tag:'U', label:'3.3.1 Libraries', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.3.1 — Purpose of Libraries</h3><p>Pre-written code collections for reuse. <span class="key">Standard library:</span> math, random, datetime, os, json. <span class="key">Third-party:</span> NumPy, Pandas, Flask. Benefits: reuse, abstraction, community support, faster dev.</p></div>
+`},
+      { id:'s3_3_2', tag:'A', label:'3.3.2 Install Library', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.3.2 — Install a Library</h3><div class="code">pip install library_name\npip install numpy==1.24.0\npip list</div></div>
+`},
+      { id:'s3_3_3', tag:'A', label:'3.3.3 Datetime Module', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.3.3 — Datetime Module</h3><div class="code">import datetime\nnow = datetime.datetime.now()\nprint(now.strftime("%A"))  # Monday\nprint(now.strftime("%B"))  # January\nprint(now.strftime("%D"))  # 01/15/25\nprint(now.strftime("%Y"))  # 2025</div></div>
+`},
+      { id:'s3_4_1', tag:'R', label:'3.4.1 Data Types', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 3.4.1 — Data Types</h3><table class="tb"><tr><th>Type</th><th>Example</th></tr><tr><td>int</td><td>42, -7</td></tr><tr><td>float</td><td>3.14, -0.5</td></tr><tr><td>str</td><td>"Hello"</td></tr><tr><td>bool</td><td>True, False</td></tr><tr><td>char</td><td>'A' (str in Python)</td></tr></table><p>Python is dynamically typed. Use <code>type(x)</code> to check.</p></div>
+`},
+      { id:'s3_4_2', tag:'U', label:'3.4.2 Variable vs Constant', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.4.2 — Variable vs Constant</h3><p><span class="key">Variable:</span> Can be reassigned (x = 10). <span class="key">Constant:</span> Convention: UPPERCASE (PI = 3.14). Python doesn't enforce constants — the naming convention signals intent.</p></div>
+`},
+      { id:'s3_4_3', tag:'U', label:'3.4.3 Local vs Global', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.4.3 — Local vs Global Variables</h3><p><span class="key">Local:</span> Inside function. Only accessible there. <span class="key">Global:</span> Outside all functions. Accessible everywhere. Use <code>global x</code> to modify global inside a function.</p></div>
+`},
+      { id:'s3_4_4', tag:'U', label:'3.4.4 Naming Rules', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.4.4 — Variable Naming Rules</h3><p>Must: letters, digits, underscores; start with letter or underscore; case-sensitive; not keywords. Convention: snake_case, descriptive names. Valid: student_name, _count. Invalid: 2ndPlace, my-var, class.</p></div>
+`},
+      { id:'s3_4_5', tag:'A', label:'3.4.5 Data Types & Casting', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.4.5 — Data Types &amp; Casting</h3><div class="code">x = 10          # int\ny = 3.14        # float\nz = "100"       # str\n\nprint(int(z) + x)  # 110 (explicit)\nprint(x + y)       # 13.14 (implicit: int→float)\n\nnum = int(input("Enter: "))  # cast input</div></div>
+`},
+      { id:'s3_5_1', tag:'U', label:'3.5.1 eval() Purpose', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.5.1 — eval() Purpose</h3><p>Evaluates a string as Python expression: <code>eval("5+3") → 8</code>. Useful for math expressions from users. <span class="key">Warning:</span> Dangerous with untrusted input — can execute arbitrary code.</p></div>
+`},
+      { id:'s3_5_2', tag:'A', label:'3.5.2 eval() Program', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.5.2 — eval() Program</h3><div class="code">expr = input("Enter expression: ")  # 5+3*2\nresult = eval(expr)\nprint(f"Result: {result}")  # 11.0</div></div>
+`},
+      { id:'s3_5_3', tag:'A', label:'3.5.3 print()', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.5.3 — print() Statement</h3><div class="code">print("Hello")\nprint("A", "B", "C", sep="-")   # A-B-C\nprint("X", end="|"); print("Y") # X|Y\nname="Ali"; age=17\nprint(f"{name} is {age}")      # Ali is 17</div></div>
+`},
+      { id:'s3_5_4', tag:'A', label:'3.5.4 input()', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.5.4 — input() Statement</h3><div class="code">name = input("Name: ")\nage = int(input("Age: "))\na, b = map(int, input("Two nums: ").split())</div></div>
+`},
+      { id:'s3_6_1', tag:'U', label:'3.6.1 Operator vs Operand', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.6.1 — Operator vs Operand</h3><p>Operator = action symbol (+, -, ==). Operand = value being acted upon (in 5+3, 5 and 3 are operands). Unary = 1 operand (-5). Binary = 2 operands (a+b).</p></div>
+`},
+      { id:'s3_6_2', tag:'U', label:'3.6.2 Operator Types', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.6.2 — Operator Types</h3><table class="tb"><tr><th>Type</th><th>Operators</th></tr><tr><td>Arithmetic</td><td>+, -, *, /, //, %, **</td></tr><tr><td>Assignment</td><td>=, +=, -=, *=</td></tr><tr><td>Comparison</td><td>==, !=, <, >, <=, >=</td></tr><tr><td>Logical</td><td>and, or, not</td></tr><tr><td>Bitwise</td><td>&, |, ^, ~, <<, >></td></tr><tr><td>Membership</td><td>in, not in</td></tr></table></div>
+`},
+      { id:'s3_6_3', tag:'A', label:'3.6.3 Operator Programs', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.6.3 — Operator Programs</h3><div class="code">a, b = 15, 4\nprint(a + b, a - b, a * b)  # 19 11 60\nprint(a // b, a % b, a ** b)  # 3 3 50625\n\nx, y = 5, 3  # 0101 & 0011\nprint(x & y)  # 1\nprint(x | y)  # 7\nprint(x ^ y)  # 6</div></div>
+`},
+      { id:'s3_7_1', tag:'U', label:'3.7.1 Selection Statements', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.7.1 — Selection Statements</h3><p><span class="key">if:</span> Executes if True. <span class="key">if-else:</span> One or other. <span class="key">elif:</span> Chain multiple conditions. <span class="key">Nested if:</span> If inside if. <span class="key">pass:</span> Placeholder doing nothing.</p></div>
+`},
+      { id:'s3_7_2', tag:'A', label:'3.7.2 Selection Programs', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.7.2 — Selection Programs</h3><div class="code">marks = 85\nif marks >= 90: grade = "A"\nelif marks >= 80: grade = "B"\nelif marks >= 70: grade = "C"\nelse: grade = "F"\n\n# nested\nif num > 0:\n    if num % 2 == 0: print("Positive even")</div></div>
+`},
+      { id:'s3_8_1', tag:'U', label:'3.8.1 Loops', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.8.1 — Loop Types</h3><p><span class="key">for:</span> Iterates over sequence (known count). <span class="key">while:</span> Repeats while condition True (unknown count). <span class="key">Nested:</span> Loop inside loop — inner completes fully per outer iteration.</p></div>
+`},
+      { id:'s3_8_2', tag:'U', label:'3.8.2 For & While', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.8.2 — For &amp; While Structure</h3><div class="code"># for: for i in range(5):\n# while: while count <= 5:</div></div>
+`},
+      { id:'s3_8_3', tag:'A', label:'3.8.3 Loop Programs', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.8.3 — Loop Programs</h3><div class="code">for i in range(5): print(i, end=" ")  # 0 1 2 3 4\nfor i in range(2,10,2): print(i)     # 2 4 6 8\n\ncount = 1\nwhile count <= 5:\n    print(count, end=" ")\n    count += 1  # 1 2 3 4 5\n\n# nested: multiplication table\nfor i in range(1,6):\n    for j in range(1,6):\n        print(f"{i*j:3}", end=" ")\n    print()</div></div>
+`},
+      { id:'s3_8_4', tag:'U', label:'3.8.4 Break/Continue/Exit', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.8.4 — break, continue, exit()</h3><p><span class="key">break:</span> Exits loop entirely. <span class="key">continue:</span> Skips to next iteration. <span class="key">exit():</span> Terminates the whole program.</p></div>
+`},
+      { id:'s3_8_5', tag:'A', label:'3.8.5 Break/Continue Programs', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.8.5 — Break/Continue Programs</h3><div class="code">for i in range(1,10):\n    if i == 5: break\n    print(i, end=" ")   # 1 2 3 4\n\nfor i in range(1,8):\n    if i == 5: continue\n    print(i, end=" ")   # 1 2 3 4 6 7\n\nfor i in range(1,10):\n    if i == 3: exit("Stopped")</div></div>
+`},
+      { id:'s3_9_1', tag:'U', label:'3.9.1 Debugging', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.9.1 — Importance of Debugging</h3><p>Process of finding/fixing bugs. Named after Grace Hopper's moth (1947). Ensures correctness, saves money (production bugs are expensive), improves code quality.</p></div>
+`},
+      { id:'s3_9_2', tag:'U', label:'3.9.2 Bug Types', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.9.2 — Types of Errors</h3><table class="tb"><tr><th>Type</th><th>Example</th></tr><tr><td>Syntax</td><td>print "Hello" (missing ())</td></tr><tr><td>Runtime</td><td>ZeroDivisionError, ValueError</td></tr><tr><td>Logical</td><td>Using * instead of +</td></tr></table></div>
+`},
+      { id:'s3_9_3', tag:'U', label:'3.9.3 IDE Debugging', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.9.3 — IDE Debugging</h3><p>IDEs help via: syntax highlighting (red squiggles), error marking, code completion, linting (PEP 8), integrated debugger with step-through.</p></div>
+`},
+      { id:'s3_9_4', tag:'U', label:'3.9.4 Breakpoints', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 3.9.4 — Breakpoints</h3><p>Deliberate pause points in the debugger. In IDEs: click line number. In code: <code>breakpoint()</code> (Python 3.7+) or <code>pdb.set_trace()</code>. Execution pauses, you inspect variables.</p></div>
+`},
+      { id:'s3_9_5', tag:'A', label:'3.9.5 Print & Assert', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.9.5 — print &amp; assert Debugging</h3><div class="code">def avg(nums):\n    total = 0\n    for n in nums:\n        total += n\n        print(f"DEBUG: n={n}, total={total}")\n    return total / len(nums) if nums else 0\n\n# assert\nx = 10\nassert x > 0, "x must be positive"  # passes\nassert x < 0  # AssertionError!</div></div>
+`},
+      { id:'s3_9_6', tag:'A', label:'3.9.6 PDB Debugger', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-a">A</span> SLO 3.9.6 — pdb Debugger</h3><div class="code">import pdb\ndef fact(n):\n    result = 1\n    for i in range(1, n+1):\n        pdb.set_trace()  # or breakpoint()\n        result *= i\n    return result\n\n# pdb commands: n(next), s(step into), c(continue), p var(print), l(list), q(quit)</div></div>
+`}
+    ]
+  },
+  {
+    id: 'ch4',
+    title: 'Chapter 4 — Data & Analysis',
+    color: '#f59e0b',
+    slos: [
+      { id:'s4_1_1', tag:'R', label:'4.1.1 Statistics & Modelling', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 4.1.1 — Statistics &amp; Statistical Modelling</h3><p><span class="key">Statistics:</span> Science of collecting, organising, analysing, interpreting data. Descriptive (mean, median) vs Inferential (hypothesis testing, regression). <span class="key">Statistical Modelling:</span> Creating mathematical representations of real-world processes from data.</p></div>
+`},
+      { id:'s4_1_2', tag:'U', label:'4.1.2 Regression', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 4.1.2 — Regression</h3><p>Supervised learning technique modelling relationship between dependent and independent variables. <span class="key">Linear:</span> Y = a + bX. <span class="key">Multiple:</span> Y = a + b₁X₁ + ... + bₙXₙ. Applications: stock prediction, sales forecasting, real estate valuation.</p></div>
+`},
+      { id:'s4_1_3', tag:'U', label:'4.1.3 Classification', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 4.1.3 — Classification</h3><p>Supervised learning assigning data to predefined classes. Binary (spam/not spam) or multi-class (cat/dog/bird). Algorithms: Logistic Regression, Decision Trees, SVM, k-NN, Neural Networks. Applications: spam filtering, medical diagnosis, face recognition.</p></div>
+`},
+      { id:'s4_1_4', tag:'U', label:'4.1.4 Clustering', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 4.1.4 — Clustering</h3><p>Unsupervised learning grouping similar data points. <span class="key">k-Means:</span> Partitions into k clusters by nearest centroid. Steps: choose k, initialise centroids, assign points, recompute, repeat. Applications: customer segmentation, image compression, anomaly detection.</p></div>
+`},
+      { id:'s4_2_1', tag:'R', label:'4.2.1 Correlation & Sampling', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 4.2.1 — Correlation, Causation, Population, Sampling</h3><p><span class="key">Correlation (-1 to +1):</span> Strength of relationship. <span class="key">Causation:</span> One variable causes another. Correlation ≠ Causation! Ice cream sales and drowning are correlated (both rise in summer) but ice cream doesn't cause drowning — hot weather is the hidden variable. <span class="key">Random Sample:</span> Every population member has equal selection chance.</p></div>
+`},
+      { id:'s4_2_2', tag:'U', label:'4.2.2 Observational vs Experimental', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 4.2.2 — Observational vs Experimental Studies</h3><p><span class="key">Observational:</span> Observe without intervention (surveys). Cannot prove causation. <span class="key">Experimental:</span> Manipulate variables, random assignment. Can prove causation.</p></div>
+`},
+      { id:'s4_2_3', tag:'U', label:'4.2.3 Experimental Design', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 4.2.3 — Experimental Design Principles</h3><ol><li><span class="key">Control:</span> Treatment vs control group</li><li><span class="key">Randomisation:</span> Reduce bias</li><li><span class="key">Replication:</span> Multiple subjects</li><li><span class="key">Blocking:</span> Group similar subjects</li></ol></div>
+`},
+      { id:'s4_2_4', tag:'U', label:'4.2.4 Experiment Process', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 4.2.4 — Experimental Design Flow</h3><ol><li>Define problem + hypothesis</li><li>Identify variables (independent, dependent, controlled)</li><li>Design: groups, sample size, randomisation</li><li>Collect data</li><li>Analyse (t-test, ANOVA, chi-square)</li><li>Draw conclusions</li></ol></div>
+`},
+      { id:'s4_3_1', tag:'U', label:'4.3.1 Data Collection', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 4.3.1 — Data Collection Methods</h3><p><span class="key">Primary:</span> Surveys, interviews, observations, experiments. <span class="key">Secondary:</span> Existing databases, web scraping, APIs, published research.</p></div>
+`},
+      { id:'s4_3_2', tag:'An', label:'4.3.2 Data Science Role', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-an">An</span> SLO 4.3.2 — Data Science in Real-World Problems</h3><p><span class="key">Healthcare:</span> Disease diagnosis from scans, drug discovery. <span class="key">Finance:</span> Fraud detection, algorithmic trading. <span class="key">E-commerce:</span> Recommendation systems (Amazon), demand forecasting. <span class="key">Transport:</span> Route optimisation (Google Maps). <span class="key">Agriculture:</span> Crop yield prediction, precision farming.</p></div>
+`}
+    ]
+  },
+  {
+    id: 'ch5',
+    title: 'Chapter 5 — Applications of CS',
+    color: '#ef4444',
+    slos: [
+      { id:'s5_1_1', tag:'U', label:'5.1.1 IoT & Importance', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.1.1 — IoT &amp; Importance</h3><p>Network of physical devices with sensors + connectivity exchanging data. 15B+ devices (2024). Importance: real-time monitoring, efficiency, cost savings, data-driven decisions. Examples: smart homes, industrial automation, wearables.</p></div>
+`},
+      { id:'s5_1_2', tag:'U', label:'5.1.2 IoT Components', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.1.2 — IoT Components</h3><ul><li><span class="key">Sensors:</span> Detect physical phenomena (temp, motion, light)</li><li><span class="key">Processors:</span> Microcontrollers (Arduino, ESP32), Raspberry Pi</li><li><span class="key">Connectivity:</span> Wi-Fi, BLE, Zigbee, LoRaWAN, 5G</li><li><span class="key">UI:</span> Mobile apps, web dashboards, voice assistants</li></ul></div>
+`},
+      { id:'s5_1_3', tag:'An', label:'5.1.3 IoT Applications', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-an">An</span> SLO 5.1.3 — IoT Applications</h3><p><span class="key">Manufacturing:</span> Predictive maintenance, asset tracking, quality control. <span class="key">Agriculture:</span> Soil moisture sensors, drone monitoring, automated irrigation. <span class="key">Healthcare:</span> Wearable monitors, remote patient monitoring, smart pill bottles.</p></div>
+`},
+      { id:'s5_2_1', tag:'U', label:'5.2.1 Enabling Technologies', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.2.1 — Key Technologies Enabling IoT</h3><p>Cloud computing, Edge computing, Big Data analytics, AI/ML, LPWAN (LoRa, NB-IoT), 5G, MEMS sensors (cheap, small, low-power).</p></div>
+`},
+      { id:'s5_2_2', tag:'U', label:'5.2.2 Big Data Analytics', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.2.2 — Big Data Analytics</h3><p>5 Vs: Volume (terabytes), Velocity (real-time), Variety (text, image, video), Veracity (quality), Value (insights). Tools: Hadoop, Spark, Kafka. Apps: customer analytics, fraud detection, predictive maintenance.</p></div>
+`},
+      { id:'s5_2_3', tag:'U', label:'5.2.3 IoT Protocols', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.2.3 — IoT Communication Protocols</h3><p><span class="key">MQTT:</span> Lightweight publish-subscribe, industry standard. <span class="key">CoAP:</span> UDP-based, like HTTP for constrained devices. <span class="key">Zigbee:</span> Low-power mesh for home automation. <span class="key">LoRaWAN:</span> Long-range (2-15km), low-power WAN. <span class="key">NB-IoT:</span> Cellular LPWAN.</p></div>
+`},
+      { id:'s5_2_4', tag:'U', label:'5.2.4 Embedded Systems', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.2.4 — Embedded Systems</h3><p>Specialised computer for dedicated functions. Characteristics: task-specific, resource-constrained, real-time, low-power. Examples: microwave controller, car ECU, pacemaker, smart thermostat.</p></div>
+`},
+      { id:'s5_2_5', tag:'U', label:'5.2.5 WSN Applications', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.2.5 — Wireless Sensor Networks</h3><p>Distributed autonomous sensors monitoring physical conditions. Self-organising, multi-hop, energy-constrained. Applications: environmental monitoring, smart agriculture, structural health monitoring, military surveillance.</p></div>
+`},
+      { id:'s5_3_1', tag:'R', label:'5.3.1 Blockchain', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 5.3.1 — Blockchain</h3><p>Decentralised, distributed digital ledger where data cannot be altered retroactively. Each block contains timestamp, data, and hash of previous block. Properties: decentralised, immutable, transparent, secure.</p></div>
+`},
+      { id:'s5_3_2', tag:'U', label:'5.3.2 Blockchain Technologies', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.3.2 — Enabling Technologies</h3><ul><li><span class="key">Cryptographic Hashing (SHA-256):</span> Ensures immutability</li><li><span class="key">Public-Key Cryptography:</span> Digital signatures</li><li><span class="key">Consensus:</span> PoW (Bitcoin mining), PoS (Ethereum 2.0)</li><li><span class="key">P2P Network:</span> All nodes have full copy</li><li><span class="key">Smart Contracts:</span> Self-executing code (Ethereum)</li></ul></div>
+`},
+      { id:'s5_3_3', tag:'U', label:'5.3.3 Blockchain Types', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.3.3 — Blockchain Network Types</h3><p><span class="key">Public:</span> Permissionless (Bitcoin, Ethereum). <span class="key">Private:</span> Single org (Hyperledger). <span class="key">Permissioned:</span> Authorised participants (Ripple). <span class="key">Consortium:</span> Multi-org governance (Quorum).</p></div>
+`},
+      { id:'s5_3_4', tag:'U', label:'5.3.4 Blockchain + IoT', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.3.4 — Blockchain + IoT</h3><p>Combined solves: security (encrypted IoT data), trust (decentralised validation), automation (smart contracts). Use cases: supply chain tracking (farm→store), smart energy grids (P2P trading), pharmaceutical cold chain.</p></div>
+`},
+      { id:'s5_4_1', tag:'U', label:'5.4.1 AI Stakeholders', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 5.4.1 — AI Stakeholders</h3><p><span class="key">Developers:</span> Build/train models. <span class="key">Users:</span> Use AI products. <span class="key">Affected:</span> Impacted by AI decisions. <span class="key">Regulators:</span> Create policies (EU AI Act). <span class="key">Businesses:</span> Deploy AI. <span class="key">Society:</span> Bears benefits + risks.</p></div>
+`},
+      { id:'s5_4_2', tag:'E', label:'5.4.2 AI Benefits/Challenges', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-e">E</span> SLO 5.4.2 — AI Benefits &amp; Challenges</h3><table class="tb"><tr><th>Sector</th><th>Benefits</th><th>Challenges</th></tr><tr><td>Healthcare</td><td>Faster diagnosis, drug discovery</td><td>Privacy, bias, liability</td></tr><tr><td>Education</td><td>Personalised learning, auto-grading</td><td>Digital divide, reduced human interaction</td></tr><tr><td>Industry</td><td>Automation, quality control</td><td>Job displacement, cost, cybersecurity</td></tr></table></div>
+`}
+    ]
+  },
+  {
+    id: 'ch6',
+    title: 'Chapter 6 — Impacts of Computing',
+    color: '#ec4899',
+    slos: [
+      { id:'s6_1_1', tag:'R', label:'6.1.1 Information Sources', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 6.1.1 — Books, Articles, Websites</h3><p><span class="key">Books:</span> In-depth, authoritative, potentially outdated. <span class="key">Articles:</span> Journal (peer-reviewed), magazine, newspaper. <span class="key">Websites:</span> Vast range of quality. Evaluate: .edu/.gov = reliable, .com = varies.</p></div>
+`},
+      { id:'s6_1_2', tag:'U', label:'6.1.2 Reliable vs Unreliable', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.1.2 — Reliable vs Unreliable Sources</h3><table class="tb"><tr><th>Reliable</th><th>Unreliable</th></tr><tr><td>Author is expert</td><td>Unknown author</td></tr><tr><td>Verifiable facts, citations</td><td>No citations, errors</td></tr><tr><td>Recently updated</td><td>Outdated, no date</td></tr><tr><td>Objective, balanced</td><td>Extreme bias, emotional</td></tr></table><p>Examples: Peer-reviewed journals (Nature), .gov sites = reliable. Personal blogs, social media = unreliable.</p></div>
+`},
+      { id:'s6_1_3', tag:'U', label:'6.1.3 Search Engines & DBs', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.1.3 — Search Engines &amp; Databases</h3><p><span class="key">Search engines:</span> Google, Bing. Use operators: site:, filetype:, intitle:. <span class="key">Academic DBs:</span> Google Scholar, IEEE Xplore, PubMed, JSTOR. Tips: filter peer-reviewed, check dates, cross-reference.</p></div>
+`},
+      { id:'s6_1_4', tag:'U', label:'6.1.4 Responsible Social Media', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.1.4 — Responsible Social Media Use</h3><p><span class="key">Do:</span> Verify before sharing, check sources, use fact-checking, report harmful content. <span class="key">Don't:</span> Share unverified news, overshare, engage trolls. Be aware of filter bubbles and echo chambers.</p></div>
+`},
+      { id:'s6_2_1', tag:'R', label:'6.2.1 Privacy & Security', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 6.2.1 — Privacy and Security</h3><p><span class="key">Privacy:</span> Right to control personal information. <span class="key">Security:</span> Measures protecting data from unauthorised access. Relationship: Security enables Privacy.</p></div>
+`},
+      { id:'s6_2_2', tag:'U', label:'6.2.2 Protecting Info', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.2.2 — Protecting Personal Information</h3><p>Personal data (SSN, bank details, passwords) can be used for identity theft, fraud, stalking. Once shared online, you lose control. Data brokers sell your data without consent.</p></div>
+`},
+      { id:'s6_2_3', tag:'U', label:'6.2.3 Safeguarding Data', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.2.3 — Safeguarding Personal Data</h3><p><span class="key">Technical:</span> Strong passwords + manager, MFA, VPN, antivirus. <span class="key">Behavioural:</span> Think before clicking, limit social sharing, review app permissions. <span class="key">Tools:</span> DuckDuckGo, Signal, ProtonMail.</p></div>
+`},
+      { id:'s6_2_4', tag:'E', label:'6.2.4 Data Breach Impact', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-e">E</span> SLO 6.2.4 — Impact of Data Breaches</h3><p><span class="key">Individuals:</span> Identity theft, financial loss ($1,500+/victim), emotional distress. <span class="key">Organisations:</span> $4.88M avg cost, legal penalties (GDPR), reputation damage. <span class="key">Examples:</span> Equifax (147M records, $1.4B), Yahoo (3B accounts).</p></div>
+`},
+      { id:'s6_3_1', tag:'U', label:'6.3.1 Ethical Use', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.3.1 — Ethical Use &amp; IP</h3><p>Cite sources, respect copyright/patents/trademarks. <span class="key">Fair use:</span> Limited use for education/research. <span class="key">Creative Commons:</span> Licenses with pre-granted permissions (CC BY, CC0).</p></div>
+`},
+      { id:'s6_3_2', tag:'U', label:'6.3.2 Misinformation', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.3.2 — Misinformation Consequences</h3><p><span class="key">Misinformation:</span> False info without malice. <span class="key">Disinformation:</span> Deliberately deceptive. Consequences: public health harm (anti-vax), political polarisation, violence (Pizzagate).</p></div>
+`},
+      { id:'s6_3_3', tag:'E', label:'6.3.3 Ethical Dilemmas', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-e">E</span> SLO 6.3.3 — Ethical Dilemma Cases</h3><ul><li><span class="key">Cambridge Analytica:</span> Facebook data harvested for political ads. Who is responsible?</li><li><span class="key">Facial Recognition:</span> Safety vs privacy in public surveillance</li><li><span class="key">AI Hiring:</span> Efficiency vs fairness/bias in screening</li></ul></div>
+`},
+      { id:'s6_4_1', tag:'R', label:'6.4.1 Connectivity', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 6.4.1 — Connectivity</h3><p>Ability of devices to connect, communicate, exchange data over a network. Foundation of internet, cloud, IoT. Enables email, video calls, streaming, remote work.</p></div>
+`},
+      { id:'s6_4_2', tag:'U', label:'6.4.2 Devices/Networks/Protocols', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.4.2 — Devices, Networks, Protocols, Internet</h3><p><span class="key">Devices:</span> Computers, phones, servers, routers, switches. <span class="key">Networks:</span> PAN, LAN, MAN, WAN. <span class="key">Protocols:</span> TCP/IP, HTTP, FTP, SMTP, DNS. <span class="key">Internet:</span> Global network using TCP/IP.</p></div>
+`},
+      { id:'s6_4_3', tag:'U', label:'6.4.3 Communication Tech', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.4.3 — Communication Technologies</h3><p><span class="key">Social Media:</span> Facebook, Instagram, Twitter. <span class="key">Email:</span> SMTP/POP3/IMAP. <span class="key">IM:</span> WhatsApp, Telegram, Signal (E2E encryption). <span class="key">Video:</span> Zoom, Teams, Meet (screen sharing, breakout rooms).</p></div>
+`},
+      { id:'s6_5_1', tag:'U', label:'6.5.1 Green Computing', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 6.5.1 — Green Computing</h3><p>Environmentally responsible computing. Practices: Energy Star hardware, virtualisation, cloud (shared resources), power management, e-waste recycling, paperless. E-waste: 50M+ tons/year, only 20% recycled.</p></div>
+`},
+      { id:'s6_5_2', tag:'An', label:'6.5.2 Environmental Impacts', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-an">An</span> SLO 6.5.2 — Environmental Impacts of Connectivity</h3><p><span class="key">Positive:</span> Smart grids reduce waste, remote work cuts 54% carbon, paperless. <span class="key">Negative:</span> Data centres 1-2% global electricity, crypto mining energy, e-waste, rare earth mining.</p></div>
+`},
+      { id:'s6_5_3', tag:'An', label:'6.5.3 Data Centres', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-an">An</span> SLO 6.5.3 — Data Centre Environmental Effects</h3><p>~200 TWh/year (more than some countries). 30-50% energy = cooling. ~0.3% global CO2. Water: 3-5M gallons/day for cooling. Mitigation: renewables, liquid immersion cooling, Nordic locations, server virtualisation.</p></div>
+`},
+      { id:'s6_6_1', tag:'An', label:'6.6.1 Cultural Exchange', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-an">An</span> SLO 6.6.1 — Global Cultural Exchange</h3><p><span class="key">Positive:</span> Global content access (K-pop via YouTube), online learning (Coursera), translation tools, international collaboration. <span class="key">Negative:</span> Dominance of Western media (Netflix), erosion of local content.</p></div>
+`},
+      { id:'s6_6_2', tag:'E', label:'6.6.2 Culture Preservation/Loss', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-e">E</span> SLO 6.6.2 — Cultural Preservation &amp; Loss</h3><p><span class="key">Preservation:</span> Digital archives save endangered languages, minority communities connect globally, museums digitise artefacts. <span class="key">Loss:</span> 40% of 7000 languages endangered, globalisation dominates local content, digital divide excludes some communities.</p></div>
+`},
+      { id:'s6_7_1', tag:'E', label:'6.7.1 Human Impact', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-e">E</span> SLO 6.7.1 — Digital Connectivity Effects on Humans</h3><p><span class="key">Positive:</span> Info access, remote work, telemedicine, global connections. <span class="key">Negative:</span> Digital addiction (6+ hrs/day online), mental health issues (anxiety/depression), attention span reduction, cyberbullying. <span class="key">Work:</span> Remote/hybrid models, gig economy, automation displacing jobs.</p></div>
+`}
+    ]
+  },
+  {
+    id: 'ch7',
+    title: 'Chapter 7 — Digital Literacy',
+    color: '#14b8a6',
+    slos: [
+      { id:'s7_1_1', tag:'R', label:'7.1.1 Digital Literacy', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-r">R</span> SLO 7.1.1 — Digital Literacy &amp; Importance</h3><p>Ability to navigate, evaluate, and create using digital technologies. Components: technical skills, information literacy, communication literacy, media literacy, cybersecurity awareness. Essential for education, jobs (95% require digital skills), and civic participation.</p></div>
+`},
+      { id:'s7_1_2', tag:'U', label:'7.1.2 Role in Life', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 7.1.2 — Digital Literacy in Academic &amp; Daily Life</h3><p><span class="key">Academic:</span> Research databases, online learning (Moodle), collaboration (Google Docs), citation tools (Zotero). <span class="key">Daily:</span> Online banking, e-commerce, telemedicine, job hunting (LinkedIn), government services.</p></div>
+`},
+      { id:'s7_2_1', tag:'U', label:'7.2.1 Advanced Search', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 7.2.1 — Advanced Search Techniques</h3><p>Operators: <span class="key">""</span> exact phrase, <span class="key">-</span> exclude, <span class="key">site:</span> limit domain, <span class="key">filetype:</span> specific format, <span class="key">OR</span> either term, <span class="key">*</span> wildcard, <span class="key">intitle:</span> in page title. Saves time, improves research quality.</p></div>
+`},
+      { id:'s7_2_2', tag:'U', label:'7.2.2 Basic vs Advanced', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 7.2.2 — Basic vs Advanced Search</h3><table class="tb"><tr><th>Basic</th><th>Advanced</th></tr><tr><td>Simple keywords</td><td>Operators + Boolean</td></tr><tr><td>Millions of results</td><td>Targeted results</td></tr><tr><td>Post-search filters</td><td>Search-time operators</td></tr><tr><td>Quick lookups</td><td>Academic research</td></tr></table></div>
+`},
+      { id:'s7_3_1', tag:'U', label:'7.3.1 Qual vs Quant', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 7.3.1 — Qualitative vs Quantitative Data</h3><table class="tb"><tr><th>Qualitative</th><th>Quantitative</th></tr><tr><td>Words, images, observations</td><td>Numbers, measurements</td></tr><tr><td>Small sample (10-50)</td><td>Large sample (100+)</td></tr><tr><td>Interviews, focus groups</td><td>Surveys, experiments</td></tr><tr><td>Thematic analysis</td><td>Statistical analysis</td></tr></table></div>
+`},
+      { id:'s7_3_2', tag:'U', label:'7.3.2 Prototypes & Simulations', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-u">U</span> SLO 7.3.2 — Prototypes &amp; Simulations</h3><p><span class="key">Prototypes:</span> Early models for testing (low-fidelity = paper sketches, high-fidelity = interactive mockups). <span class="key">Simulations:</span> Computer models imitating real processes. Advantages: low cost, safe, controllable, repeatable.</p></div>
+`},
+      { id:'s7_3_3', tag:'C', label:'7.3.3 Interview Plan', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-c">C</span> SLO 7.3.3 — Design Interview Data-Collection Plan</h3><ol><li><span class="key">Research Questions:</span> Open-ended, focused, clear</li><li><span class="key">Select Participants:</span> Criteria (age, role), sample (10-20)</li><li><span class="key">Interview Guide:</span> Warm-up → Main → Probing → Cool-down</li><li><span class="key">Pilot Test:</span> Refine questions with 1-2 people</li><li><span class="key">Ethics:</span> Informed consent, confidentiality, right to withdraw</li><li><span class="key">Record:</span> Audio/video (with permission), transcribe</li></ol></div>
+`},
+      { id:'s7_3_4', tag:'C', label:'7.3.4 Survey Creation', html: `
+<div class="card"><h3><span class="tag-sm tag-sm-c">C</span> SLO 7.3.4 — Create Surveys for Quantitative Data</h3><p><span class="key">Good questions:</span> Clear language, one thing at a time, no leading questions, balanced Likert scales (Strongly Disagree → Strongly Agree), include "Other" option.</p><p><span class="key">Platforms:</span> Google Forms (free, unlimited), Microsoft Forms (Office 365), SurveyMonkey, Qualtrics, Typeform.</p><div class="code">Title: Student Satisfaction Survey\nQ1: Hours/week on online learning?\n  [ ] <5  [ ] 5-10  [ ] 11-15  [ ] >15\nQ2: "Online learning is as effective as in-person"\n  [ ] SD [ ] D [ ] N [ ] A [ ] SA\nQ3: Biggest challenge? (open-ended)</div></div>
+`}
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════
+
+function render() {
+  const sidebar = document.getElementById('chapters-container');
+  const container = document.getElementById('slo-container');
+
+  // Build sidebar
+  chapters.forEach((ch, ci) => {
+    const btn = document.createElement('button');
+    btn.className = 'chapter-btn';
+    btn.innerHTML = `<span class="num">${ci+1}</span>${ch.title} <span class="arrow">›</span>`;
+    
+    const list = document.createElement('div');
+    list.className = 'slo-list';
+
+    ch.slos.forEach(slo => {
+      const link = document.createElement('a');
+      link.className = 'slo-link';
+      link.dataset.slo = slo.id;
+      const tagClass = 'tag-sm-' + slo.tag.toLowerCase();
+      link.innerHTML = `<span class="tag-sm ${tagClass}">${slo.tag}</span> ${slo.label}`;
+      link.onclick = (e) => {
+        e.stopPropagation();
+        showSLO(slo.id, ch.id);
+      };
+      list.appendChild(link);
+    });
+
+    btn.onclick = () => {
+      const isOpen = list.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.slo-list').forEach(l => l.classList.remove('open'));
+      document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('open'));
+      if (!isOpen) {
+        list.classList.add('open');
+        btn.classList.add('open');
+      }
+    };
+
+    sidebar.appendChild(btn);
+    sidebar.appendChild(list);
+  });
+
+  // Build SLO content (hidden initially)
+  chapters.forEach(ch => {
+    ch.slos.forEach(slo => {
+      const div = document.createElement('div');
+      div.className = 'slo-view';
+      div.id = 'view-' + slo.id;
+      div.innerHTML = slo.html;
+      container.appendChild(div);
+    });
+  });
+}
+
+function showSLO(sloId) {
+  // Hide all
+  document.querySelectorAll('.slo-view').forEach(v => v.classList.remove('show'));
+  document.querySelectorAll('.slo-link').forEach(l => l.classList.remove('active'));
+
+  // Show selected
+  const view = document.getElementById('view-' + sloId);
+  if (view) {
+    view.classList.add('show');
+    view.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Highlight link
+  document.querySelectorAll(`.slo-link[data-slo="${sloId}"]`).forEach(l => l.classList.add('active'));
+
+  // Hide welcome
+  document.getElementById('welcome').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', render);
+</script>
+</body>
+</html>
