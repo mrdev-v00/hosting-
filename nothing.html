@@ -1101,7 +1101,7 @@
     <div class="logo-heart"></div>
     <h1>Story Downloader<span class="title-heart">&#9825;</span></h1>
   </div>
-  <p class="subtitle">Paste the full page source from a profile, story, or highlight. Extract everything: profile picture, stories, highlights, and all posts — then preview, select, and save exactly what you want.</p>
+  <p class="subtitle">Paste the full page source from a profile, story, or highlight page. Whatever page you paste is the one that gets extracted — their profile picture, stories, highlights, and posts — never anything about the account you're logged in as. Then preview, select, and save exactly what you want.</p>
 
   <!-- Recent extractions -->
   <div class="card history-card" id="historyCard">
@@ -1117,6 +1117,9 @@
       </button>
       <button class="mode-btn" data-mode="story" onclick="App.setMode('story')">
         <span class="heart-icon">&#9825;</span> Single Story
+      </button>
+      <button class="mode-btn" data-mode="highlight" onclick="App.setMode('highlight')">
+        <span class="heart-icon">&#9825;</span> Highlight
       </button>
       <button class="mode-btn" data-mode="post" onclick="App.setMode('post')">
         <span class="heart-icon">&#9825;</span> Single Post
@@ -1142,6 +1145,17 @@
           <span class="btn-heart">&#9825;</span> Fetch Story
         </button>
         <button class="btn btn-secondary btn-icon" title="Open this story on Instagram" onclick="App.openInInstagram('story')">&#8599;</button>
+      </div>
+    </div>
+
+    <!-- Highlight Input -->
+    <div id="highlightInput" class="input-group" style="display:none;">
+      <input type="text" id="highlightUrl" placeholder="Paste the highlight's own URL or ID (e.g. https://www.instagram.com/stories/highlights/1234567890123456/)" />
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="App.fetchHighlight()">
+          <span class="btn-heart">&#9825;</span> Fetch Highlight
+        </button>
+        <button class="btn btn-secondary btn-icon" title="Open this highlight on Instagram" onclick="App.openInInstagram('highlight')">&#8599;</button>
       </div>
     </div>
 
