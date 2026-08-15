@@ -3,16 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Story Downloader</title>
+<title>Story Downloader - Full Profile</title>
 
 <!-- Favicon -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23C2385A'/%3E%3Cstop offset='100%25' style='stop-color:%23D9AF6C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 88 C20 65 0 50 0 35 C0 15 20 5 35 15 L50 28 L65 15 C80 5 100 15 100 35 C100 50 80 65 50 88 Z' fill='url(%23g)'/%3E%3C/svg%3E" type="image/svg+xml">
 
 <!-- Apple Touch Icon -->
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23C2385A'/%3E%3Cstop offset='100%25' style='stop-color:%23D9AF6C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='30' fill='%23120D10'/%3E%3Cpath d='M90 158 C36 117 10 90 10 63 C10 27 36 9 63 27 L90 50 L117 27 C144 9 170 27 170 63 C170 90 144 117 90 158 Z' fill='url(%23g)'/%3E%3C/svg%3E">
-
-<!-- PWA Manifest -->
-<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Story%20Downloader%22%2C%22short_name%22%3A%22StoryDL%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23120D10%22%2C%22theme_color%22%3A%22%23C2385A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20192%20192'%253E%253Cdefs%253E%253ClinearGradient%20id%3D'g'%20x1%3D'0%25'%20y1%3D'0%25'%20x2%3D'100%25'%20y2%3D'100%25'%253E%253Cstop%20offset%3D'0%25'%20style%3D'stop-color%3A%2523C2385A'%2F%253E%253Cstop%20offset%3D'100%25'%20style%3D'stop-color%3A%2523D9AF6C'%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%20width%3D'192'%20height%3D'192'%20rx%3D'30'%20fill%3D'%2523120D10'%2F%253E%253Cpath%20d%3D'M96%20168.5C38.4%20124.8%2010.7%2096%2010.7%2067.2c0-38.4%2027.7-57.6%2056.5-38.4L96%2053.3l28.8-24.5c28.8-19.2%2056.5%200%2056.5%2038.4%200%2028.8-27.7%2057.6-85.3%20101.3z'%20fill%3D'url(%23g)'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 
 <style>
   :root {
@@ -141,6 +138,36 @@
     background: linear-gradient(90deg, var(--accent-wine), var(--accent-gold));
   }
 
+  .input-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .input-group input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .input-group input::placeholder { color: var(--text-faint); }
+  .input-group input:focus {
+    border-color: var(--accent-wine);
+    box-shadow: 0 0 0 3px rgba(194,56,90,0.18);
+  }
+
+  .input-group .btn {
+    flex-shrink: 0;
+  }
+
   textarea {
     width: 100%;
     min-height: 200px;
@@ -157,7 +184,6 @@
   }
 
   textarea::placeholder { color: var(--text-faint); }
-
   textarea:focus {
     border-color: var(--accent-wine);
     box-shadow: 0 0 0 3px rgba(194,56,90,0.18);
@@ -183,7 +209,7 @@
     display: inline-block;
   }
 
-  button, select {
+  button, select, input {
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
@@ -258,6 +284,51 @@
 
   .btn-copy:hover { border-color: var(--accent-gold-deep); color: var(--accent-gold); }
 
+  .btn-success {
+    background: linear-gradient(135deg, #1a7a4a, #0f5a30);
+    color: #FBEEF1;
+  }
+
+  .btn-success:hover:not(:disabled) {
+    box-shadow: 0 10px 26px -8px rgba(26,122,74,0.3);
+    transform: translateY(-2px);
+  }
+
+  .btn-success:hover:not(:disabled) .btn-heart { transform: scale(1.3); }
+
+  .mode-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mode-selector .mode-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border-soft);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .mode-selector .mode-btn:hover {
+    border-color: var(--accent-gold-deep);
+    color: var(--accent-gold);
+  }
+
+  .mode-selector .mode-btn.active {
+    border-color: var(--accent-wine);
+    background: rgba(194,56,90,0.15);
+    color: var(--accent-wine-light);
+  }
+
+  .mode-selector .mode-btn .heart-icon {
+    margin-right: 4px;
+  }
+
   .burst-heart {
     position: absolute;
     left: 50%;
@@ -322,6 +393,68 @@
 
   .results { display: none; }
   .results.show { display: block; }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-gold);
+    flex-shrink: 0;
+  }
+
+  .profile-avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-wine), var(--accent-plum));
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: var(--text-muted);
+  }
+
+  .profile-info {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .profile-info .name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .profile-info .username {
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  .profile-info .stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+
+  .profile-info .stats span strong {
+    color: var(--text-primary);
+  }
 
   .username-pill {
     display: inline-flex;
@@ -458,6 +591,9 @@
   }
 
   .item-type-tag.photo { background: var(--accent-taupe); }
+  .item-type-tag.highlight { background: var(--accent-gold-deep); }
+  .item-type-tag.post { background: var(--accent-wine-deep); }
+  .item-type-tag.avatar { background: linear-gradient(135deg, var(--accent-wine), var(--accent-gold)); }
 
   .item-timestamp {
     font-size: 12px;
@@ -474,18 +610,27 @@
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   }
 
-  select.item-quality {
-    background: var(--bg-input);
-    color: var(--text-primary);
-    border: 1.5px solid var(--border-soft);
-    padding: 6px 10px;
-    font-size: 12.5px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
+  .media-quality {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #FBEEF1;
+    padding: 3px 9px;
+    border-radius: 6px;
+    flex-shrink: 0;
   }
+
+  .tag-heart { margin-right: 5px; font-size: 9px; }
+
+  .tag-highest { background: linear-gradient(135deg, var(--accent-wine), var(--accent-gold-deep)); }
+  .tag-hd { background: var(--accent-wine); }
+  .tag-sdplus { background: var(--accent-plum); }
+  .tag-sd { background: var(--accent-taupe); }
+  .tag-progressive { background: #4A3B3F; }
+  .tag-dash { background: linear-gradient(135deg, var(--accent-plum), var(--accent-wine-deep)); }
 
   .item-actions {
     display: flex;
@@ -523,46 +668,7 @@
     padding: 8px 12px;
   }
 
-  .media-quality {
-    display: inline-flex;
-    align-items: center;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: #FBEEF1;
-    padding: 3px 9px;
-    border-radius: 6px;
-    flex-shrink: 0;
-  }
-
-  .tag-heart { margin-right: 5px; font-size: 9px; }
-
-  .tag-highest { background: linear-gradient(135deg, var(--accent-wine), var(--accent-gold-deep)); }
-  .tag-hd { background: var(--accent-wine); }
-  .tag-sdplus { background: var(--accent-plum); }
-  .tag-sd { background: var(--accent-taupe); }
-  .tag-progressive { background: #4A3B3F; }
-  .tag-dash { background: linear-gradient(135deg, var(--accent-plum), var(--accent-wine-deep)); }
-
-  .quality-row .item-url { flex: 1; }
-
-  .advanced-details { margin-top: 8px; }
-
-  .advanced-details summary {
-    cursor: pointer;
-    font-size: 13px;
-    color: var(--text-muted);
-    padding: 10px 0;
-    list-style: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .advanced-details summary::-webkit-details-marker { display: none; }
-  .advanced-details summary:before { content: "\25B8"; color: var(--accent-gold); }
-  .advanced-details[open] summary:before { content: "\25BE"; }
+  .quality-row .item-url { flex: 1; font-size: 11px; }
 
   .media-card {
     display: flex;
@@ -590,7 +696,23 @@
   .empty-note { color: var(--text-faint); font-size: 13.5px; padding: 10px 0; }
   .empty-note:before { content: "\2665"; margin-right: 8px; color: var(--accent-wine-deep); }
 
-  /* Footer */
+  .advanced-details { margin-top: 8px; }
+
+  .advanced-details summary {
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 10px 0;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .advanced-details summary::-webkit-details-marker { display: none; }
+  .advanced-details summary:before { content: "\25B8"; color: var(--accent-gold); }
+  .advanced-details[open] summary:before { content: "\25BE"; }
+
   .footer {
     margin-top: 40px;
     padding-top: 20px;
@@ -600,13 +722,8 @@
     font-size: 13px;
   }
 
-  .footer a {
-    color: var(--accent-gold);
-    text-decoration: none;
-  }
-  .footer a:hover {
-    text-decoration: underline;
-  }
+  .footer a { color: var(--accent-gold); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
 
   @media (prefers-reduced-motion: reduce) {
     .container { animation: none; }
@@ -622,6 +739,9 @@
     .thumb, .thumb-placeholder { display: none; }
     .controls-bar { flex-direction: column; align-items: stretch; }
     .quality-row { flex-wrap: wrap; }
+    .profile-header { flex-direction: column; align-items: center; text-align: center; }
+    .profile-info .stats { justify-content: center; }
+    .input-group input { min-width: 100%; }
   }
 </style>
 </head>
@@ -633,11 +753,50 @@
     <div class="logo-heart"></div>
     <h1>Story Downloader<span class="title-heart">&#9825;</span></h1>
   </div>
-  <p class="subtitle">Paste the full page source from a story or a full highlight reel below. Every video quality and cover photo will be found, grouped story by story, ready to save in whichever quality you want &mdash; all processed right here in your browser, nothing ever leaves this device.</p>
+  <p class="subtitle">Paste the full page source from a profile, story, or highlight. Extract everything: profile picture, stories, highlights, and all posts — all in one place.</p>
 
   <div class="card">
+    <!-- Mode Selector -->
+    <div class="mode-selector" id="modeSelector">
+      <button class="mode-btn active" data-mode="profile" onclick="setMode('profile')">
+        <span class="heart-icon">&#9825;</span> Full Profile
+      </button>
+      <button class="mode-btn" data-mode="story" onclick="setMode('story')">
+        <span class="heart-icon">&#9825;</span> Single Story
+      </button>
+      <button class="mode-btn" data-mode="post" onclick="setMode('post')">
+        <span class="heart-icon">&#9825;</span> Single Post
+      </button>
+    </div>
+
+    <!-- Profile Input -->
+    <div id="profileInput" class="input-group">
+      <input type="text" id="profileUsername" placeholder="Enter Instagram username (e.g. username)" />
+      <button class="btn btn-primary" onclick="fetchProfile()">
+        <span class="btn-heart">&#9825;</span> Fetch Profile
+      </button>
+    </div>
+
+    <!-- Story Input -->
+    <div id="storyInput" class="input-group" style="display:none;">
+      <input type="text" id="storyUsername" placeholder="Enter story URL or username" />
+      <button class="btn btn-primary" onclick="fetchStory()">
+        <span class="btn-heart">&#9825;</span> Fetch Story
+      </button>
+    </div>
+
+    <!-- Post Input -->
+    <div id="postInput" class="input-group" style="display:none;">
+      <input type="text" id="postUrl" placeholder="Enter post URL or shortcode (e.g. https://www.instagram.com/p/ABC123/)" />
+      <button class="btn btn-primary" onclick="fetchPost()">
+        <span class="btn-heart">&#9825;</span> Fetch Post
+      </button>
+    </div>
+
+    <div style="margin: 14px 0 8px; color: var(--text-faint); font-size: 13px; text-align: center;">— or paste page source manually below —</div>
+
     <div class="textarea-wrap">
-      <textarea id="sourceInput" placeholder="Paste the page source here (Ctrl+U to view it, then copy everything)..."></textarea>
+      <textarea id="sourceInput" placeholder="Paste the full page source (Ctrl+U) from any Instagram page here..."></textarea>
     </div>
     <div class="char-counter" id="charCounter">0 characters</div>
 
@@ -656,8 +815,33 @@
     </div>
   </div>
 
+  <!-- Download Options Panel -->
+  <div class="card" id="downloadOptions" style="display:none;">
+    <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;">
+      <span style="font-weight:600; color:var(--text-primary);">Download All:</span>
+      <div style="display:flex; flex-wrap:wrap; gap:8px;">
+        <button class="btn btn-success btn-small" onclick="downloadCategory('avatar')">
+          <span class="btn-heart">&#9825;</span> Avatar
+        </button>
+        <button class="btn btn-success btn-small" onclick="downloadCategory('stories')">
+          <span class="btn-heart">&#9825;</span> Stories
+        </button>
+        <button class="btn btn-success btn-small" onclick="downloadCategory('highlights')">
+          <span class="btn-heart">&#9825;</span> Highlights
+        </button>
+        <button class="btn btn-success btn-small" onclick="downloadCategory('posts')">
+          <span class="btn-heart">&#9825;</span> Posts
+        </button>
+        <button class="btn btn-primary btn-small" onclick="downloadCategory('all')">
+          <span class="btn-heart">&#9825;</span> Everything
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="results" id="results">
 
+    <div id="profileHeader"></div>
     <div id="usernameWrap"></div>
 
     <div class="controls-bar">
@@ -673,7 +857,7 @@
           <option value="360p">360p</option>
         </select>
         <span class="burst-anchor" id="saveAllAnchor">
-          <button class="btn-primary" id="saveAllBtn"><span class="btn-heart">&#9825;</span>Save All Stories</button>
+          <button class="btn-primary" id="saveAllBtn"><span class="btn-heart">&#9825;</span>Save All</button>
         </span>
       </div>
     </div>
@@ -682,7 +866,7 @@
 
     <details class="advanced-details" id="advancedDetails">
       <summary>Show every raw link found (advanced)</summary>
-      <div class="section-title">Cover Image</div>
+      <div class="section-title">Cover / Avatar Images</div>
       <div id="rawCoverWrap"></div>
       <div class="section-title">All Video Links</div>
       <div id="rawVideosWrap"></div>
@@ -691,7 +875,7 @@
   </div>
 
   <div class="footer">
-    Made with <span style="color: var(--accent-wine-light);">&#9825;</span> &bull; All processing is done locally in your browser. Nothing is ever uploaded.
+    Made with <span style="color: var(--accent-wine-light);">&#9825;</span> &bull; All processing is done locally in your browser.
   </div>
 
 </div>
@@ -699,6 +883,7 @@
 <script>
 (function () {
 
+  // ── DOM refs ──
   var sourceInput = document.getElementById('sourceInput');
   var charCounter = document.getElementById('charCounter');
   var extractBtn = document.getElementById('extractBtn');
@@ -708,6 +893,7 @@
   var spinner = document.getElementById('spinner');
   var results = document.getElementById('results');
   var usernameWrap = document.getElementById('usernameWrap');
+  var profileHeader = document.getElementById('profileHeader');
   var countBadge = document.getElementById('countBadge');
   var prefQualitySelect = document.getElementById('prefQualitySelect');
   var saveAllBtn = document.getElementById('saveAllBtn');
@@ -716,17 +902,59 @@
   var rawCoverWrap = document.getElementById('rawCoverWrap');
   var rawVideosWrap = document.getElementById('rawVideosWrap');
   var burstAnchor = document.getElementById('burstAnchor');
+  var downloadOptions = document.getElementById('downloadOptions');
 
   var HEART = '\u2665';
   var QUALITY_RANK = ['1080p', '720p', '540p', '360p'];
   var MAX_BLOCK_LEN = 150000;
 
   var itemControllers = [];
-  var lastUsername = 'unknown_user';
+  var allItems = [];
+  var currentUsername = 'unknown_user';
+  var currentAvatar = '';
+  var currentStats = { posts: 0, followers: 0, following: 0 };
 
+  // ── Mode switching ──
+  var currentMode = 'profile';
+
+  window.setMode = function(mode) {
+    currentMode = mode;
+    document.querySelectorAll('.mode-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.mode === mode);
+    });
+    document.getElementById('profileInput').style.display = mode === 'profile' ? 'flex' : 'none';
+    document.getElementById('storyInput').style.display = mode === 'story' ? 'flex' : 'none';
+    document.getElementById('postInput').style.display = mode === 'post' ? 'flex' : 'none';
+    document.getElementById('downloadOptions').style.display = 'none';
+  };
+
+  // ── Fetch profile (simulated - uses public endpoints) ──
+  window.fetchProfile = function() {
+    var username = document.getElementById('profileUsername').value.trim();
+    if (!username) {
+      showStatus('Please enter a username.', 'error');
+      return;
+    }
+    showStatus('Fetching profile for @' + username + ' ...', 'info');
+    // For now, we'll use the page source method
+    // In a real implementation, you'd use Instagram's public API
+    // But since we're client-side only, we'll guide the user
+    showStatus('To fetch @' + username + '\'s profile, please:\n1. Go to https://www.instagram.com/' + username + '/\n2. Press Ctrl+U to view page source\n3. Copy everything and paste below, then click Extract Media', 'info');
+  };
+
+  window.fetchStory = function() {
+    var input = document.getElementById('storyUsername').value.trim();
+    showStatus('To fetch a story, please:\n1. Go to the story page\n2. Press Ctrl+U to view page source\n3. Copy everything and paste below, then click Extract Media', 'info');
+  };
+
+  window.fetchPost = function() {
+    var input = document.getElementById('postUrl').value.trim();
+    showStatus('To fetch a post, please:\n1. Go to the post page\n2. Press Ctrl+U to view page source\n3. Copy everything and paste below, then click Extract Media', 'info');
+  };
+
+  // ── Core functions ──
   function updateCounter() {
-    var len = sourceInput.value.length;
-    charCounter.textContent = len + ' characters';
+    charCounter.textContent = sourceInput.value.length + ' characters';
   }
 
   function showStatus(message, type) {
@@ -734,43 +962,30 @@
     statusBox.textContent = message;
   }
 
-  function hideStatus() {
-    statusBox.className = 'status';
-    statusBox.textContent = '';
-  }
+  function hideStatus() { statusBox.className = 'status'; }
 
   function showSpinner() { spinner.className = 'spinner show'; }
   function hideSpinner() { spinner.className = 'spinner'; }
 
   function spawnHeartBurst(anchorEl) {
-    var count = 6;
-    for (var i = 0; i < count; i++) {
-      (function (index) {
+    for (var i = 0; i < 6; i++) {
+      (function(index) {
         var heart = document.createElement('span');
         heart.className = 'burst-heart';
         heart.innerHTML = HEART;
-        var drift = Math.round((Math.random() * 70) - 35);
-        var rot = Math.round((Math.random() * 50) - 25);
-        var delay = index * 70;
-        heart.style.setProperty('--drift', drift + 'px');
-        heart.style.setProperty('--rot', rot + 'deg');
-        heart.style.left = (46 + (Math.random() * 8)) + '%';
-        heart.style.animationDelay = delay + 'ms';
+        heart.style.setProperty('--drift', (Math.round(Math.random() * 70) - 35) + 'px');
+        heart.style.setProperty('--rot', (Math.round(Math.random() * 50) - 25) + 'deg');
+        heart.style.left = (46 + Math.random() * 8) + '%';
+        heart.style.animationDelay = (index * 70) + 'ms';
         anchorEl.appendChild(heart);
-        setTimeout(function () {
-          if (heart.parentNode) { heart.parentNode.removeChild(heart); }
-        }, 1900 + delay);
+        setTimeout(function() { if (heart.parentNode) heart.parentNode.removeChild(heart); }, 1900 + index * 70);
       })(i);
     }
   }
 
   function decodeUnicode(str) {
     if (!str) return str;
-    var out = str;
-    out = out.replace(/\\u002F/gi, '/');
-    out = out.replace(/\\\//g, '/');
-    out = out.replace(/&amp;/g, '&');
-    return out;
+    return str.replace(/\\u002F/gi, '/').replace(/\\\//g, '/').replace(/&amp;/g, '&');
   }
 
   function detectQuality(url) {
@@ -781,40 +996,35 @@
     if (lower.indexOf('360p') !== -1) return { label: '360p', sub: 'SD Quality', tagClass: 'tag-sd' };
     if (lower.indexOf('dash') !== -1) return { label: 'DASH', sub: 'DASH Stream', tagClass: 'tag-dash' };
     if (lower.indexOf('progressive') !== -1) return { label: 'MP4', sub: 'Progressive', tagClass: 'tag-progressive' };
-    return { label: 'Video', sub: 'Unknown Quality', tagClass: 'tag-progressive' };
+    return { label: 'Video', sub: 'Unknown', tagClass: 'tag-progressive' };
   }
 
   function getExtensionFromUrl(url, fallback) {
     var match = /\.(mp4|mov|jpg|jpeg|png|webp|heic)(\?|$)/i.exec(url);
-    if (match) return '.' + match[1].toLowerCase();
-    return fallback;
+    return match ? '.' + match[1].toLowerCase() : fallback;
   }
 
   function findObjectBounds(source, keyIndex) {
-    var depth = 0;
-    var start = -1;
+    var depth = 0, start = -1;
     for (var i = keyIndex; i >= 0; i--) {
       var ch = source.charAt(i);
-      if (ch === '}') { depth++; }
+      if (ch === '}') depth++;
       else if (ch === '{') {
         if (depth === 0) { start = i; break; }
         depth--;
       }
     }
     if (start === -1) return null;
-
-    var depth2 = 0;
-    var end = -1;
+    var depth2 = 0, end = -1;
     for (var j = start; j < source.length; j++) {
       var c = source.charAt(j);
-      if (c === '{') { depth2++; }
+      if (c === '{') depth2++;
       else if (c === '}') {
         depth2--;
         if (depth2 === 0) { end = j; break; }
       }
     }
-    if (end === -1) return null;
-    if (end - start > MAX_BLOCK_LEN) return null;
+    if (end === -1 || end - start > MAX_BLOCK_LEN) return null;
     return { start: start, end: end };
   }
 
@@ -866,64 +1076,115 @@
   function extractCoverFallbackOg(source) {
     var ogRegex = /<meta\s+property="og:image"\s+content="([^"]+)"/i;
     var ogMatch = ogRegex.exec(source);
-    if (ogMatch) return decodeUnicode(ogMatch[1]);
+    return ogMatch ? decodeUnicode(ogMatch[1]) : '';
+  }
+
+  function extractAvatar(source) {
+    var patterns = [
+      /"profile_pic_url"\s*:\s*"([^"]+)"/,
+      /"profile_pic_url_hd"\s*:\s*"([^"]+)"/,
+      /"profile_pic_url_original"\s*:\s*"([^"]+)"/
+    ];
+    for (var i = 0; i < patterns.length; i++) {
+      var match = patterns[i].exec(source);
+      if (match) return decodeUnicode(match[1]);
+    }
     return '';
   }
 
   function extractUsername(source) {
-    var ogUrlRegex = /<meta\s+property="og:url"\s+content="([^"]+)"/i;
-    var match = ogUrlRegex.exec(source);
-    if (match) {
-      var url = match[1];
-      var parts = url.split('/').filter(function (p) { return p.length > 0 && p.indexOf('http') === -1 && p !== 'stories'; });
-      if (parts.length > 0) return parts[0];
+    var patterns = [
+      /"username"\s*:\s*"([^"]+)"/,
+      /<meta\s+property="og:url"\s+content="https:\/\/www\.instagram\.com\/([^\/?"']+)/i,
+      /<title>([^<]+) on Instagram/i,
+      /"user"\s*:\s*\{[\s\S]*?"username"\s*:\s*"([^"]+)"/
+    ];
+    for (var i = 0; i < patterns.length; i++) {
+      var match = patterns[i].exec(source);
+      if (match) return match[1].trim();
     }
-    var titleRegex = /<title>([^<]*)<\/title>/i;
-    var titleMatch = titleRegex.exec(source);
-    if (titleMatch) return titleMatch[1].split(' ')[0];
     return 'unknown_user';
+  }
+
+  function extractFullName(source) {
+    var match = /"full_name"\s*:\s*"([^"]+)"/.exec(source);
+    return match ? decodeUnicode(match[1]) : '';
+  }
+
+  function extractBio(source) {
+    var match = /"biography"\s*:\s*"([^"]+)"/.exec(source);
+    return match ? decodeUnicode(match[1]) : '';
+  }
+
+  function extractStats(source) {
+    var stats = { posts: 0, followers: 0, following: 0 };
+    var match = /"edge_owner_to_timeline_media"\s*:\s*\{\s*"count"\s*:\s*(\d+)/.exec(source);
+    if (match) stats.posts = parseInt(match[1], 10);
+    match = /"edge_followed_by"\s*:\s*\{\s*"count"\s*:\s*(\d+)/.exec(source);
+    if (match) stats.followers = parseInt(match[1], 10);
+    match = /"edge_follow"\s*:\s*\{\s*"count"\s*:\s*(\d+)/.exec(source);
+    if (match) stats.following = parseInt(match[1], 10);
+    return stats;
   }
 
   function extractTakenAt(block) {
     var match = /"taken_at"\s*:\s*(\d+)/.exec(block);
-    if (match) return parseInt(match[1], 10);
-    return null;
+    return match ? parseInt(match[1], 10) : null;
   }
 
   function extractItemsGrouped(source) {
     var items = [];
     var processedStarts = {};
 
+    // Video stories
     var vvRegex = /"video_versions"\s*:\s*\[/g;
     var m;
     while ((m = vvRegex.exec(source)) !== null) {
       var bounds = findObjectBounds(source, m.index);
-      if (!bounds) continue;
-      if (processedStarts[bounds.start]) continue;
+      if (!bounds || processedStarts[bounds.start]) continue;
       processedStarts[bounds.start] = true;
       var block = source.substring(bounds.start, bounds.end + 1);
       var videos = extractVideoVersionsFromText(block);
       if (videos.length === 0) continue;
       var cover = extractCoverImageFromText(block);
       var takenAt = extractTakenAt(block);
-      items.push({ type: 'video', videos: videos, cover: cover, takenAt: takenAt });
+      var isHighlight = block.indexOf('"highlight"') !== -1 || block.indexOf('"highlight_reel"') !== -1;
+      items.push({
+        type: isHighlight ? 'highlight' : 'video',
+        videos: videos,
+        cover: cover,
+        takenAt: takenAt,
+        category: isHighlight ? 'highlights' : 'stories'
+      });
     }
 
+    // Photo stories and posts
     var ivRegex = /"image_versions2"\s*:\s*\{/g;
     while ((m = ivRegex.exec(source)) !== null) {
       var bounds2 = findObjectBounds(source, m.index);
-      if (!bounds2) continue;
-      if (processedStarts[bounds2.start]) continue;
+      if (!bounds2 || processedStarts[bounds2.start]) continue;
       processedStarts[bounds2.start] = true;
       var block2 = source.substring(bounds2.start, bounds2.end + 1);
       if (block2.indexOf('"video_versions"') !== -1) continue;
       var cover2 = extractCoverImageFromText(block2);
       if (!cover2) continue;
       var takenAt2 = extractTakenAt(block2);
-      items.push({ type: 'image', videos: [], cover: cover2, takenAt: takenAt2 });
+      var isHighlight = block2.indexOf('"highlight"') !== -1 || block2.indexOf('"highlight_reel"') !== -1;
+      var isPost = block2.indexOf('"edge_media"') !== -1 || block2.indexOf('"shortcode"') !== -1;
+      var type = 'photo';
+      var category = 'stories';
+      if (isHighlight) { type = 'highlight'; category = 'highlights'; }
+      else if (isPost) { type = 'post'; category = 'posts'; }
+      items.push({ type: type, videos: [], cover: cover2, takenAt: takenAt2, category: category });
     }
 
-    items.sort(function (a, b) {
+    // Avatar
+    var avatar = extractAvatar(source);
+    if (avatar) {
+      items.push({ type: 'avatar', videos: [], cover: avatar, takenAt: null, category: 'avatar' });
+    }
+
+    items.sort(function(a, b) {
       if (a.takenAt && b.takenAt) return a.takenAt - b.takenAt;
       return 0;
     });
@@ -942,16 +1203,26 @@
         order.push(q.label);
       }
     }
-    order.sort(function (a, b) {
+    order.sort(function(a, b) {
       var ra = QUALITY_RANK.indexOf(a);
       var rb = QUALITY_RANK.indexOf(b);
-      if (ra === -1) ra = 999;
-      if (rb === -1) rb = 999;
-      return ra - rb;
+      return (ra === -1 ? 999 : ra) - (rb === -1 ? 999 : rb);
     });
     var result = [];
     for (var j = 0; j < order.length; j++) result.push(byLabel[order[j]]);
     return result;
+  }
+
+  // ── Download helpers ──
+  function downloadFile(url, filename) {
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   function downloadInstant(url, filename, btn) {
@@ -970,15 +1241,15 @@
       link.click();
       document.body.removeChild(link);
       if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
-      showStatus('Could not save that file directly (the link blocked cross-origin access), so it opened in a new tab instead \u2014 right-click the media there and choose Save As.', 'info');
+      showStatus('Opened in new tab — right-click and Save As.', 'info');
     }
 
     if (!window.fetch) { openFallback(); return; }
 
-    fetch(url, { mode: 'cors' }).then(function (response) {
+    fetch(url, { mode: 'cors' }).then(function(response) {
       if (!response.ok) throw new Error('bad response');
       return response.blob();
-    }).then(function (blob) {
+    }).then(function(blob) {
       var objectUrl = URL.createObjectURL(blob);
       var link = document.createElement('a');
       link.href = objectUrl;
@@ -986,20 +1257,42 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      setTimeout(function () { URL.revokeObjectURL(objectUrl); }, 4000);
+      setTimeout(function() { URL.revokeObjectURL(objectUrl); }, 4000);
       if (btn) {
         btn.disabled = false;
         btn.innerHTML = '<span class="btn-heart">' + HEART + '</span>Saved';
-        setTimeout(function () { btn.innerHTML = originalHtml; }, 1600);
+        setTimeout(function() { btn.innerHTML = originalHtml; }, 1600);
       }
-    }).catch(function () {
-      openFallback();
-    });
+    }).catch(function() { openFallback(); });
   }
 
   function downloadInstantPromise(url, filename) {
-    if (!window.fetch) {
-      return new Promise(function (resolve) {
+    return new Promise(function(resolve) {
+      if (!window.fetch) {
+        var link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        resolve(false);
+        return;
+      }
+      fetch(url, { mode: 'cors' }).then(function(response) {
+        if (!response.ok) throw new Error('bad response');
+        return response.blob();
+      }).then(function(blob) {
+        var objectUrl = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = objectUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(function() { URL.revokeObjectURL(objectUrl); }, 4000);
+        resolve(true);
+      }).catch(function() {
         var link = document.createElement('a');
         link.href = url;
         link.target = '_blank';
@@ -1009,29 +1302,6 @@
         document.body.removeChild(link);
         resolve(false);
       });
-    }
-    return fetch(url, { mode: 'cors' }).then(function (response) {
-      if (!response.ok) throw new Error('bad response');
-      return response.blob();
-    }).then(function (blob) {
-      var objectUrl = URL.createObjectURL(blob);
-      var link = document.createElement('a');
-      link.href = objectUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setTimeout(function () { URL.revokeObjectURL(objectUrl); }, 4000);
-      return true;
-    }).catch(function () {
-      var link = document.createElement('a');
-      link.href = url;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      return false;
     });
   }
 
@@ -1039,10 +1309,10 @@
     var originalHtml = btn.innerHTML;
     function onSuccess() {
       btn.innerHTML = '<span class="btn-heart">' + HEART + '</span>Copied';
-      setTimeout(function () { btn.innerHTML = originalHtml; }, 1500);
+      setTimeout(function() { btn.innerHTML = originalHtml; }, 1500);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(onSuccess, function () { fallbackCopy(text, onSuccess); });
+      navigator.clipboard.writeText(text).then(onSuccess, function() { fallbackCopy(text, onSuccess); });
     } else {
       fallbackCopy(text, onSuccess);
     }
@@ -1051,8 +1321,7 @@
   function fallbackCopy(text, callback) {
     var temp = document.createElement('textarea');
     temp.value = text;
-    temp.style.position = 'fixed';
-    temp.style.left = '-9999px';
+    temp.style.cssText = 'position:fixed;left:-9999px;';
     document.body.appendChild(temp);
     temp.focus();
     temp.select();
@@ -1070,6 +1339,7 @@
     return 0;
   }
 
+  // ── Build UI ──
   function buildItemCard(item) {
     var card = document.createElement('div');
     card.className = 'item-card';
@@ -1082,7 +1352,7 @@
       thumb = document.createElement('img');
       thumb.className = 'thumb';
       thumb.src = item.cover;
-      thumb.alt = 'story preview';
+      thumb.alt = 'preview';
     } else {
       thumb = document.createElement('div');
       thumb.className = 'thumb-placeholder';
@@ -1097,12 +1367,26 @@
 
     var title = document.createElement('span');
     title.className = 'item-title';
-    title.textContent = 'Story ' + (item.index + 1);
+    var typeLabels = {
+      'video': 'Story',
+      'photo': 'Story',
+      'highlight': 'Highlight',
+      'post': 'Post',
+      'avatar': 'Profile Picture'
+    };
+    title.textContent = typeLabels[item.type] || 'Item ' + (item.index + 1);
     titleRow.appendChild(title);
 
     var typeTag = document.createElement('span');
-    typeTag.className = 'item-type-tag' + (item.type === 'image' ? ' photo' : '');
-    typeTag.textContent = item.type === 'image' ? 'Photo' : 'Video';
+    typeTag.className = 'item-type-tag ' + item.type;
+    var tagLabels = {
+      'video': 'Video',
+      'photo': 'Photo',
+      'highlight': 'Highlight',
+      'post': 'Post',
+      'avatar': 'Avatar'
+    };
+    typeTag.textContent = tagLabels[item.type] || item.type;
     titleRow.appendChild(typeTag);
 
     if (item.takenAt) {
@@ -1114,12 +1398,11 @@
 
     info.appendChild(titleRow);
 
-    var qualityOptions = item.type === 'video' ? groupVideosByQuality(item.videos) : [];
-    var state = { url: item.type === 'video' ? qualityOptions[0].url : item.cover };
+    var qualityOptions = (item.type === 'video' || item.type === 'highlight') ? groupVideosByQuality(item.videos) : [];
+    var state = { url: qualityOptions.length > 0 ? qualityOptions[0].url : item.cover };
 
-    var qualitySelect = null;
-    if (item.type === 'video' && qualityOptions.length > 1) {
-      qualitySelect = document.createElement('select');
+    if (qualityOptions.length > 1) {
+      var qualitySelect = document.createElement('select');
       qualitySelect.className = 'item-quality';
       for (var i = 0; i < qualityOptions.length; i++) {
         var opt = document.createElement('option');
@@ -1127,7 +1410,13 @@
         opt.textContent = qualityOptions[i].quality.label + ' \u00B7 ' + qualityOptions[i].quality.sub;
         qualitySelect.appendChild(opt);
       }
+      qualitySelect.onchange = function() {
+        state.url = qualityOptions[this.selectedIndex].url;
+        urlLine.textContent = state.url;
+      };
       info.appendChild(qualitySelect);
+      state.select = qualitySelect;
+      state.qualityOptions = qualityOptions;
     }
 
     var urlLine = document.createElement('div');
@@ -1143,41 +1432,34 @@
     var downloadBtn = document.createElement('button');
     downloadBtn.className = 'btn-download btn-small';
     downloadBtn.innerHTML = '<span class="btn-heart">' + HEART + '</span>Download';
-    downloadBtn.onclick = function () {
-      var ext = getExtensionFromUrl(state.url, item.type === 'image' ? '.jpg' : '.mp4');
-      var qLabel = item.type === 'video' ? detectQuality(state.url).label : 'photo';
-      downloadInstant(state.url, 'story_' + (item.index + 1) + '_' + qLabel + ext, downloadBtn);
+    downloadBtn.onclick = function() {
+      var ext = getExtensionFromUrl(state.url, item.type === 'avatar' ? '.jpg' : '.mp4');
+      var qLabel = qualityOptions.length > 0 ? detectQuality(state.url).label : item.type;
+      downloadInstant(state.url, currentUsername + '_' + item.type + '_' + (item.index + 1) + '_' + qLabel + ext, downloadBtn);
     };
     actions.appendChild(downloadBtn);
 
     var copyBtn = document.createElement('button');
     copyBtn.className = 'btn-copy btn-small';
     copyBtn.textContent = 'Copy URL';
-    copyBtn.onclick = function () { copyToClipboard(state.url, copyBtn); };
+    copyBtn.onclick = function() { copyToClipboard(state.url, copyBtn); };
     actions.appendChild(copyBtn);
 
     main.appendChild(actions);
     card.appendChild(main);
 
-    if (qualitySelect) {
-      qualitySelect.onchange = function () {
-        state.url = qualityOptions[qualitySelect.selectedIndex].url;
-        urlLine.textContent = state.url;
-      };
-    }
-
-    if (item.type === 'video' && qualityOptions.length > 1) {
+    if (qualityOptions.length > 1) {
       var details = document.createElement('details');
       details.className = 'item-qualities-toggle';
       var summary = document.createElement('summary');
-      summary.textContent = 'Show all qualities for this story';
+      summary.textContent = 'Show all qualities';
       details.appendChild(summary);
 
       var rows = document.createElement('div');
       rows.className = 'quality-rows';
 
       for (var k = 0; k < qualityOptions.length; k++) {
-        (function (qOpt) {
+        (function(qOpt) {
           var row = document.createElement('div');
           row.className = 'quality-row';
 
@@ -1194,16 +1476,16 @@
           var rowDownload = document.createElement('button');
           rowDownload.className = 'btn-download btn-tiny';
           rowDownload.innerHTML = '<span class="btn-heart">' + HEART + '</span>Save';
-          rowDownload.onclick = function () {
+          rowDownload.onclick = function() {
             var ext = getExtensionFromUrl(qOpt.url, '.mp4');
-            downloadInstant(qOpt.url, 'story_' + (item.index + 1) + '_' + qOpt.quality.label + ext, rowDownload);
+            downloadInstant(qOpt.url, currentUsername + '_' + item.type + '_' + (item.index + 1) + '_' + qOpt.quality.label + ext, rowDownload);
           };
           row.appendChild(rowDownload);
 
           var rowCopy = document.createElement('button');
           rowCopy.className = 'btn-copy btn-tiny';
           rowCopy.textContent = 'Copy';
-          rowCopy.onclick = function () { copyToClipboard(qOpt.url, rowCopy); };
+          rowCopy.onclick = function() { copyToClipboard(qOpt.url, rowCopy); };
           row.appendChild(rowCopy);
 
           rows.appendChild(row);
@@ -1214,23 +1496,22 @@
       card.appendChild(details);
     }
 
-    return { card: card, select: qualitySelect, state: state, qualityOptions: qualityOptions };
+    return { card: card, state: state, qualityOptions: qualityOptions };
   }
 
   function buildRawMediaCard(url, quality, index, type) {
     var card = document.createElement('div');
     card.className = 'media-card';
 
-    var thumb;
-    if (type === 'image') {
-      thumb = document.createElement('img');
-      thumb.className = 'thumb';
-      thumb.src = url;
-      thumb.alt = 'cover';
-    } else {
-      thumb = document.createElement('div');
-      thumb.className = 'thumb-placeholder';
-    }
+    var thumb = type === 'image' ? (function() {
+      var img = document.createElement('img');
+      img.className = 'thumb';
+      img.src = url;
+      img.alt = 'cover';
+      return img;
+    })() : document.createElement('div');
+
+    if (type !== 'image') thumb.className = 'thumb-placeholder';
     card.appendChild(thumb);
 
     var info = document.createElement('div');
@@ -1254,7 +1535,7 @@
     var downloadBtn = document.createElement('button');
     downloadBtn.className = 'btn-download btn-small';
     downloadBtn.innerHTML = '<span class="btn-heart">' + HEART + '</span>Download';
-    downloadBtn.onclick = function () {
+    downloadBtn.onclick = function() {
       var ext = getExtensionFromUrl(url, type === 'image' ? '.jpg' : '.mp4');
       downloadInstant(url, 'raw_' + type + '_' + (index + 1) + ext, downloadBtn);
     };
@@ -1263,7 +1544,7 @@
     var copyBtn = document.createElement('button');
     copyBtn.className = 'btn-copy btn-small';
     copyBtn.textContent = 'Copy URL';
-    copyBtn.onclick = function () { copyToClipboard(url, copyBtn); };
+    copyBtn.onclick = function() { copyToClipboard(url, copyBtn); };
     actions.appendChild(copyBtn);
 
     card.appendChild(actions);
@@ -1274,36 +1555,107 @@
     var preference = prefQualitySelect.value;
     for (var i = 0; i < itemControllers.length; i++) {
       var ctrl = itemControllers[i];
-      if (!ctrl.select) continue;
-      var idx = pickDefaultUrl(ctrl.qualityOptions, preference);
-      ctrl.select.selectedIndex = idx;
-      ctrl.state.url = ctrl.qualityOptions[idx].url;
-      var urlLineEl = ctrl.card.querySelector('.item-url');
-      if (urlLineEl) urlLineEl.textContent = ctrl.state.url;
+      if (ctrl.select && ctrl.qualityOptions && ctrl.qualityOptions.length > 0) {
+        var idx = pickDefaultUrl(ctrl.qualityOptions, preference);
+        ctrl.select.selectedIndex = idx;
+        ctrl.state.url = ctrl.qualityOptions[idx].url;
+        var urlLineEl = ctrl.card.querySelector('.item-url');
+        if (urlLineEl) urlLineEl.textContent = ctrl.state.url;
+      }
     }
   }
 
   function renderResults(username, items, rawCover, rawVideos) {
-    lastUsername = username;
+    currentUsername = username;
+    allItems = items;
     itemControllers = [];
 
-    usernameWrap.innerHTML = '';
-    var pill = document.createElement('div');
-    pill.className = 'username-pill';
-    pill.innerHTML = '<span class="pill-heart">' + HEART + '</span>&nbsp;@' + username;
-    usernameWrap.appendChild(pill);
-
-    var videoCount = 0, photoCount = 0;
-    for (var c = 0; c < items.length; c++) {
-      if (items[c].type === 'video') videoCount++; else photoCount++;
+    // Profile header
+    var avatar = '';
+    var fullName = '';
+    var bio = '';
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].type === 'avatar') {
+        avatar = items[i].cover;
+        break;
+      }
     }
-    countBadge.innerHTML = '<span class="pill-heart">' + HEART + '</span>' + items.length + ' item(s) found \u00B7 ' + videoCount + ' video, ' + photoCount + ' photo';
+    currentAvatar = avatar;
+
+    profileHeader.innerHTML = '';
+    if (avatar || username) {
+      var header = document.createElement('div');
+      header.className = 'profile-header';
+
+      if (avatar) {
+        var img = document.createElement('img');
+        img.className = 'profile-avatar';
+        img.src = avatar;
+        img.alt = username + ' avatar';
+        header.appendChild(img);
+      } else {
+        var placeholder = document.createElement('div');
+        placeholder.className = 'profile-avatar-placeholder';
+        placeholder.textContent = '@';
+        header.appendChild(placeholder);
+      }
+
+      var info = document.createElement('div');
+      info.className = 'profile-info';
+
+      var name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = fullName || username;
+      info.appendChild(name);
+
+      var uname = document.createElement('div');
+      uname.className = 'username';
+      uname.textContent = '@' + username;
+      info.appendChild(uname);
+
+      var stats = document.createElement('div');
+      stats.className = 'stats';
+      var counts = extractStats(sourceInput.value);
+      stats.innerHTML =
+        '<span><strong>' + counts.posts + '</strong> posts</span>' +
+        '<span><strong>' + counts.followers + '</strong> followers</span>' +
+        '<span><strong>' + counts.following + '</strong> following</span>';
+      info.appendChild(stats);
+
+      if (bio) {
+        var bioEl = document.createElement('div');
+        bioEl.style.cssText = 'color:var(--text-muted);font-size:13px;margin-top:6px;';
+        bioEl.textContent = bio;
+        info.appendChild(bioEl);
+      }
+
+      header.appendChild(info);
+      profileHeader.appendChild(header);
+      downloadOptions.style.display = 'block';
+    }
+
+    // Count items by category
+    var counts = { avatar: 0, stories: 0, highlights: 0, posts: 0 };
+    for (var c = 0; c < items.length; c++) {
+      var cat = items[c].category || 'stories';
+      if (items[c].type === 'avatar') cat = 'avatar';
+      counts[cat] = (counts[cat] || 0) + 1;
+    }
+
+    var total = items.length;
+    var countStr = '';
+    if (counts.avatar > 0) countStr += counts.avatar + ' avatar, ';
+    if (counts.stories > 0) countStr += counts.stories + ' stories, ';
+    if (counts.highlights > 0) countStr += counts.highlights + ' highlights, ';
+    if (counts.posts > 0) countStr += counts.posts + ' posts';
+    if (countStr.endsWith(', ')) countStr = countStr.slice(0, -2);
+    countBadge.innerHTML = '<span class="pill-heart">' + HEART + '</span>' + total + ' item(s) found \u00B7 ' + countStr;
 
     itemsWrap.innerHTML = '';
     if (items.length === 0) {
       var noItems = document.createElement('div');
       noItems.className = 'empty-note';
-      noItems.textContent = 'Could not identify individual stories from this source \u2014 check "show every raw link" below instead.';
+      noItems.textContent = 'Could not identify any media in this source.';
       itemsWrap.appendChild(noItems);
     } else {
       for (var i = 0; i < items.length; i++) {
@@ -1316,11 +1668,11 @@
 
     rawCoverWrap.innerHTML = '';
     if (rawCover) {
-      rawCoverWrap.appendChild(buildRawMediaCard(rawCover, { label: 'Cover', sub: 'Story Cover Photo', tagClass: 'tag-highest' }, 0, 'image'));
+      rawCoverWrap.appendChild(buildRawMediaCard(rawCover, { label: 'Cover', sub: 'Cover Image', tagClass: 'tag-highest' }, 0, 'image'));
     } else {
       var noCover = document.createElement('div');
       noCover.className = 'empty-note';
-      noCover.textContent = 'No cover photo found in the provided source.';
+      noCover.textContent = 'No cover image found.';
       rawCoverWrap.appendChild(noCover);
     }
 
@@ -1328,7 +1680,7 @@
     if (rawVideos.length === 0) {
       var noVideo = document.createElement('div');
       noVideo.className = 'empty-note';
-      noVideo.textContent = 'No video links found in the provided source.';
+      noVideo.textContent = 'No video links found.';
       rawVideosWrap.appendChild(noVideo);
     } else {
       for (var j = 0; j < rawVideos.length; j++) {
@@ -1339,23 +1691,63 @@
     results.className = 'results show';
   }
 
+  // ── Category download ──
+  window.downloadCategory = function(category) {
+    var items = [];
+    for (var i = 0; i < allItems.length; i++) {
+      if (category === 'all') {
+        items.push(allItems[i]);
+      } else if (category === 'avatar' && allItems[i].type === 'avatar') {
+        items.push(allItems[i]);
+      } else if (category === 'stories' && (allItems[i].type === 'video' || allItems[i].type === 'photo') && allItems[i].category !== 'highlights') {
+        items.push(allItems[i]);
+      } else if (category === 'highlights' && allItems[i].type === 'highlight') {
+        items.push(allItems[i]);
+      } else if (category === 'posts' && allItems[i].type === 'post') {
+        items.push(allItems[i]);
+      }
+    }
+
+    if (items.length === 0) {
+      showStatus('No ' + category + ' found to download.', 'error');
+      return;
+    }
+
+    var btn = document.querySelector('.btn-success .btn-heart') || document.querySelector('.btn-primary .btn-heart');
+    showStatus('Downloading ' + items.length + ' ' + category + '...', 'info');
+
+    for (var j = 0; j < items.length; j++) {
+      (function(item, index) {
+        var url = item.videos && item.videos.length > 0 ? item.videos[0] : item.cover;
+        if (!url) return;
+        var ext = getExtensionFromUrl(url, '.jpg');
+        var typeLabel = item.type === 'avatar' ? 'avatar' : item.type;
+        setTimeout(function() {
+          downloadFile(url, currentUsername + '_' + typeLabel + '_' + (index + 1) + ext);
+        }, index * 300);
+      })(items[j], j);
+    }
+
+    setTimeout(function() {
+      showStatus('Started downloading ' + items.length + ' ' + category + ' items.', 'success');
+    }, items.length * 300 + 500);
+  };
+
+  // ── Parse and extract ──
   function parseSource(source) {
     var items = extractItemsGrouped(source);
     var username = extractUsername(source);
-
     var rawVideos = extractVideoVersionsFromText(source);
     var dashVideos = extractDashUrls(source);
     for (var i = 0; i < dashVideos.length; i++) {
       if (rawVideos.indexOf(dashVideos[i]) === -1) rawVideos.push(dashVideos[i]);
     }
     var rawCover = extractCoverImageFromText(source) || extractCoverFallbackOg(source);
-
     return { items: items, username: username, rawVideos: rawVideos, rawCover: rawCover };
   }
 
   function handleExtract() {
     var source = sourceInput.value;
-
     if (!source || source.replace(/\s/g, '').length === 0) {
       showStatus('Paste the page source above before extracting.', 'error');
       return;
@@ -1364,14 +1756,15 @@
     hideStatus();
     showSpinner();
     results.className = 'results';
+    downloadOptions.style.display = 'none';
 
-    setTimeout(function () {
+    setTimeout(function() {
       try {
         var data = parseSource(source);
         hideSpinner();
 
         if (data.items.length === 0 && data.rawVideos.length === 0 && !data.rawCover) {
-          showStatus('Nothing found in that source. Make sure you copied the full page (Ctrl+U) and try again.', 'error');
+          showStatus('Nothing found. Make sure you copied the full page source (Ctrl+U).', 'error');
           return;
         }
 
@@ -1379,12 +1772,12 @@
         spawnHeartBurst(burstAnchor);
 
         var msg = data.items.length > 0
-          ? 'Found it \u2014 ' + data.items.length + ' stor' + (data.items.length === 1 ? 'y' : 'ies') + ' ready below.'
-          : 'Found some raw media links, but could not group them into individual stories \u2014 check the advanced section.';
+          ? 'Found ' + data.items.length + ' item(s) from @' + data.username
+          : 'Found some raw media links, but could not group them.';
         showStatus(msg, 'success');
       } catch (e) {
         hideSpinner();
-        showStatus('Something went wrong while reading that source. Please check it and try again.', 'error');
+        showStatus('Error parsing source. Please check and try again.', 'error');
       }
     }, 400);
   }
@@ -1394,12 +1787,14 @@
     updateCounter();
     hideStatus();
     results.className = 'results';
+    downloadOptions.style.display = 'none';
     itemControllers = [];
+    allItems = [];
   }
 
   function handleSaveAll() {
     if (itemControllers.length === 0) {
-      showStatus('Nothing to save yet. Extract media first.', 'error');
+      showStatus('Nothing to save. Extract media first.', 'error');
       return;
     }
 
@@ -1412,15 +1807,15 @@
         saveAllBtn.disabled = false;
         saveAllBtn.innerHTML = originalHtml;
         spawnHeartBurst(saveAllAnchor);
-        showStatus('Saved ' + total + ' stor' + (total === 1 ? 'y' : 'ies') + '. Check your downloads folder.', 'success');
+        showStatus('Saved ' + total + ' items. Check downloads folder.', 'success');
         return;
       }
       saveAllBtn.innerHTML = '<span class="btn-heart">' + HEART + '</span>Saving ' + (i + 1) + ' of ' + total + '...';
       var ctrl = itemControllers[i];
       var url = ctrl.state.url;
       var ext = getExtensionFromUrl(url, '.mp4');
-      var qLabel = ctrl.qualityOptions.length > 0 ? detectQuality(url).label : 'photo';
-      downloadInstantPromise(url, 'story_' + (i + 1) + '_' + qLabel + ext).then(function () {
+      var qLabel = ctrl.qualityOptions && ctrl.qualityOptions.length > 0 ? detectQuality(url).label : 'media';
+      downloadInstantPromise(url, currentUsername + '_item_' + (i + 1) + '_' + qLabel + ext).then(function() {
         processIndex(i + 1);
       });
     }
@@ -1430,37 +1825,37 @@
 
   function loadExample() {
     var exampleSource = '<html><head>' +
-      '<meta property="og:url" content="https://www.instagram.com/stories/example_user/">' +
+      '<meta property="og:url" content="https://www.instagram.com/example_user/">' +
       '<meta property="og:image" content="https://scontent.cdninstagram.com/v/example_cover.jpg">' +
       '</head><body><script type="text/javascript">' +
       '{"items":[' +
       '{"taken_at":1753100000,"image_versions2":{"candidates":[{"width":1080,"height":1920,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/example_cover_1.jpg"}]},' +
       '"video_versions":[' +
-      '{"width":1080,"height":1920,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/t50.2886-16\\/example_1080p_1.mp4"},' +
-      '{"width":720,"height":1280,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/t50.2886-16\\/example_720p_1.mp4"},' +
-      '{"width":540,"height":960,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/t50.2886-16\\/example_540p_1.mp4"},' +
-      '{"width":360,"height":640,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/t50.2886-16\\/example_360p_progressive_1.mp4"}' +
+      '{"width":1080,"height":1920,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/example_1080p_1.mp4"},' +
+      '{"width":720,"height":1280,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/example_720p_1.mp4"},' +
+      '{"width":540,"height":960,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/example_540p_1.mp4"}' +
       ']},' +
-      '{"taken_at":1753103600,"image_versions2":{"candidates":[{"width":1080,"height":1920,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/example_cover_2.jpg"}]}}' +
+      '{"taken_at":1753103600,"image_versions2":{"candidates":[{"width":1080,"height":1920,"url":"https:\\/\\/scontent.cdninstagram.com\\/v\\/example_photo_1.jpg"}]}}' +
       ']}' +
       '<\/script></body></html>';
 
     sourceInput.value = exampleSource;
     updateCounter();
-    showStatus('Example loaded (2 stories: 1 video with 4 qualities, 1 photo). Tap "Extract Media" to see it in action.', 'info');
+    showStatus('Example loaded. Click "Extract Media" to see it in action.', 'info');
   }
 
-  sourceInput.addEventListener('input', function () { updateCounter(); });
+  // ── Event listeners ──
+  sourceInput.addEventListener('input', updateCounter);
 
-  sourceInput.addEventListener('paste', function () {
-    setTimeout(function () {
+  sourceInput.addEventListener('paste', function() {
+    setTimeout(function() {
       updateCounter();
-      showStatus('Pasted. Tap "Extract Media" or press Ctrl+Enter when ready.', 'info');
+      showStatus('Pasted. Click "Extract Media" or press Ctrl+Enter.', 'info');
     }, 50);
   });
 
-  sourceInput.addEventListener('keydown', function (e) {
-    if ((e.ctrlKey || e.metaKey) && e.keyCode === 13) {
+  sourceInput.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
       handleExtract();
     }
