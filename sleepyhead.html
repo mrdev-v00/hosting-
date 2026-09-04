@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Aarya — 8 September</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+:root {
+  --gold:  #e6c27a;
+  --gold2: #f5d79e;
+  --rose:  #d4788e;
+  --rose2: #e89eb0;
+  --cream: #f5e7d0;
+  --mist:  rgba(245, 231, 208, 0.75);
+}
+html, body {
+  width: 100%; height: 100%;
+  background: #000;
+  overflow: hidden;
+  font-family: 'Cormorant Garamond', serif;
+  color: #fff;
+  cursor: none;
+}
+#canvas { position: fixed; inset: 0; z-index: 0; }
+#vignette {
+  position: fixed; inset: 0; z-index: 5; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.95) 100%);
+}
+#grain {
+  position: fixed; inset: 0; z-index: 6; opacity: 0.04; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+#flicker { position: fixed; inset: 0; z-index: 200; background: #fff; opacity: 0; pointer-events: none; }
+#bars-top, #bars-bot {
+  position: fixed; left: 0; right: 0; height: 72px; background: #000;
+  z-index: 50; transition: height 1.6s cubic-bezier(.77,0,.18,1);
+}
+#bars-top { top: 0; } #bars-bot { bottom: 0; }
+
+.scene {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; z-index: 10;
+}
+.scene.active { opacity: 1; pointer-events: auto; }
+
+.lbl {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(12px, 1.2vw, 16px);
+  letter-spacing: 0.55em;
+  color: var(--gold);
+  text-transform: uppercase;
+  opacity: 0; transform: translateY(10px);
+  margin-bottom: 2.2rem;
+}
+
+.ttl {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(32px, 5.5vw, 68px);
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  letter-spacing: 0.06em;
+  color: var(--cream);
+  opacity: 0; transform: translateY(18px);
+}
+.ttl.gold { color: var(--gold2); }
+.ttl.rose { color: var(--rose2); }
+
+.name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(36px, 6.5vw, 82px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold2);
+  text-align: center;
+  opacity: 0; transform: scale(0.88);
+  line-height: 1.1;
+}
+
+.verse {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 3vw, 38px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--cream);
+  text-align: center;
+  line-height: 1.8;
+  opacity: 0; transform: translateY(14px);
+  max-width: 800px;
+  padding: 0 2.5rem;
+}
+
+.sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--mist);
+  text-align: center;
+  line-height: 1.8;
+  opacity: 0; transform: translateY(10px);
+  margin-top: 1.4rem;
+  max-width: 700px;
+  padding: 0 2rem;
+}
+
+.urdu {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 3.2vw, 42px);
+  font-style: italic;
+  color: var(--rose2);
+  text-align: center;
+  line-height: 2.2;
+  opacity: 0; transform: translateY(14px);
+  padding: 0 2.5rem;
+}
+
+.letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.2vw, 30px);
+  font-weight: 400;
+  color: var(--cream);
+  text-align: center;
+  line-height: 2;
+  opacity: 0; transform: translateY(10px);
+  max-width: 750px;
+  padding: 0 2.5rem;
+}
+
+.dtag {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(14px, 1.5vw, 20px);
+  font-weight: 400;
+  letter-spacing: 0.55em;
+  color: var(--rose2);
+  opacity: 0;
+  margin-top: 1.8rem;
+  text-transform: uppercase;
+}
+
+.rule {
+  height: 1px; width: 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 2.8rem; opacity: 0;
+}
+
+.heart-wrap { opacity: 0; transform: scale(0.5); margin-bottom: 2.2rem; }
+
+#progress {
+  position: fixed; bottom: 82px; left: 50%;
+  transform: translateX(-50%);
+  width: min(360px, 55vw); height: 1px;
+  background: rgba(255,255,255,0.1); z-index: 100;
+}
+#pfill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--rose), var(--gold)); transition: width .3s linear; }
+#dots { position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%); display: flex; gap: 7px; z-index: 100; }
+.dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background .5s, width .4s; }
+.dot.on { background: var(--gold); width: 22px; border-radius: 2px; }
+
+#ss {
+  position: fixed; inset: 0; background: #000;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 500; cursor: default;
+}
+#ss h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(12px, 1.5vw, 18px);
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-bottom: 3rem;
+}
+#pb {
+  width: 70px; height: 70px;
+  border: 1px solid var(--gold);
+  border-radius: 50%; background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.4s; color: var(--gold2);
+}
+#pb:hover { border-color: var(--gold2); background: rgba(230,194,122,0.1); transform: scale(1.07); }
+#pb svg { margin-left: 3px; }
+#ss small {
+  margin-top: 2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: rgba(255,255,255,0.15);
+  letter-spacing: 0.25em; font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<div id="ss">
+  <h1>For Aarya</h1>
+  <button id="pb" onclick="go()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+  </button>
+  <small>press play · sit back</small>
+</div>
+
+<div id="grain"></div>
+<div id="vignette"></div>
+<div id="flicker"></div>
+<div id="bars-top"></div>
+<div id="bars-bot"></div>
+<canvas id="canvas"></canvas>
+<div id="progress"><div id="pfill"></div></div>
+<div id="dots"></div>
+
+<!-- SCENE 0 — opening -->
+<div class="scene" id="s0">
+  <p class="lbl" id="a0">a film for</p>
+  <h1 class="name" id="b0">Aarya</h1>
+  <p class="dtag" id="c0">8 &nbsp;·&nbsp; September</p>
+</div>
+
+<!-- SCENE 1 — breaking news -->
+<div class="scene" id="s1">
+  <p class="lbl" id="a1">breaking news</p>
+  <h2 class="ttl" id="b1">The senior citizen<br>of the group turns 18.</h2>
+  <p class="sub" id="c1">Congrats on officially becoming an adult —<br>while I still get to clown you for being older.</p>
+</div>
+
+<!-- SCENE 2 — bestfriend energy -->
+<div class="scene" id="s2">
+  <p class="verse" id="a2">You're the first unread text I panic-open every morning.</p>
+  <p class="verse" id="b2" style="margin-top:.3rem;">And somehow still the last voice note I'm laughing at before bed.</p>
+  <p class="verse" id="c2" style="margin-top:1.2rem;">Even the boring days feel a little less boring<br>with a homegirl like you around.</p>
+</div>
+
+<!-- SCENE 3 — wishes -->
+<div class="scene" id="s3">
+  <p class="lbl" id="a3">what I wish for you</p>
+  <p class="verse" id="b3">I hope you stay this soft-hearted forever.</p>
+  <p class="verse" id="c3" style="margin-top:.2rem;">I hope you laugh until you can't breathe, always.</p>
+  <p class="verse" id="d3" style="margin-top:.2rem;">And I hope peace finds you<br>everywhere you go, sleepyhead.</p>
+</div>
+
+<!-- SCENE 4 — favorite chaos -->
+<div class="scene" id="s4">
+  <div class="rule" id="r4"></div>
+  <h2 class="ttl gold" id="a4">You became my favorite chaos</h2>
+  <h2 class="ttl" id="b4" style="font-weight:400; font-size:clamp(22px,3.5vw,42px); margin-top:.5rem;">and I wouldn't trade it.</h2>
+  <p class="sub" id="c4">The naps, the teasing, the random 2am texts —<br>somehow you turned into home.</p>
+</div>
+
+<!-- SCENE 5 — at night -->
+<div class="scene" id="s5">
+  <p class="lbl" id="a5">what happens at night</p>
+  <p class="verse" id="b5">When the day finally slows down —</p>
+  <p class="verse" id="c5" style="margin-top:.2rem;">I still end up laughing at something<br>dumb you said hours ago.</p>
+  <p class="sub" id="d5" style="margin-top:1.6rem;">You're in my prayers.<br>You're in my corner.<br>You're stuck with me — forever homegirl privileges.</p>
+</div>
+
+<!-- SCENE 6 — for you, these words -->
+<div class="scene" id="s6">
+  <p class="lbl" id="a6">for you, these words</p>
+  <p class="urdu" id="b6">Tu meri behen se kam nahi,</p>
+  <p class="urdu" id="c6">Chahe kitna bhi tang karoon, dil ke kareeb hai sahi.</p>
+  <p class="urdu" id="d6">Homegirl x Homeboy — yeh team kabhi purani nahi hogi.</p>
+</div>
+
+<!-- SCENE 7 — letter -->
+<div class="scene" id="s7">
+  <p class="letter" id="a7">
+    I never say this enough, so let me say it now.<br><br>
+    You're not just a friend I picked up along the way —<br>
+    you're the sister I chose.<br><br>
+    Even when I'm teasing you nonstop,<br>
+    it's because I actually adore you.<br><br>
+    Never change, senior citizen.
+  </p>
+</div>
+
+<!-- SCENE 8 — final -->
+<div class="scene" id="s8" style="gap:0;">
+  <div class="heart-wrap" id="hw">
+    <svg width="60" height="56" viewBox="0 0 60 56">
+      <path id="hp" d="M30 52 C10 36 2 26 2 16 C2 7 9 2 16 2 C22 2 27 6 30 10 C33 6 38 2 44 2 C51 2 58 7 58 16 C58 26 50 36 30 52Z"
+        fill="none" stroke="#e89eb0" stroke-width="2"/>
+    </svg>
+  </div>
+  <h1 class="name" id="a8" style="color:var(--cream); font-size:clamp(30px,5vw,64px);">Happy Birthday</h1>
+  <h1 class="name" id="b8" style="color:var(--rose2); margin-top:.35rem; font-size:clamp(40px,6.5vw,78px);">Aarya.</h1>
+  <p class="dtag" id="c8" style="margin-top:2.2rem;">8 September &nbsp;·&nbsp; homegirl for life</p>
+</div>
+
+<script>
+const cv=document.getElementById('canvas'), cx=cv.getContext('2d');
+let W,H,stars=[],dust=[],filmOn=false,bgP=0,bgI=0;
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+rsz(); addEventListener('resize',rsz);
+
+function Star(){this.init=function(){
+  this.x=Math.random()*W; this.y=Math.random()*H;
+  this.r=Math.random()*1.4+.15; this.a=Math.random()*.75+.1;
+  this.sp=Math.random()*.018+.004; this.ph=Math.random()*Math.PI*2;
+  this.col=Math.random()>.88?'#c4995a':Math.random()>.72?'#d4788e':'#fff';
+}; this.init();}
+
+function Dust(){this.reset=function(){
+  this.x=Math.random()*W; this.y=H+5;
+  this.vx=(Math.random()-.5)*.25; this.vy=-Math.random()*.55-.1;
+  this.s=Math.random()*1.8+.3; this.a=Math.random()*.5+.1;
+  this.life=1; this.decay=Math.random()*.015+.003;
+  this.col=Math.random()>.65?'#c4995a':Math.random()>.5?'#b85870':'#fff';
+}; this.reset(); this.y=Math.random()*H; this.life=Math.random();}
+
+for(let i=0;i<160;i++) stars.push(new Star());
+for(let i=0;i<50;i++) dust.push(new Dust());
+
+const bgs=[['#06030e','#0c0620'],['#070410','#130418'],['#060310','#170420'],
+           ['#050a10','#080618'],['#070410','#1a0416'],['#04040c','#100520']];
+const nebs=[{x:.18,y:.38,r:.32,c:'#1a0430'},{x:.82,y:.28,r:.28,c:'#1f0520'},
+            {x:.5,y:.72,r:.24,c:'#0a0e2a'},{x:.12,y:.78,r:.18,c:'#180728'},{x:.88,y:.65,r:.2,c:'#1f0918'}];
+
+function lc(a,b,t){
+  const p=s=>parseInt(s,16);
+  const r=(v,w)=>Math.round(v+(w-v)*t).toString(16).padStart(2,'0');
+  return '#'+r(p(a.slice(1,3)),p(b.slice(1,3)))+r(p(a.slice(3,5)),p(b.slice(3,5)))+r(p(a.slice(5,7)),p(b.slice(5,7)));
+}
+
+function drawBg(){
+  const [a1,b1]=bgs[bgI%bgs.length],[a2,b2]=bgs[(bgI+1)%bgs.length];
+  const g=cx.createRadialGradient(W*.5,H*.38,0,W*.5,H*.5,W*.75);
+  g.addColorStop(0,lc(b1,b2,bgP)); g.addColorStop(1,lc(a1,a2,bgP));
+  cx.fillStyle=g; cx.fillRect(0,0,W,H);
+  nebs.forEach(n=>{
+    const ng=cx.createRadialGradient(n.x*W,n.y*H,0,n.x*W,n.y*H,n.r*W);
+    ng.addColorStop(0,n.c+'77'); ng.addColorStop(1,'transparent');
+    cx.fillStyle=ng; cx.fillRect(0,0,W,H);
+  });
+  bgP+=.0018; if(bgP>=1){bgP=0;bgI++;}
+}
+
+function drawStars(){
+  stars.forEach(s=>{
+    s.ph+=s.sp;
+    const a=s.a*(.55+.45*Math.sin(s.ph));
+    cx.beginPath(); cx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    cx.fillStyle=s.col; cx.globalAlpha=a; cx.fill(); cx.globalAlpha=1;
+  });
+}
+
+function drawDust(){
+  dust.forEach(p=>{
+    p.life-=p.decay; p.x+=p.vx; p.y+=p.vy;
+    if(p.life<=0) p.reset();
+    const a=p.a*Math.min(p.life*5,1)*Math.min((1-p.life)*5,1);
+    cx.beginPath(); cx.arc(p.x,p.y,p.s,0,Math.PI*2);
+    cx.fillStyle=p.col; cx.globalAlpha=a; cx.fill(); cx.globalAlpha=1;
+  });
+}
+
+requestAnimationFrame(function loop(){
+  requestAnimationFrame(loop);
+  if(!filmOn){cx.fillStyle='#000';cx.fillRect(0,0,W,H);return;}
+  drawBg(); drawStars(); drawDust();
+});
+
+const SCENES=[
+  {id:'s0',dur:5200},{id:'s1',dur:6500},{id:'s2',dur:7500},
+  {id:'s3',dur:7000},{id:'s4',dur:6000},{id:'s5',dur:7000},
+  {id:'s6',dur:7500},{id:'s7',dur:8000},{id:'s8',dur:99999},
+];
+
+const dd=document.getElementById('dots');
+SCENES.forEach((_,i)=>{const d=document.createElement('div');d.className='dot';d.id='d'+i;dd.appendChild(d);});
+
+let cur=-1, tos=[];
+
+function fade(id,props,delay,ms){
+  const el=document.getElementById(id); if(!el) return;
+  setTimeout(()=>{
+    el.style.transition=`opacity ${ms||900}ms cubic-bezier(0.22,1,0.36,1), transform ${ms||900}ms cubic-bezier(0.22,1,0.36,1)`;
+    Object.assign(el.style,props);
+  },delay||0);
+}
+
+const I={opacity:'1',transform:'translateY(0)'};
+const S={opacity:'1',transform:'scale(1)'};
+const V={opacity:'0.86',transform:'translateY(0)'};
+
+function resetScene(id){
+  const el=document.getElementById(id);
+  el.classList.remove('active'); el.style.opacity='0';
+  el.querySelectorAll('[id]').forEach(c=>{c.style.transition='none';c.style.opacity='0';});
+}
+
+function showScene(i){
+  if(cur>=0) resetScene(SCENES[cur].id);
+  cur=i;
+  const el=document.getElementById(SCENES[i].id);
+  el.classList.add('active'); el.style.opacity='1';
+  document.querySelectorAll('.dot').forEach((d,j)=>d.className='dot'+(j===i?' on':''));
+  const fl=document.getElementById('flicker');
+  fl.style.transition='opacity 70ms'; fl.style.opacity='0.1';
+  setTimeout(()=>fl.style.opacity='0',100);
+  animScene(i);
+  const dur=SCENES[i].dur===99999?9000:SCENES[i].dur;
+  const pf=document.getElementById('pfill');
+  pf.style.transition='none'; pf.style.width='0%';
+  const st=Date.now();
+  const pi=setInterval(()=>{
+    const p=Math.min(100,(Date.now()-st)/dur*100);
+    pf.style.transition='.3s linear'; pf.style.width=p+'%';
+    if(p>=100) clearInterval(pi);
+  },50);
+}
+
+function animScene(i){
+  if(i===0){ fade('a0',I,400,1000); fade('b0',S,1100,1300); fade('c0',I,2300,900); }
+  if(i===1){ fade('a1',I,300,900); fade('b1',I,900,1100); fade('c1',I,2300,1000); }
+  if(i===2){ fade('a2',V,400,1000); fade('b2',V,1700,1000); fade('c2',V,3100,1000); }
+  if(i===3){ fade('a3',I,300,900); fade('b3',V,1000,1000); fade('c3',V,2200,1000); fade('d3',V,3400,1000); }
+  if(i===4){
+    const rule=document.getElementById('r4');
+    if(rule) setTimeout(()=>{rule.style.transition='width 1.3s ease, opacity .5s';rule.style.width='160px';rule.style.opacity='1';},300);
+    fade('a4',I,1100,1000); fade('b4',I,1900,900); fade('c4',I,3000,900);
+  }
+  if(i===5){ fade('a5',I,300,900); fade('b5',V,1000,1000); fade('c5',V,2400,1000); fade('d5',{opacity:'0.72',transform:'translateY(0)'},3800,1100); }
+  if(i===6){ fade('a6',I,300,900); fade('b6',V,1000,1100); fade('c6',V,2600,1100); fade('d6',V,4200,1100); }
+  if(i===7){ fade('a7',{opacity:'0.88',transform:'translateY(0)'},700,1600); }
+  if(i===8){
+    const hw=document.getElementById('hw'), hp=document.getElementById('hp');
+    if(hw&&hp){
+      hp.style.strokeDasharray='220'; hp.style.strokeDashoffset='220';
+      setTimeout(()=>{
+        hw.style.transition='opacity .6s, transform .9s cubic-bezier(0.34,1.56,0.64,1)';
+        hw.style.opacity='1'; hw.style.transform='scale(1)';
+        hp.style.transition='stroke-dashoffset 2s ease'; hp.style.strokeDashoffset='0';
+      },400);
+      setTimeout(()=>{hp.style.transition='fill .9s ease'; hp.style.fill='#b85870';},2600);
+    }
+    fade('a8',S,1900,1200); fade('b8',S,2900,1200); fade('c8',I,4100,1000);
+    for(let j=0;j<50;j++) setTimeout(()=>{
+      const p=new Dust();
+      p.x=W*.5+(Math.random()-.5)*W*.35; p.y=H*.42+(Math.random()-.5)*H*.25;
+      p.vx=(Math.random()-.5)*2.2; p.vy=-Math.random()*2.8-.4;
+      p.s=Math.random()*2.5+.8; p.life=1; p.decay=.005; p.a=.85;
+      p.col=Math.random()>.5?'#ddb96e':'#d4788e'; dust.push(p);
+    },j*70);
+  }
+}
+
+function schedule(){
+  let off=0;
+  SCENES.forEach((sc,i)=>{
+    const t=setTimeout(()=>showScene(i),off); tos.push(t);
+    if(sc.dur!==99999) off+=sc.dur;
+  });
+}
+
+function go(){
+  const ss=document.getElementById('ss');
+  ss.style.transition='opacity 1.2s'; ss.style.opacity='0';
+  setTimeout(()=>ss.style.display='none',1200);
+  setTimeout(()=>{
+    filmOn=true;
+    document.getElementById('bars-top').style.height='56px';
+    document.getElementById('bars-bot').style.height='56px';
+    setTimeout(schedule,1400);
+  },700);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space' && !filmOn){ e.preventDefault(); go(); return; }
+  if(!filmOn) return;
+  e.preventDefault();
+
+  if(e.code==='ArrowRight' && cur < SCENES.length-1){
+    tos.forEach(clearTimeout); tos=[];
+    const nx=cur+1; showScene(nx);
+    let off=0;
+    for(let i=nx+1;i<SCENES.length;i++){
+      if(SCENES[i-1].dur===99999) break;
+      off+=SCENES[i-1].dur;
+      tos.push(setTimeout(()=>showScene(i),off));
+    }
+  }
+
+  if(e.code==='ArrowLeft' && cur > 0){
+    tos.forEach(clearTimeout); tos=[];
+    const pv=cur-1; showScene(pv);
+    let off=0;
+    for(let i=pv+1;i<SCENES.length;i++){
+      if(SCENES[i-1].dur===99999) break;
+      off+=SCENES[i-1].dur;
+      tos.push(setTimeout(()=>showScene(i),off));
+    }
+  }
+});
+</script>
+</body>
+</html>
