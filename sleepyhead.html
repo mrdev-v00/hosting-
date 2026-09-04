@@ -197,6 +197,8 @@ html, body {
 </head>
 <body>
 
+<audio id="bgm" src="SHARMEELI.mp3" loop preload="auto"></audio>
+
 <div id="ss">
   <h1>For Aarya</h1>
   <button id="pb" onclick="go()">
@@ -440,6 +442,8 @@ function animScene(i){
       setTimeout(()=>{hp.style.transition='fill .9s ease'; hp.style.fill='#b85870';},2600);
     }
     fade('a8',S,1900,1200); fade('b8',S,2900,1200); fade('c8',I,4100,1000);
+    const bgm=document.getElementById('bgm');
+    if(bgm) setTimeout(()=>fadeAudio(bgm,0.22,4000),8000);
     for(let j=0;j<50;j++) setTimeout(()=>{
       const p=new Dust();
       p.x=W*.5+(Math.random()-.5)*W*.35; p.y=H*.42+(Math.random()-.5)*H*.25;
@@ -458,10 +462,28 @@ function schedule(){
   });
 }
 
+function fadeAudio(el,to,ms){
+  if(!el) return;
+  const from=el.volume, start=Date.now();
+  const step=()=>{
+    const t=Math.min(1,(Date.now()-start)/ms);
+    el.volume=from+(to-from)*t;
+    if(t<1) requestAnimationFrame(step);
+  };
+  step();
+}
+
 function go(){
   const ss=document.getElementById('ss');
   ss.style.transition='opacity 1.2s'; ss.style.opacity='0';
   setTimeout(()=>ss.style.display='none',1200);
+
+  const bgm=document.getElementById('bgm');
+  if(bgm){
+    bgm.volume=0;
+    bgm.play().then(()=>fadeAudio(bgm,0.55,2500)).catch(()=>{});
+  }
+
   setTimeout(()=>{
     filmOn=true;
     document.getElementById('bars-top').style.height='56px';
