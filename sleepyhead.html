@@ -22,6 +22,7 @@ html, body {
   font-family: 'Cormorant Garamond', serif;
   color: #fff;
   cursor: none;
+  touch-action: manipulation;
 }
 #canvas { position: fixed; inset: 0; z-index: 0; }
 #vignette {
@@ -95,6 +96,13 @@ html, body {
   padding: 0 2.5rem;
 }
 
+/* long letter paragraphs — smaller, tighter, so they fit every screen */
+.verse.letter {
+  font-size: clamp(16px, 2.1vw, 26px);
+  line-height: 1.65;
+  max-width: 660px;
+}
+
 .sub {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(18px, 2.2vw, 28px);
@@ -107,29 +115,6 @@ html, body {
   margin-top: 1.4rem;
   max-width: 700px;
   padding: 0 2rem;
-}
-
-.urdu {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(24px, 3.2vw, 42px);
-  font-style: italic;
-  color: var(--rose2);
-  text-align: center;
-  line-height: 2.2;
-  opacity: 0; transform: translateY(14px);
-  padding: 0 2.5rem;
-}
-
-.letter {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(18px, 2.2vw, 30px);
-  font-weight: 400;
-  color: var(--cream);
-  text-align: center;
-  line-height: 2;
-  opacity: 0; transform: translateY(10px);
-  max-width: 750px;
-  padding: 0 2.5rem;
 }
 
 .dtag {
@@ -193,6 +178,72 @@ html, body {
   font-size: 16px; color: rgba(255,255,255,0.15);
   letter-spacing: 0.25em; font-style: italic;
 }
+
+/* ---- gallery scene ---- */
+#s1 { z-index: 9; }
+#gal-frame {
+  position: relative;
+  width: min(560px, 78vw);
+  height: min(560px, 62vh);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(230,194,122,0.35), 0 30px 80px rgba(0,0,0,0.7);
+}
+#gal-frame::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+}
+.gal-slide {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 1.1s ease;
+  animation: kenburns 7s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.gal-slide.show { opacity: 1; animation-play-state: running; }
+@keyframes kenburns {
+  from { transform: scale(1.05) translate(0,0); }
+  to   { transform: scale(1.16) translate(-1.5%, -1.5%); }
+}
+.gal-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid rgba(245,231,208,0.4);
+  background: rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cream); cursor: pointer; z-index: 20;
+  transition: all .3s;
+}
+.gal-nav:hover { border-color: var(--gold); background: rgba(0,0,0,0.55); }
+#gal-prev { left: -58px; } #gal-next { right: -58px; }
+@media (max-width: 640px){ #gal-prev{left:8px;} #gal-next{right:8px;} }
+#gal-dots {
+  display: flex; gap: 6px; margin-top: 1.8rem; justify-content: center;
+}
+.gdot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: all .3s; }
+.gdot.on { background: var(--gold2); width: 16px; border-radius: 3px; }
+#gal-cap {
+  margin-top: 1.6rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(15px, 1.8vw, 20px);
+  color: var(--mist);
+  letter-spacing: 0.04em;
+}
+#gal-continue {
+  margin-top: 2.2rem;
+  font-family: 'Cinzel', serif;
+  font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  background: transparent; padding: 12px 26px; border-radius: 30px;
+  cursor: pointer; transition: all .3s;
+}
+#gal-continue:hover { background: rgba(230,194,122,0.12); border-color: var(--gold2); color: var(--gold2); }
 </style>
 </head>
 <body>
@@ -223,75 +274,119 @@ html, body {
   <p class="dtag" id="c0">8 &nbsp;·&nbsp; September</p>
 </div>
 
-<!-- SCENE 1 — breaking news -->
+<!-- SCENE 1 — photo gallery -->
 <div class="scene" id="s1">
-  <p class="lbl" id="a1">breaking news</p>
-  <h2 class="ttl" id="b1">The senior citizen<br>of the group turns 18.</h2>
-  <p class="sub" id="c1">Congrats on officially becoming an adult —<br>while I still get to clown you for being older.</p>
+  <p class="lbl" id="g-lbl">a little reel of us</p>
+  <div id="gal-frame">
+    <div class="gal-slide" style="background-image:url('pic1.jpg')"></div>
+    <div class="gal-slide" style="background-image:url('pic2.jpg')"></div>
+    <div class="gal-slide" style="background-image:url('pic3.jpg')"></div>
+    <div class="gal-slide" style="background-image:url('pic4.jpg')"></div>
+    <div class="gal-slide" style="background-image:url('pic5.jpg')"></div>
+    <div class="gal-slide" style="background-image:url('pic6.jpg')"></div>
+    <div class="gal-slide" style="background-image:url('pic7.jpg')"></div>
+    <div class="gal-slide" style="background-image:url('pic8.jpg')"></div>
+    <div class="gal-nav" id="gal-prev">&#10094;</div>
+    <div class="gal-nav" id="gal-next">&#10095;</div>
+  </div>
+  <div id="gal-dots"></div>
+  <p id="gal-cap">exhibit A: proof we cause chaos together</p>
+  <button id="gal-continue" onclick="leaveGallery()">continue</button>
 </div>
 
-<!-- SCENE 2 — bestfriend energy -->
+<!-- SCENE 2 — note one · part 1 -->
 <div class="scene" id="s2">
-  <p class="verse" id="a2">You're the first unread text I panic-open every morning.</p>
-  <p class="verse" id="b2" style="margin-top:.3rem;">And somehow still the last voice note I'm laughing at before bed.</p>
-  <p class="verse" id="c2" style="margin-top:1.2rem;">Even the boring days feel a little less boring<br>with a homegirl like you around.</p>
+  <p class="lbl" id="a2">note one &nbsp;·&nbsp; everyday magic</p>
+  <p class="verse letter" id="b2">You make ordinary days feel like main character energy. Not the loud, movie-trailer kind — the quiet kind. The kind where we're both sprawled somewhere doing absolutely nothing, arguing about what to eat, and somehow that nothing becomes the thing I'd replay forever if I could. You turned boring car rides into comedy specials, chore time into gossip hour, and silence into something comfortable instead of empty. I honestly didn't know other people's “ordinary” was just ordinary. Mine comes with live commentary, dramatic sound effects, and someone stealing my fries without making eye contact.</p>
 </div>
 
-<!-- SCENE 3 — wishes -->
+<!-- SCENE 3 — note one · part 2 -->
 <div class="scene" id="s3">
-  <p class="lbl" id="a3">what I wish for you</p>
-  <p class="verse" id="b3">I hope you stay this soft-hearted forever.</p>
-  <p class="verse" id="c3" style="margin-top:.2rem;">I hope you laugh until you can't breathe, always.</p>
-  <p class="verse" id="d3" style="margin-top:.2rem;">And I hope peace finds you<br>everywhere you go, sleepyhead.</p>
+  <p class="lbl" id="a3">note one &nbsp;·&nbsp; continued</p>
+  <p class="verse letter" id="b3">Somewhere between you “borrowing” my hoodies and me “borrowing” your chargers — between the 2 a.m. conversations that start with “quick question” and end two hours later with us questioning our entire existence — ordinary stopped existing in this house. You made growing up feel like a two-player game, and I'm so glad we spawned on the same team. Out of everyone the universe could have handed me, it handed me you: a built-in best friend, a co-star in every embarrassing chapter, a permanent plus-one to my whole life. I've never once asked for a refund.</p>
+  <p class="sub" id="c3">no cap, sleepyhead. best teammate I never even had to pick.</p>
 </div>
 
-<!-- SCENE 4 — favorite chaos -->
+<!-- SCENE 4 — note two · official title -->
 <div class="scene" id="s4">
-  <div class="rule" id="r4"></div>
-  <h2 class="ttl gold" id="a4">You became my favorite chaos</h2>
-  <h2 class="ttl" id="b4" style="font-weight:400; font-size:clamp(22px,3.5vw,42px); margin-top:.5rem;">and I wouldn't trade it.</h2>
-  <p class="sub" id="c4">The naps, the teasing, the random 2am texts —<br>somehow you turned into home.</p>
+  <p class="lbl" id="a4">note two &nbsp;·&nbsp; official title</p>
+  <h2 class="ttl gold" id="b4">Certified Homegirl.</h2>
+  <h2 class="ttl" id="c4" style="font-weight:400; font-size:clamp(22px,3.5vw,42px); margin-top:.4rem;">Professional napper.</h2>
+  <h2 class="ttl rose" id="d4" style="font-weight:500; font-size:clamp(24px,3.8vw,46px); margin-top:.4rem;">My favorite chaos.</h2>
+  <h2 class="ttl" id="e4" style="font-weight:400; font-size:clamp(18px,2.8vw,34px); margin-top:.4rem;">Part-time menace. Full-time legend.</h2>
 </div>
 
-<!-- SCENE 5 — at night -->
+<!-- SCENE 5 — note two · the fine print -->
 <div class="scene" id="s5">
-  <p class="lbl" id="a5">what happens at night</p>
-  <p class="verse" id="b5">When the day finally slows down —</p>
-  <p class="verse" id="c5" style="margin-top:.2rem;">I still end up laughing at something<br>dumb you said hours ago.</p>
-  <p class="sub" id="d5" style="margin-top:1.6rem;">You're in my prayers.<br>You're in my corner.<br>You're stuck with me — forever homegirl privileges.</p>
+  <p class="lbl" id="a5">note two &nbsp;·&nbsp; the fine print</p>
+  <p class="verse letter" id="b5">This certification is awarded for a lifetime of distinguished services: surviving my worst moods, guarding my deepest secrets, defending me in front of Mom, and eating half my food without one shred of guilt. Position: permanent. Transferable: never. Refund policy: does not exist. Backed by absolutely zero official institutions and one extremely committed sibling who would like the fries back, but has accepted that this is the arrangement now.</p>
+  <p class="sub" id="c5">notarized by me. valid forever.</p>
 </div>
 
-<!-- SCENE 6 — for you, these words -->
+<!-- SCENE 6 — note three · part 1 -->
 <div class="scene" id="s6">
-  <p class="lbl" id="a6">for you, these words</p>
-  <p class="urdu" id="b6">Tu meri behen se kam nahi,</p>
-  <p class="urdu" id="c6">Chahe kitna bhi tang karoon, dil ke kareeb hai sahi.</p>
-  <p class="urdu" id="d6">Homegirl x Homeboy — yeh team kabhi purani nahi hogi.</p>
+  <p class="lbl" id="a6">note three &nbsp;·&nbsp; the truth is</p>
+  <p class="verse letter" id="b6">Behind all the teasing — I'm just really, really grateful you exist. Grateful for the version of you who bursts into my room to tell me something that could honestly have waited three days. For the one who remembers things I said once, in passing, and brings them up years later like evidence in court. For the one who knows exactly which silence means “leave me alone” and which one means “come sit with me and say nothing.” You learned a whole language of me that nobody else ever studied — and you speak it fluently, without even trying.</p>
 </div>
 
-<!-- SCENE 7 — letter -->
+<!-- SCENE 7 — note three · part 2 -->
 <div class="scene" id="s7">
-  <p class="letter" id="a7">
-    I never say this enough, so let me say it now.<br><br>
-    You're not just a friend I picked up along the way —<br>
-    you're the sister I chose.<br><br>
-    Even when I'm teasing you nonstop,<br>
-    it's because I actually adore you.<br><br>
-    Never change, senior citizen.
-  </p>
+  <p class="lbl" id="a7">note three &nbsp;·&nbsp; continued</p>
+  <p class="verse letter" id="b7">You're the first friend I ever had, the first fight I ever won and lost on the same day, and the first person who taught me that family isn't just who you're born next to — it's who you'd choose a hundred times out of a hundred. I'd choose you on my best day. I'd choose you on my worst one. I'd choose you in every universe where you exist, and honestly in a couple where you don't, just to prove a point.</p>
+  <p class="sub" id="c7">don't let it get to your head though. it's already full. I checked.</p>
 </div>
 
-<!-- SCENE 8 — final -->
-<div class="scene" id="s8" style="gap:0;">
+<!-- SCENE 8 — note four · the receipts, part 1 -->
+<div class="scene" id="s8">
+  <p class="lbl" id="a8">note four &nbsp;·&nbsp; the receipts</p>
+  <p class="verse letter" id="b8">I keep receipts, you know. A whole private archive nobody can delete. Years of fighting over the TV remote like it was a family heirloom. The “borrowed” clothes that quietly migrated to your side of the closet and were never seen again. The time we broke the thing and stood there in silence like two lawyers agreeing on a story. Every shared plate, every split dessert where your half was somehow bigger. Every car ride where we went from arguing to laughing in under sixty seconds, and back again. Every inside joke so old by now that a single word is enough to take us both down.</p>
+</div>
+
+<!-- SCENE 9 — note four · part 2 -->
+<div class="scene" id="s9">
+  <p class="lbl" id="a9">note four &nbsp;·&nbsp; continued</p>
+  <p class="verse letter" id="b9">People say friendship is the purest kind of love — but they never had a sibling. They never had someone who has witnessed every single version of them: the embarrassing phases, the dramatic eras, the glow-ups, the breakdowns, the questionable hair decisions — and stayed through every one of them. Not because they had nowhere else to go, but because they never wanted to leave. That's not friendship. That's witness. That's history. That's us — and I'd put the entire archive in a museum with one plaque on the wall: “proof that this one got impossibly lucky.”</p>
+  <p class="sub" id="c9">the archive is extensive. and still growing. forever.</p>
+</div>
+
+<!-- SCENE 10 — note five · part 1 -->
+<div class="scene" id="s10">
+  <p class="lbl" id="a10">note five &nbsp;·&nbsp; unsaid things</p>
+  <p class="verse letter" id="b10">We don't really do the sentimental thing, do we? We show love in insults, stolen snacks, and shouting “get me water” from the next room. We have never once finished a serious conversation without one of us wrecking it with a joke. We say “shut up” the way other people say “I missed you,” and “you're so annoying” the way they say “I love you.” I know we both understand the translation. But just this once — here, where you can't interrupt me — I want to say it in plain language, with no jokes loaded:</p>
+</div>
+
+<!-- SCENE 11 — note five · part 2 -->
+<div class="scene" id="s11">
+  <p class="lbl" id="a11">note five &nbsp;·&nbsp; continued</p>
+  <p class="verse letter" id="b11">You are my favorite notification. The first call for good news, bad news, and absolutely no news at all. The first audience for every joke, the first believer in every ridiculous plan, the first one standing in front of me when the world decides to be unfair. Being your sibling is the best thing I never had to work for — it just arrived the day you did, unearned and unbeatable, and it is still the best plot twist of my entire story.</p>
+  <p class="sub" id="c11">don't screenshot this. (okay, fine. screenshot it. keep it forever.)</p>
+</div>
+
+<!-- SCENE 12 — note six · part 1 -->
+<div class="scene" id="s12">
+  <p class="lbl" id="a12">note six &nbsp;·&nbsp; before I go</p>
+  <p class="verse letter" id="b12">So here's to another year of nonsense, naps, and nonstop laughing. To you sending me memes at 3 a.m. and me replying “lol” while actually laughing alone in the dark like a gremlin. To more half-finished jokes that no one else will ever decode. To your chaotic energy, your three-act storytelling, your criminal music taste, and your heart — which is somehow still bigger than your patience. To another year of being witnesses to each other's lives: the messy drafts, the glow-ups, the plot twists, and the sequels nobody asked for but we're doing anyway.</p>
+</div>
+
+<!-- SCENE 13 — note six · part 2 -->
+<div class="scene" id="s13">
+  <p class="lbl" id="a13">note six &nbsp;·&nbsp; continued</p>
+  <p class="verse letter" id="b13">And whatever this next year brings — the wins, the wobbles, the completely unexpected — bring it to me first. Front-row seat, always. When you shine, I'll be clapping the loudest and taking the most unflattering photos for the archive. When you fall, I'll already be there before you hit the ground — probably laughing, but there. That's not a promise I have to make. It's just the job. It came free with the title of “sibling.” The pay is terrible, the benefits are unlimited, and I am never, ever resigning.</p>
+  <p class="sub" id="c13">love you, senior citizen. happy birthday.</p>
+</div>
+
+<!-- SCENE 14 — final -->
+<div class="scene" id="s14" style="gap:0;">
   <div class="heart-wrap" id="hw">
     <svg width="60" height="56" viewBox="0 0 60 56">
       <path id="hp" d="M30 52 C10 36 2 26 2 16 C2 7 9 2 16 2 C22 2 27 6 30 10 C33 6 38 2 44 2 C51 2 58 7 58 16 C58 26 50 36 30 52Z"
         fill="none" stroke="#e89eb0" stroke-width="2"/>
     </svg>
   </div>
-  <h1 class="name" id="a8" style="color:var(--cream); font-size:clamp(30px,5vw,64px);">Happy Birthday</h1>
-  <h1 class="name" id="b8" style="color:var(--rose2); margin-top:.35rem; font-size:clamp(40px,6.5vw,78px);">Aarya.</h1>
-  <p class="dtag" id="c8" style="margin-top:2.2rem;">8 September &nbsp;·&nbsp; homegirl for life</p>
+  <h1 class="name" id="a14" style="color:var(--cream); font-size:clamp(30px,5vw,64px);">Happy Birthday</h1>
+  <h1 class="name" id="b14" style="color:var(--rose2); margin-top:.35rem; font-size:clamp(40px,6.5vw,78px);">Aarya.</h1>
+  <p class="dtag" id="c14" style="margin-top:2.2rem;">8 September &nbsp;·&nbsp; homegirl for life</p>
+  <p class="sub" id="d14" style="margin-top:1.5rem;">— your sibling. the lucky one. forever.</p>
 </div>
 
 <script>
@@ -367,10 +462,53 @@ requestAnimationFrame(function loop(){
   drawBg(); drawStars(); drawDust();
 });
 
+/* ---- gallery logic ---- */
+const CAPTIONS=[
+  "exhibit A: proof we cause chaos together",
+  "this one's a top tier memory",
+  "certified homegirl behaviour",
+  "sleepyhead, mid-nap probably",
+  "we really said 'let's be unserious'",
+  "iconic. no notes.",
+  "core memory unlocked",
+  "and this is us, always"
+];
+let galIndex=0, galTimer=null;
+const galSlides=()=>document.querySelectorAll('#gal-frame .gal-slide');
+const galDotsWrap=document.getElementById('gal-dots');
+galSlides().forEach((_,i)=>{const d=document.createElement('div');d.className='gdot';d.id='gd'+i;galDotsWrap.appendChild(d);});
+
+function renderGallery(){
+  galSlides().forEach((s,i)=>s.classList.toggle('show', i===galIndex));
+  document.querySelectorAll('.gdot').forEach((d,i)=>d.classList.toggle('on', i===galIndex));
+  document.getElementById('gal-cap').textContent = CAPTIONS[galIndex] || '';
+}
+function galNext(){ galIndex=(galIndex+1)%galSlides().length; renderGallery(); restartGalTimer(); }
+function galPrev(){ galIndex=(galIndex-1+galSlides().length)%galSlides().length; renderGallery(); restartGalTimer(); }
+function restartGalTimer(){
+  clearInterval(galTimer);
+  galTimer=setInterval(galNext, 3400);
+}
+function startGallery(){ galIndex=0; renderGallery(); restartGalTimer(); }
+function stopGallery(){ clearInterval(galTimer); galTimer=null; }
+document.getElementById('gal-next').addEventListener('click', e=>{ e.stopPropagation(); galNext(); });
+document.getElementById('gal-prev').addEventListener('click', e=>{ e.stopPropagation(); galPrev(); });
+
+function leaveGallery(){
+  if(cur!==1) return;
+  tos.forEach(clearTimeout); tos=[];
+  advanceTo(2);
+}
+
 const SCENES=[
-  {id:'s0',dur:5200},{id:'s1',dur:6500},{id:'s2',dur:7500},
-  {id:'s3',dur:7000},{id:'s4',dur:6000},{id:'s5',dur:7000},
-  {id:'s6',dur:7500},{id:'s7',dur:8000},{id:'s8',dur:99999},
+  {id:'s0',dur:5200},{id:'s1',dur:27000},
+  {id:'s2',dur:26000},{id:'s3',dur:30000},
+  {id:'s4',dur:11000},{id:'s5',dur:26000},
+  {id:'s6',dur:26000},{id:'s7',dur:30000},
+  {id:'s8',dur:26000},{id:'s9',dur:30000},
+  {id:'s10',dur:26000},{id:'s11',dur:30000},
+  {id:'s12',dur:26000},{id:'s13',dur:30000},
+  {id:'s14',dur:99999},
 ];
 
 const dd=document.getElementById('dots');
@@ -393,11 +531,17 @@ const V={opacity:'0.86',transform:'translateY(0)'};
 function resetScene(id){
   const el=document.getElementById(id);
   el.classList.remove('active'); el.style.opacity='0';
-  el.querySelectorAll('[id]').forEach(c=>{c.style.transition='none';c.style.opacity='0';});
+  el.querySelectorAll('[id]').forEach(c=>{
+    if(c.id.startsWith('gal-')||c.id.startsWith('gd')) return;
+    c.style.transition='none';c.style.opacity='0';
+  });
 }
 
 function showScene(i){
-  if(cur>=0) resetScene(SCENES[cur].id);
+  if(cur>=0){
+    if(SCENES[cur].id==='s1') stopGallery();
+    resetScene(SCENES[cur].id);
+  }
   cur=i;
   const el=document.getElementById(SCENES[i].id);
   el.classList.add('active'); el.style.opacity='1';
@@ -406,6 +550,7 @@ function showScene(i){
   fl.style.transition='opacity 70ms'; fl.style.opacity='0.1';
   setTimeout(()=>fl.style.opacity='0',100);
   animScene(i);
+  if(SCENES[i].id==='s1') startGallery();
   const dur=SCENES[i].dur===99999?9000:SCENES[i].dur;
   const pf=document.getElementById('pfill');
   pf.style.transition='none'; pf.style.width='0%';
@@ -419,18 +564,20 @@ function showScene(i){
 
 function animScene(i){
   if(i===0){ fade('a0',I,400,1000); fade('b0',S,1100,1300); fade('c0',I,2300,900); }
-  if(i===1){ fade('a1',I,300,900); fade('b1',I,900,1100); fade('c1',I,2300,1000); }
-  if(i===2){ fade('a2',V,400,1000); fade('b2',V,1700,1000); fade('c2',V,3100,1000); }
-  if(i===3){ fade('a3',I,300,900); fade('b3',V,1000,1000); fade('c3',V,2200,1000); fade('d3',V,3400,1000); }
-  if(i===4){
-    const rule=document.getElementById('r4');
-    if(rule) setTimeout(()=>{rule.style.transition='width 1.3s ease, opacity .5s';rule.style.width='160px';rule.style.opacity='1';},300);
-    fade('a4',I,1100,1000); fade('b4',I,1900,900); fade('c4',I,3000,900);
-  }
-  if(i===5){ fade('a5',I,300,900); fade('b5',V,1000,1000); fade('c5',V,2400,1000); fade('d5',{opacity:'0.72',transform:'translateY(0)'},3800,1100); }
-  if(i===6){ fade('a6',I,300,900); fade('b6',V,1000,1100); fade('c6',V,2600,1100); fade('d6',V,4200,1100); }
-  if(i===7){ fade('a7',{opacity:'0.88',transform:'translateY(0)'},700,1600); }
-  if(i===8){
+  if(i===1){ fade('g-lbl',I,300,900); }
+  if(i===2){ fade('a2',I,300,900); fade('b2',V,1000,1200); }
+  if(i===3){ fade('a3',I,300,900); fade('b3',V,1000,1200); fade('c3',V,17000,1000); }
+  if(i===4){ fade('a4',I,300,900); fade('b4',I,1000,900); fade('c4',I,1900,900); fade('d4',I,2800,900); fade('e4',I,3600,900); }
+  if(i===5){ fade('a5',I,300,900); fade('b5',V,1000,1200); fade('c5',V,17000,1000); }
+  if(i===6){ fade('a6',I,300,900); fade('b6',V,1000,1200); }
+  if(i===7){ fade('a7',I,300,900); fade('b7',V,1000,1200); fade('c7',V,17000,1000); }
+  if(i===8){ fade('a8',I,300,900); fade('b8',V,1000,1200); }
+  if(i===9){ fade('a9',I,300,900); fade('b9',V,1000,1200); fade('c9',V,17000,1000); }
+  if(i===10){ fade('a10',I,300,900); fade('b10',V,1000,1200); }
+  if(i===11){ fade('a11',I,300,900); fade('b11',V,1000,1200); fade('c11',V,17000,1000); }
+  if(i===12){ fade('a12',I,300,900); fade('b12',V,1000,1200); }
+  if(i===13){ fade('a13',I,300,900); fade('b13',V,1000,1200); fade('c13',V,17000,1000); }
+  if(i===14){
     const hw=document.getElementById('hw'), hp=document.getElementById('hp');
     if(hw&&hp){
       hp.style.strokeDasharray='220'; hp.style.strokeDashoffset='220';
@@ -441,7 +588,7 @@ function animScene(i){
       },400);
       setTimeout(()=>{hp.style.transition='fill .9s ease'; hp.style.fill='#b85870';},2600);
     }
-    fade('a8',S,1900,1200); fade('b8',S,2900,1200); fade('c8',I,4100,1000);
+    fade('a14',S,1900,1200); fade('b14',S,2900,1200); fade('c14',I,4100,1000); fade('d14',V,5300,1100);
     const bgm=document.getElementById('bgm');
     if(bgm) setTimeout(()=>fadeAudio(bgm,0.22,4000),8000);
     for(let j=0;j<50;j++) setTimeout(()=>{
@@ -454,12 +601,20 @@ function animScene(i){
   }
 }
 
-function schedule(){
+function scheduleFrom(startIdx){
   let off=0;
-  SCENES.forEach((sc,i)=>{
+  for(let i=startIdx;i<SCENES.length;i++){
     const t=setTimeout(()=>showScene(i),off); tos.push(t);
-    if(sc.dur!==99999) off+=sc.dur;
-  });
+    if(SCENES[i].dur===99999) break;
+    off+=SCENES[i].dur;
+  }
+}
+function schedule(){ scheduleFrom(0); }
+
+function advanceTo(i){
+  tos.forEach(clearTimeout); tos=[];
+  showScene(i);
+  scheduleFrom(i+1);
 }
 
 function fadeAudio(el,to,ms){
@@ -497,28 +652,25 @@ document.addEventListener('keydown',e=>{
   if(!filmOn) return;
   e.preventDefault();
 
-  if(e.code==='ArrowRight' && cur < SCENES.length-1){
-    tos.forEach(clearTimeout); tos=[];
-    const nx=cur+1; showScene(nx);
-    let off=0;
-    for(let i=nx+1;i<SCENES.length;i++){
-      if(SCENES[i-1].dur===99999) break;
-      off+=SCENES[i-1].dur;
-      tos.push(setTimeout(()=>showScene(i),off));
-    }
-  }
-
-  if(e.code==='ArrowLeft' && cur > 0){
-    tos.forEach(clearTimeout); tos=[];
-    const pv=cur-1; showScene(pv);
-    let off=0;
-    for(let i=pv+1;i<SCENES.length;i++){
-      if(SCENES[i-1].dur===99999) break;
-      off+=SCENES[i-1].dur;
-      tos.push(setTimeout(()=>showScene(i),off));
-    }
-  }
+  if(e.code==='ArrowRight' && cur < SCENES.length-1){ advanceTo(cur+1); }
+  if(e.code==='ArrowLeft' && cur > 0){ advanceTo(cur-1); }
 });
+
+/* ---- touch navigation (phones have no arrow keys) ---- */
+if('ontouchstart' in window){
+  const hint=document.querySelector('#ss small');
+  if(hint) hint.textContent='press play · tap to move on';
+  let tx=null;
+  document.addEventListener('touchstart',e=>{ tx=e.changedTouches[0].clientX; },{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(!filmOn || tx===null) return;
+    if(e.target.closest('#ss,#gal-frame,#gal-continue,button,.gal-nav')){ tx=null; return; }
+    const dx=e.changedTouches[0].clientX-tx; tx=null;
+    if(dx < -60){ if(cur < SCENES.length-1) advanceTo(cur+1); }        // swipe left = next
+    else if(dx > 60){ if(cur > 0) advanceTo(cur-1); }                  // swipe right = back
+    else if(Math.abs(dx) < 12 && cur >= 0 && cur < SCENES.length-1){ advanceTo(cur+1); } // tap = next
+  },{passive:true});
+}
 </script>
 </body>
 </html>
