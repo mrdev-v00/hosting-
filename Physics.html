@@ -1,0 +1,1462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FFA Physics Notes - AKUEB Grade XII</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #121212;
+  --panel: #1e1e1e;
+  --panel-hover: #2a2a2a;
+  --text: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --accent: #00b4d8;
+  --border: #333333;
+  --lime: #2ecc71;
+  --magenta: #e74c3c;
+  --amber: #f1c40f;
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-bottom: env(safe-area-inset-bottom, 40px);
+}
+
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+header {
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin: 0;
+}
+
+/* Progress Bar */
+.prog-container {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.prog-text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+  white-space: nowrap;
+  font-weight: 700;
+}
+.bar-container {
+  flex: 1;
+  height: 6px;
+  background: #000;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+nav::-webkit-scrollbar { display: none; }
+nav button {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+nav button:hover {
+  background: var(--panel-hover);
+  border-color: var(--accent);
+}
+nav button.active {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* SLO Blocks */
+.slo-block {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.slo-header {
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255,255,255,0.02);
+  transition: background 0.2s;
+}
+.slo-header:hover {
+  background: rgba(255,255,255,0.05);
+}
+.slo-header .code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--magenta);
+  font-weight: 700;
+}
+.slo-header h2 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 600;
+  color: #fff;
+}
+.slo-content {
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+.slo-block.open .slo-content {
+  padding: 20px;
+  max-height: 5000px;
+  border-top: 1px solid var(--border);
+}
+
+/* Content Styling */
+p { margin-top: 0; margin-bottom: 16px; }
+ul, ol { padding-left: 20px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+
+.highlight-formula {
+  background: #000;
+  border-left: 4px solid var(--lime);
+  padding: 16px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  color: var(--lime);
+  font-size: 16px;
+  text-align: center;
+  margin: 20px 0;
+  font-weight: 700;
+}
+
+.step-box {
+  background: rgba(255,255,255,0.03);
+  border-left: 2px solid var(--accent);
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-radius: 0 4px 4px 0;
+}
+.step-box strong { color: var(--accent); }
+
+.warning-box {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.warning-box strong { color: var(--magenta); }
+
+.tip-box {
+  background: rgba(241, 196, 15, 0.1);
+  border: 1px solid rgba(241, 196, 15, 0.3);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.tip-box strong { color: var(--amber); }
+
+/* Mark Button */
+.mark-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: all 0.2s;
+}
+.mark-btn:hover {
+  background: var(--accent);
+  color: #000;
+}
+.mark-btn.completed {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #000;
+}
+
+/* Quiz */
+.quiz-container {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+}
+.quiz-question {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #fff;
+}
+.option-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #000;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+.option-btn:hover {
+  border-color: var(--accent);
+}
+.option-btn.correct {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: var(--lime);
+  color: var(--lime);
+}
+.option-btn.wrong {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: var(--magenta);
+  color: var(--magenta);
+}
+.next-btn {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+}
+.next-btn:hover {
+  background: #0096b4;
+}
+.feedback {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+  padding: 12px;
+  background: #000;
+  border-radius: 6px;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FFA Physics Notes</h1>
+    <p class="subtitle">AKUEB Grade XII // Your ultimate exam prep guide</p>
+  </header>
+  
+  <div class="prog-container">
+    <span class="prog-text" id="progress-text">0 of 39 SLOs Done</span>
+    <div class="bar-container"><div class="bar-fill" id="progress-bar"></div></div>
+  </div>
+
+  <nav id="nav">
+    <button class="active" data-ch="g">Gravitation</button>
+    <button data-ch="e">Electrostatics</button>
+    <button data-ch="c">Current Electricity</button>
+    <button data-ch="q">Quiz</button>
+  </nav>
+
+  <main id="app"></main>
+</div>
+
+<script>
+const SLO_DATA = {
+  g: [
+    {
+      code: "11.1.1",
+      text: "Explain Newton's law of gravitation",
+      content: `
+        <p>Okay, so Newton basically figured out that every single object in the universe pulls on every other object. It doesn't matter if it's a giant planet or a tiny grain of sand—they all have gravity.</p>
+        <p>The rule is simple: The pull gets stronger if the objects are heavier, and it gets weaker really fast if you move them apart.</p>
+        <div class="highlight-formula">F = G (m₁ m₂) / r²</div>
+        <p><strong>G</strong> is just a constant number (6.67 × 10⁻¹¹ N·m²/kg²). It's super tiny, which is why you don't feel a gravitational pull from your desk or your friends.</p>
+        <p><strong>m₁ and m₂</strong> are the masses. If you double one mass, the force doubles. If you double both, the force becomes 4 times bigger.</p>
+        <p><strong>r</strong> is the distance between their centers. If you double the distance, the force doesn't just halve—it drops to a quarter (1/4th) because of the square. This is the famous "Inverse Square Law."</p>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> This force is ALWAYS attractive. It pulls them together. And remember Newton's 3rd Law: the Earth pulls you, and you pull the Earth with the exact same force!
+        </div>
+      `
+    },
+    {
+      code: "11.1.2",
+      text: "Solve word problems using Newton's law of gravitation",
+      content: `
+        <p>Let's see how this looks in an actual exam question.</p>
+        <p><strong>Question:</strong> Two masses of 10 kg and 20 kg are separated by a distance of 2 m. Calculate the gravitational force between them.</p>
+        <div class="step-box">
+          <strong>Step 1: Write the formula</strong><br>
+          F = G m₁ m₂ / r²
+        </div>
+        <div class="step-box">
+          <strong>Step 2: Plug in the numbers</strong><br>
+          G = 6.67 × 10⁻¹¹<br>
+          m₁ = 10, m₂ = 20<br>
+          r = 2<br>
+          F = (6.67 × 10⁻¹¹) × (10) × (20) / (2)²
+        </div>
+        <div class="step-box">
+          <strong>Step 3: Calculate</strong><br>
+          F = (6.67 × 10⁻¹¹) × 200 / 4<br>
+          F = (6.67 × 10⁻¹¹) × 50<br>
+          <strong>F = 3.33 × 10⁻⁹ N</strong>
+        </div>
+        <div class="warning-box">
+          <strong>Watch out!</strong> Make sure you convert all units to standard SI units before calculating. Distance must be in meters, mass in kg.
+        </div>
+      `
+    },
+    {
+      code: "11.2.1",
+      text: "Define gravitational field strength",
+      content: `
+        <p>Think of a gravitational field as an invisible "zone of influence" around a mass. The <strong>Gravitational Field Strength (g)</strong> is just a way of measuring how strong that pull is at any specific point.</p>
+        <p><strong>Definition:</strong> It's the gravitational force experienced by a unit mass (1 kg) placed at that point.</p>
+        <div class="highlight-formula">g = F / m</div>
+        <p>Since Force is in Newtons (N) and mass is in kg, the unit of g is <strong>N/kg</strong>. This is exactly the same as m/s² (acceleration). On Earth, g is roughly 9.8 N/kg, which means every kilogram of your body feels a 9.8 N pull towards the center of the Earth.</p>
+      `
+    },
+    {
+      code: "11.2.2",
+      text: "Solve word problems using g = GM/r²",
+      content: `
+        <p>We know g = F/m. We also know F = GMm/r². If we substitute F into the first equation, the m cancels out, giving us the master formula for field strength:</p>
+        <div class="highlight-formula">g = GM / r²</div>
+        <p><strong>Question:</strong> Calculate the gravitational field strength at the surface of the Earth. (M = 6.0 × 10²⁴ kg, R = 6.4 × 10⁶ m)</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> g = GM / r²
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> g = (6.67 × 10⁻¹¹) × (6.0 × 10²⁴) / (6.4 × 10⁶)²
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Top part = 4.002 × 10¹⁴. Bottom part = 4.096 × 10¹³.
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Divide them: <strong>g ≈ 9.77 m/s²</strong>
+        </div>
+      `
+    },
+    {
+      code: "11.3.1",
+      text: "Analyse circular orbits in gravitational fields",
+      content: `
+        <p>Why doesn't the Moon crash into the Earth? Because it's moving sideways fast enough! For a satellite in a circular orbit, gravity provides the exact centripetal force needed to keep it curving around the Earth.</p>
+        <p>Let's derive the speed it needs:</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> Set gravitational force equal to centripetal force.<br>
+          GMm / r² = mv² / r
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> Cancel the mass of the satellite (m) from both sides.<br>
+          GM / r² = v² / r
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Multiply both sides by r.<br>
+          GM / r = v²
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Take the square root.<br>
+          <strong>v = √(GM / r)</strong>
+        </div>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> Notice that the satellite's own mass (m) cancels out. This means a heavy satellite and a light satellite orbit at the exact same speed if they are at the same height!
+        </div>
+      `
+    },
+    {
+      code: "11.3.2",
+      text: "Define geo-stationary satellite",
+      content: `
+        <p>A geostationary satellite is a special satellite that appears to be frozen in the sky from the ground. If you point a dish at it, you never have to move the dish.</p>
+        <p><strong>Definition:</strong> A geostationary satellite is a satellite that revolves around the Earth in a circular orbit in the equatorial plane, from west to east, with a time period exactly equal to the Earth's rotational period (24 hours).</p>
+      `
+    },
+    {
+      code: "11.3.3",
+      text: "Analyse the motion of geo-stationary satellites",
+      content: `
+        <p>To stay "fixed" above one spot on Earth, the satellite must meet three strict conditions:</p>
+        <ul>
+          <li>The orbital period T must be exactly 24 hours (86400 s).</li>
+          <li>The orbit must be directly above the equator.</li>
+          <li>The satellite must move from West to East (same direction as Earth's rotation).</li>
+        </ul>
+        <p>Let's find out how high it needs to be:</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> Use Kepler's Third Law: T² = 4π² r³ / GM
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> Rearrange to solve for r (radius of orbit): r³ = T² GM / 4π²
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Plug in T = 86400 s, G = 6.67 × 10⁻¹¹, M = 6.0 × 10²⁴.<br>
+          r ≈ 4.22 × 10⁷ m
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Subtract Earth's radius (R) to find height (h).<br>
+          h = r - R = 4.22 × 10⁷ - 6.4 × 10⁶<br>
+          <strong>h ≈ 3.58 × 10⁷ m (about 36,000 km)</strong>
+        </div>
+      `
+    },
+    {
+      code: "11.4.1",
+      text: "Derive the relation for the variation of gravitational field strength with height and depth",
+      content: `
+        <p>This confuses a lot of people, so pay attention. The formula g = GM/r² uses <strong>r</strong> as the distance from the <em>center</em> of the Earth.<br>
+        - Above the ground: r = R + h (Radius + Height)<br>
+        - Below the ground (depth): r = R - d (Radius - Depth)</p>
+        
+        <h3>Derivation 1: Variation with Height (h)</h3>
+        <div class="step-box">
+          <strong>Step 1:</strong> On the surface: g = GM / R²
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> At height h: g' = GM / (R+h)²
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Divide g' by g: g' / g = [GM / (R+h)²] / [GM / R²] = R² / (R+h)²
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> <strong>g' = g ( R / (R+h) )²</strong>
+        </div>
+        <div class="step-box">
+          <strong>Step 5 (Shortcut for small heights):</strong> If h is much smaller than R, we use binomial approximation: <strong>g' ≈ g (1 - 2h/R)</strong>
+        </div>
+
+        <h3>Derivation 2: Variation with Depth (d)</h3>
+        <div class="step-box">
+          <strong>Step 1:</strong> Assume Earth has uniform density ρ. The mass enclosed at depth d is M' = (4/3)π(R-d)³ ρ.
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> g' = G M' / (R-d)² = G (4/3)π(R-d)³ ρ / (R-d)²
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Simplify: g' = (4/3)πGρ (R-d)
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Since g = (4/3)πGρR, we substitute: <strong>g' = g (1 - d/R)</strong>
+        </div>
+        <div class="warning-box">
+          <strong>Watch out!</strong> At the center of the Earth (d=R), g' = 0. You would feel weightless!
+        </div>
+      `
+    },
+    {
+      code: "11.4.2",
+      text: "Analyse that 'g' is approximately constant for small changes in height near the Earth's surface",
+      content: `
+        <p>From the derivation above, g' = g(1 - 2h/R). If h is very small compared to R (e.g., the height of Mount Everest is ~8.8 km, while R is ~6400 km), the fraction 2h/R is extremely small (approx 0.0027).</p>
+        <p>Therefore, for all practical calculations near the Earth's surface (like throwing a ball or building a bridge), we treat <strong>g as a constant (9.8 m/s²)</strong>.</p>
+      `
+    },
+    {
+      code: "11.5.1",
+      text: "Calculate gravitational potential",
+      content: `
+        <p>Gravitational Potential (V) is the work done per unit mass (1 kg) to bring an object from infinity to a specific point in the gravitational field.</p>
+        <p>Think of it like this: How much fuel (energy) do you need to bring a 1 kg package from far away space to a planet? That's the potential.</p>
+        <div class="highlight-formula">V = - GM / r</div>
+        <div class="step-box">
+          <strong>Why the negative sign?</strong> We define potential at infinity as zero. Because gravity is an attractive force, the field does positive work pulling the mass in. This means the potential energy at any finite distance is less than zero, hence the negative sign. Unit: J/kg.
+        </div>
+        <p><strong>Question:</strong> Calculate the gravitational potential at the Earth's surface. (M = 6.0 × 10²⁴ kg, R = 6.4 × 10⁶ m)</p>
+        <div class="step-box">
+          V = - (6.67 × 10⁻¹¹) × (6.0 × 10²⁴) / (6.4 × 10⁶)<br>
+          V = - (4.002 × 10¹⁴) / (6.4 × 10⁶)<br>
+          <strong>V ≈ - 6.25 × 10⁷ J/kg</strong>
+        </div>
+      `
+    },
+    {
+      code: "11.5.2",
+      text: "Justify that the concept of gravitational potential leads to the gravitational potential energy of two-point masses",
+      content: `
+        <p>Gravitational potential (V) is the potential energy per unit mass (U/m). So, if you want to find the total potential energy (U) of an object of mass m placed in that field, you simply multiply the potential by the mass.</p>
+        <div class="highlight-formula">U = m V = - GMm / r</div>
+        <p><strong>Justification:</strong> Imagine bringing a mass m from infinity to a distance r from mass M. The work done is W = ∫ F dr. Since F = GMm/r², integrating from infinity to r gives W = -GMm/r. This work is stored as gravitational potential energy. The negative sign indicates that the system is bound; energy must be supplied to pull the masses apart to infinity.</p>
+      `
+    }
+  ],
+  e: [
+    {
+      code: "12.1.1",
+      text: "Define charge and its types",
+      content: `
+        <p>Charge is the fundamental property of matter that causes it to experience a force in an electric or magnetic field.</p>
+        <p>There are two types of charges: Positive (protons) and Negative (electrons). Like charges repel, unlike charges attract. Charge is a scalar quantity, and its SI unit is the Coulomb (C).</p>
+      `
+    },
+    {
+      code: "12.1.2",
+      text: "Calculate the total charge on a body as integral multiple of elementary charge",
+      content: `
+        <p>Charge is quantized, meaning it exists in discrete packets. The smallest packet of charge is the elementary charge (e = 1.6 × 10⁻¹⁹ C). Any charge on a body is an integer multiple of this basic unit.</p>
+        <div class="highlight-formula">q = n e</div>
+        <p><strong>Question:</strong> A body has a charge of -4.8 μC. Calculate the number of excess electrons.</p>
+        <div class="step-box">
+          <strong>Step 1: Convert units</strong><br>
+          q = -4.8 μC = -4.8 × 10⁻⁶ C
+        </div>
+        <div class="step-box">
+          <strong>Step 2: Use formula</strong><br>
+          n = q / e
+        </div>
+        <div class="step-box">
+          <strong>Step 3: Substitute</strong><br>
+          n = (4.8 × 10⁻⁶ C) / (1.6 × 10⁻¹⁹ C)
+        </div>
+        <div class="step-box">
+          <strong>Step 4: Calculate</strong><br>
+          <strong>n = 3 × 10¹³ electrons</strong>
+        </div>
+      `
+    },
+    {
+      code: "12.2.1",
+      text: "State Coulomb's law for static charges",
+      content: `
+        <p>Coulomb's Law is basically Newton's Law of Gravity, but for charges! Instead of always attracting, charges can attract (if opposite) or repel (if same).</p>
+        <p>The electrostatic force between two point charges is directly proportional to the product of their charges and inversely proportional to the square of the distance between them.</p>
+        <div class="highlight-formula">F = k (q₁ q₂) / r²</div>
+        <p><strong>k</strong> is Coulomb's constant = 9 × 10⁹ N·m²/C². It's a very large number, which is why static electricity shocks are strong enough to feel.</p>
+      `
+    },
+    {
+      code: "12.2.2",
+      text: "Derive a relation for electrostatic force",
+      content: `
+        <p>The constant k in Coulomb's law can be expressed in terms of the permittivity of free space (ε₀), which tells us how well a vacuum allows electric fields to pass through it.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> k = 1 / (4π ε₀)
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> Substitute this into the main formula:<br>
+          <strong>F = (1 / 4π ε₀) (q₁ q₂ / r²)</strong>
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Where ε₀ = 8.85 × 10⁻¹² C²/N·m².
+        </div>
+      `
+    },
+    {
+      code: "12.2.3",
+      text: "Solve word problems related to the electrostatic force",
+      content: `
+        <p><strong>Question:</strong> Two point charges of +2 μC and +3 μC are placed 30 cm apart in vacuum. Calculate the force between them.</p>
+        <div class="step-box">
+          <strong>Step 1: Convert units</strong><br>
+          q₁ = 2 × 10⁻⁶ C, q₂ = 3 × 10⁻⁶ C, r = 0.3 m
+        </div>
+        <div class="step-box">
+          <strong>Step 2: Use formula</strong><br>
+          F = k q₁ q₂ / r²
+        </div>
+        <div class="step-box">
+          <strong>Step 3: Substitute</strong><br>
+          F = (9 × 10⁹) × (2 × 10⁻⁶) × (3 × 10⁻⁶) / (0.3)²
+        </div>
+        <div class="step-box">
+          <strong>Step 4: Calculate</strong><br>
+          Numerator = 9 × 2 × 3 × 10⁻³ = 54 × 10⁻³<br>
+          Denominator = 0.09<br>
+          F = 54 × 10⁻³ / 0.09 = <strong>0.6 N (Repulsive)</strong>
+        </div>
+      `
+    },
+    {
+      code: "12.2.4",
+      text: "Describe the effect of medium on Coulomb's force",
+      content: `
+        <p>If you place two charges in water instead of air, the force between them becomes much weaker. Why? The water molecules polarize and create their own electric fields that oppose the original field.</p>
+        <div class="highlight-formula">F_medium = F_vacuum / ε_r</div>
+        <p>Where ε_r is the relative permittivity (dielectric constant) of the medium. For water, ε_r ≈ 80. So, the force between charges in water is 80 times weaker than in vacuum!</p>
+      `
+    },
+    {
+      code: "12.2.5",
+      text: "Explain the concept of electrostatic shielding",
+      content: `
+        <p>Electrostatic Shielding is the phenomenon of protecting a certain region from external electric fields by enclosing it in a conducting material.</p>
+        <p>Inside a conductor, the electric field is zero. When an external field is applied, free electrons in the conductor redistribute themselves to cancel the external field exactly. This results in no electric field lines penetrating the conductor.</p>
+      `
+    },
+    {
+      code: "12.2.6",
+      text: "Describe working of faraday cage",
+      content: `
+        <p>A Faraday cage is a metallic enclosure used for electrostatic shielding. It works on the principle that the electric field inside a hollow conductor is zero.</p>
+        <p>When an external electric field is applied, the charges on the surface of the cage rearrange themselves to cancel the field inside. This protects sensitive electronic equipment inside the cage from external electromagnetic interference (e.g., protecting a car during a lightning storm).</p>
+      `
+    },
+    {
+      code: "12.3.1",
+      text: "Describe electric field and electric field intensity around an isolated point charge",
+      content: `
+        <p><strong>Electric Field:</strong> The region around a charge where its electrostatic force can be experienced.</p>
+        <p><strong>Electric Field Intensity (E):</strong> Force per unit positive charge placed at a point in the field. E = F/q. Unit: N/C.</p>
+        <div class="highlight-formula">E = k q / r²</div>
+        <p>For a positive point charge, field lines radiate radially outwards. For a negative point charge, they radiate radially inwards. The electric field is a vector quantity.</p>
+      `
+    },
+    {
+      code: "12.3.2",
+      text: "Compare the formation of electric field lines when same and opposite charges are brought together",
+      content: `
+        <h3>Same Charges (Like)</h3>
+        <ul>
+          <li>Field lines repel each other.</li>
+          <li>They never cross.</li>
+          <li>A neutral point exists between them where the net field is zero.</li>
+        </ul>
+        <h3>Opposite Charges (Unlike)</h3>
+        <ul>
+          <li>Field lines attract each other.</li>
+          <li>They start from the positive charge and terminate at the negative charge.</li>
+          <li>They are continuous curves.</li>
+        </ul>
+      `
+    },
+    {
+      code: "12.3.3",
+      text: "Derive an expression for the magnitude of electric field intensity of a point charge at a distance",
+      content: `
+        <div class="step-box">
+          <strong>Step 1:</strong> According to Coulomb's law, the force exerted by a source charge Q on a test charge q₀ placed at distance r is:<br>
+          F = k Q q₀ / r²
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> By definition of electric field intensity: E = F / q₀
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Substitute F into the equation:<br>
+          E = (k Q q₀ / r²) / q₀
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Cancel q₀:<br>
+          <strong>E = k Q / r²</strong>
+        </div>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> This derivation shows that E is independent of the test charge q₀ and depends only on the source charge Q and distance r.
+        </div>
+      `
+    },
+    {
+      code: "12.3.4",
+      text: "Solve word problems using E = kq/r²",
+      content: `
+        <p><strong>Question:</strong> Calculate the electric field intensity at a distance of 0.3 m from a point charge of 5 nC.</p>
+        <div class="step-box">
+          <strong>Step 1: Convert units</strong><br>
+          q = 5 × 10⁻⁹ C, r = 0.3 m
+        </div>
+        <div class="step-box">
+          <strong>Step 2: Use formula</strong><br>
+          E = k q / r²
+        </div>
+        <div class="step-box">
+          <strong>Step 3: Substitute</strong><br>
+          E = (9 × 10⁹) × (5 × 10⁻⁹) / (0.3)²
+        </div>
+        <div class="step-box">
+          <strong>Step 4: Calculate</strong><br>
+          E = 45 / 0.09 = <strong>500 N/C</strong>
+        </div>
+      `
+    },
+    {
+      code: "12.3.5",
+      text: "Illustrate electric field intensity as a function of position",
+      content: `
+        <p>For an isolated point charge, E = kq/r². This means the electric field intensity follows an inverse square law. As you move away from the charge (r increases), the field intensity decreases rapidly.</p>
+        <p>A graph of E vs r would show a curve that starts very high near the charge and decays asymptotically towards zero as r approaches infinity. The field is strongest at the surface of the charge and weakest at infinity.</p>
+      `
+    },
+    {
+      code: "12.4.1",
+      text: "Explain electric flux as a dot product of electric field intensity and area vector",
+      content: `
+        <p><strong>Electric Flux (Φ):</strong> The measure of the number of electric field lines passing through a given surface area. Think of it as the "amount of field" flowing through a window.</p>
+        <div class="highlight-formula">Φ = E · A = E A cosθ</div>
+        <p>Where E is the electric field vector, A is the area vector (perpendicular to the surface), and θ is the angle between E and A. Unit: N·m²/C.</p>
+        <p>It is maximum when the surface is perpendicular to the field (θ = 0°) and zero when parallel (θ = 90°).</p>
+      `
+    },
+    {
+      code: "12.5.1",
+      text: "Explain Gauss's law",
+      content: `
+        <p>Gauss's Law is a shortcut for calculating electric fields when the charge distribution has symmetry (like a sphere, cylinder, or infinite sheet).</p>
+        <p>The total electric flux through any closed surface is equal to 1/ε₀ times the total charge enclosed within that surface.</p>
+        <div class="highlight-formula">Φ = Q_enclosed / ε₀</div>
+      `
+    },
+    {
+      code: "12.5.2",
+      text: "Apply Gauss's law to find the electric field intensity produced between two oppositely charged parallel plates",
+      content: `
+        <p><strong>1. Infinite Sheet of Charge:</strong> Using a cylindrical Gaussian surface, the flux is 2EA. The enclosed charge is σA. Therefore, 2EA = σA/ε₀, giving <strong>E = σ/2ε₀</strong>.</p>
+        <p><strong>2. Two Oppositely Charged Parallel Plates:</strong> The field due to each plate is σ/2ε₀. Between the plates, the fields add up (same direction). Therefore, <strong>E = σ/2ε₀ + σ/2ε₀ = σ/ε₀</strong>.</p>
+        <p>This field is uniform between the plates and zero outside them.</p>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> For a single infinite sheet, E = σ/2ε₀. For two parallel plates (a capacitor), the field between them is E = σ/ε₀ (twice as strong!).
+        </div>
+      `
+    },
+    {
+      code: "12.6.1",
+      text: "Describe electric potential at a point as the work done in bringing a unit charge from infinity to that point",
+      content: `
+        <p><strong>Electric Potential (V):</strong> The work done per unit positive charge in bringing it from infinity to a specific point against the electric field.</p>
+        <div class="highlight-formula">V = W / q₀</div>
+        <p>It is a scalar quantity. The potential at infinity is taken as zero. Unit: Volt (1 V = 1 J/C).</p>
+      `
+    },
+    {
+      code: "12.6.2",
+      text: "State unit of electric potential",
+      content: `
+        <p>The SI unit of electric potential is the <strong>Volt (V)</strong>.</p>
+        <p>One volt is defined as the potential at a point when one joule of work is done in bringing a charge of one coulomb from infinity to that point.</p>
+        <div class="highlight-formula">1 V = 1 J / 1 C</div>
+      `
+    },
+    {
+      code: "12.6.3",
+      text: "Describe electric field as potential gradient",
+      content: `
+        <p>The electric field is the negative gradient of electric potential. The negative sign indicates that the electric field points in the direction of decreasing potential.</p>
+        <div class="highlight-formula">E = - dV / dr</div>
+        <p>This means if you know how potential changes with distance, you can find the electric field. It also explains why field lines are always perpendicular to equipotential surfaces.</p>
+      `
+    },
+    {
+      code: "12.6.4",
+      text: "Derive an expression for electric potential at a point due to a point charge",
+      content: `
+        <p>Work done in moving a unit positive charge from infinity to a distance r against the electric field E = kQ/r² is:</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> W = - ∫ (from ∞ to r) E · dr
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> W = - ∫ (from ∞ to r) (kQ / r²) dr
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> W = - kQ [ -1/r ] (from ∞ to r)
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> W = kQ (1/r - 0)
+        </div>
+        <div class="step-box">
+          <strong>Step 5:</strong> Therefore, V = W / q₀ = <strong>V = kQ / r</strong>
+        </div>
+      `
+    },
+    {
+      code: "12.6.5",
+      text: "Illustrate electric potential as a function of position",
+      content: `
+        <p>For a point charge, V = kQ/r. This means potential is inversely proportional to distance (1/r).</p>
+        <p>A graph of V vs r shows a hyperbolic curve. For a positive charge, potential is positive and decreases as r increases, approaching zero at infinity. For a negative charge, potential is negative and increases (becomes less negative) as r increases.</p>
+      `
+    },
+    {
+      code: "12.6.6",
+      text: "Define electron volt (eV)",
+      content: `
+        <p>An electron volt is a very small unit of energy used in atomic and nuclear physics.</p>
+        <p>It is the energy gained by an electron when it is accelerated through a potential difference of 1 volt.</p>
+        <div class="highlight-formula">1 eV = 1.6 × 10⁻¹⁹ J</div>
+      `
+    },
+    {
+      code: "12.7.1",
+      text: "Derive capacitance of a parallel plate capacitor in terms of area, distance and permittivity of free space",
+      content: `
+        <p>A capacitor is a device that stores electrical energy in an electric field. A parallel plate capacitor is the simplest kind, made of two conducting plates separated by a gap.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> The electric field between two parallel plates with charge Q and area A is uniform: E = σ/ε₀ = Q / (A ε₀).
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> Potential difference between plates is V = E d.
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Substitute E: V = (Q / A ε₀) d
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> By definition of capacitance: C = Q / V
+        </div>
+        <div class="step-box">
+          <strong>Step 5:</strong> C = Q / [ (Q d) / (A ε₀) ]
+        </div>
+        <div class="step-box">
+          <strong>Step 6:</strong> <strong>C = ε₀ A / d</strong>
+        </div>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> This shows that capacitance depends only on the geometry of the plates (Area A and distance d) and the medium between them (ε₀).
+        </div>
+      `
+    },
+    {
+      code: "12.7.2",
+      text: "Calculate equivalent capacitance of different capacitors connected in series and parallel combinations",
+      content: `
+        <p><strong>Series Combination:</strong> The charge on each capacitor is the same (Q). The total voltage is V = V₁ + V₂ + V₃.</p>
+        <div class="highlight-formula">1 / C_eq = 1 / C₁ + 1 / C₂ + 1 / C₃</div>
+        <p><strong>Parallel Combination:</strong> The voltage across each capacitor is the same (V). The total charge is Q = Q₁ + Q₂ + Q₃.</p>
+        <div class="highlight-formula">C_eq = C₁ + C₂ + C₃</div>
+        <p><strong>Question:</strong> Two capacitors of 6 μF and 12 μF are connected in series. Find equivalent capacitance.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> 1/C = 1/6 + 1/12
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> Find common denominator: 1/C = 2/12 + 1/12 = 3/12
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Invert: <strong>C = 4 μF</strong>
+        </div>
+      `
+    },
+    {
+      code: "12.7.3",
+      text: "Analyse graphs of potential difference, charge and current with reference to time for a capacitor charging and discharging through a resistor",
+      content: `
+        <p><strong>Charging Phase:</strong> When a capacitor charges through a resistor, charge (Q) and voltage (V) increase exponentially, while current (I) decreases exponentially. The graphs are asymptotic, approaching their maximum (or minimum for I) values.</p>
+        <p><strong>Discharging Phase:</strong> When discharging, charge, voltage, and current all decrease exponentially from their initial values to zero. The rate of decrease depends on the time constant (τ = RC).</p>
+      `
+    },
+    {
+      code: "12.7.4",
+      text: "Describe time constant, show that the product of RC has the same unit as time",
+      content: `
+        <p>The time required for the charge on a discharging capacitor to fall to 1/e (approximately 37%) of its initial value. τ = RC.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> R = V / I = (Work / Charge) / (Charge / Time) = Work · Time / Charge²
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> C = Charge / V = Charge² / Work
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Multiply R × C: (Work · Time / Charge²) × (Charge² / Work) = <strong>Time</strong>
+        </div>
+      `
+    },
+    {
+      code: "12.7.5",
+      text: "Use equations of the form x = x₀ e^(-t/RC) where x could represent current, charge or potential difference for a capacitor discharging through resistor",
+      content: `
+        <div class="highlight-formula">x = x₀ e^(-t/RC)</div>
+        <p>Where x is the instantaneous value (charge, current, or voltage), x₀ is the initial value, t is time, R is resistance, and C is capacitance.</p>
+        <p><strong>Question:</strong> A 10 μF capacitor is discharged through a 2 kΩ resistor. Calculate the time constant.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> τ = RC
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> τ = (2 × 10³) × (10 × 10⁻⁶)
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> τ = 20 × 10⁻³ = <strong>0.02 s = 20 ms</strong>
+        </div>
+        <div class="step-box">
+          <strong>Bonus:</strong> After 40 ms (2τ), x = x₀ e⁻² ≈ 0.135 x₀ (13.5% of initial value).
+        </div>
+      `
+    },
+    {
+      code: "12.8.1",
+      text: "List the use of capacitors in various household appliances",
+      content: `
+        <ul>
+          <li><strong>Camera Flash:</strong> Stores energy slowly and releases it quickly.</li>
+          <li><strong>Ceiling Fans/Motors:</strong> Used as a start capacitor or run capacitor to create a phase shift.</li>
+          <li><strong>Power Supplies:</strong> Used to smooth out fluctuations (ripple) in DC voltage.</li>
+          <li><strong>Tuning Circuits:</strong> In radios and TVs to select specific frequencies.</li>
+        </ul>
+      `
+    },
+    {
+      code: "12.8.2",
+      text: "Explain polarisation of dielectric of a capacitor",
+      content: `
+        <p>When a dielectric material (insulator) is placed between the plates of a capacitor, its molecules align themselves in the direction of the electric field (polarization).</p>
+        <p>This alignment creates an internal electric field that opposes the external field, reducing the net electric field between the plates. As a result, the voltage decreases, and the capacitance increases (C = ε₀A/d becomes C = ε₀ε_r A/d).</p>
+      `
+    },
+    {
+      code: "12.8.3",
+      text: "Show that energy stored in a capacitor is W = ½ QV and W = ½ CV²",
+      content: `
+        <p>The work done to charge a capacitor is the area under the V-Q graph.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> Average voltage during charging = V / 2
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> Work done = Average Voltage × Total Charge
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> W = (V / 2) × Q = <strong>½ QV</strong>
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Since Q = CV, substitute into the equation: W = ½ (CV) V
+        </div>
+        <div class="step-box">
+          <strong>Step 5:</strong> <strong>W = ½ CV²</strong>
+        </div>
+      `
+    },
+    {
+      code: "12.8.4",
+      text: "Determine the electric potential energy stored in a capacitor from the area under the potential-charge graph",
+      content: `
+        <p>The potential-charge graph is a straight line through the origin (V ∝ Q). The area under this graph represents the work done to store charge Q on the capacitor.</p>
+        <p>The area forms a triangle with base Q and height V. Therefore, Area = ½ × base × height = ½ × Q × V.</p>
+        <div class="highlight-formula">Energy Stored = ½ QV</div>
+      `
+    }
+  ],
+  c: [
+    {
+      code: "13.1.1",
+      text: "Define electric current",
+      content: `
+        <p><strong>Electric Current:</strong> The rate of flow of electric charge through a conductor.</p>
+        <div class="highlight-formula">I = Q / t</div>
+        <p>SI Unit: Ampere (A). One ampere is the current when one coulomb of charge passes through a cross-section in one second.</p>
+      `
+    },
+    {
+      code: "13.1.2",
+      text: "Describe the flow of current in a conductor",
+      content: `
+        <p>In a metallic conductor, current is carried by free electrons. When a potential difference is applied, these electrons drift towards the positive terminal.</p>
+        <p>The drift velocity is very small (typically mm/s), but the electric field propagates almost instantly, causing all electrons to start drifting simultaneously.</p>
+        <div class="highlight-formula">I = A n e v_d</div>
+        <p>Where A is the cross-sectional area, n is the number of charge carriers per unit volume, e is the charge on an electron, and v_d is the drift velocity.</p>
+      `
+    },
+    {
+      code: "13.1.3",
+      text: "Solve word problems using the expression I = Anvq",
+      content: `
+        <p><strong>Question:</strong> A copper wire has a cross-sectional area of 1 mm². If the number density of free electrons is 8.5 × 10²⁸ m⁻³ and the drift velocity is 10⁻⁴ m/s, calculate the current.</p>
+        <div class="step-box">
+          <strong>Step 1: Convert units</strong><br>
+          A = 1 mm² = 1 × 10⁻⁶ m²
+        </div>
+        <div class="step-box">
+          <strong>Step 2: Use formula</strong><br>
+          I = A n v q
+        </div>
+        <div class="step-box">
+          <strong>Step 3: Substitute</strong><br>
+          I = (10⁻⁶) × (8.5 × 10²⁸) × (10⁻⁴) × (1.6 × 10⁻¹⁹)
+        </div>
+        <div class="step-box">
+          <strong>Step 4: Calculate</strong><br>
+          I = 1.36 A
+        </div>
+      `
+    },
+    {
+      code: "13.2.1",
+      text: "Define resistance and resistivity",
+      content: `
+        <p><strong>Resistance (R):</strong> The opposition offered by a conductor to the flow of electric current. R = V / I. Unit: Ohm (Ω).</p>
+        <p><strong>Resistivity (ρ):</strong> The resistance of a conductor of unit length and unit cross-sectional area. ρ = RA / L. Unit: Ohm-meter (Ω·m). It is a property of the material.</p>
+      `
+    },
+    {
+      code: "13.2.2",
+      text: "Derive a relation between resistance and resistivity",
+      content: `
+        <div class="step-box">
+          <strong>Step 1:</strong> Experimentally, resistance R is directly proportional to length L.<br>
+          R ∝ L
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> Resistance R is inversely proportional to area A.<br>
+          R ∝ 1/A
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Combining these: R ∝ L/A
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Removing proportionality: <strong>R = ρ L / A</strong>
+        </div>
+      `
+    },
+    {
+      code: "13.2.3",
+      text: "Solve word problems using the relation R = ρL/A",
+      content: `
+        <p><strong>Question:</strong> Calculate the resistance of a copper wire of length 10 m and cross-sectional area 1 mm². (Resistivity of copper = 1.7 × 10⁻⁸ Ω·m)</p>
+        <div class="step-box">
+          <strong>Step 1: Convert units</strong><br>
+          A = 1 mm² = 1 × 10⁻⁶ m²
+        </div>
+        <div class="step-box">
+          <strong>Step 2: Use formula</strong><br>
+          R = ρ L / A
+        </div>
+        <div class="step-box">
+          <strong>Step 3: Substitute</strong><br>
+          R = (1.7 × 10⁻⁸) × (10) / (1 × 10⁻⁶)
+        </div>
+        <div class="step-box">
+          <strong>Step 4: Calculate</strong><br>
+          R = 1.7 × 10⁻⁷ / 10⁻⁶ = <strong>0.17 Ω</strong>
+        </div>
+      `
+    },
+    {
+      code: "13.2.4",
+      text: "Describe the relationship between temperature and resistance of a conductor",
+      content: `
+        <p>For metallic conductors, resistance increases with an increase in temperature. This is because higher temperature causes more vigorous vibrations of atoms, which increases the frequency of collisions with drifting electrons, impeding their flow.</p>
+        <div class="highlight-formula">R_t = R_0 (1 + α t)</div>
+        <p>Where α is the temperature coefficient of resistance.</p>
+      `
+    },
+    {
+      code: "13.2.5",
+      text: "State that the resistance of a light-dependent resistor (LDR) decreases as the light intensity increases",
+      content: `
+        <p><strong>LDR (Light Dependent Resistor):</strong> A semiconductor device whose resistance decreases as the intensity of incident light increases.</p>
+        <p>In darkness, it has very high resistance. When light falls on it, photons excite electrons into the conduction band, creating more charge carriers and thus lowering resistance.</p>
+      `
+    },
+    {
+      code: "13.2.6",
+      text: "Calculate the value of carbon resistance by using the colour codes",
+      content: `
+        <p>Carbon resistors are marked with colour bands to indicate their resistance value and tolerance.</p>
+        <p><strong>Question:</strong> A resistor has bands: Brown, Black, Red, Gold.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> 1st Band (Brown) = 1
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> 2nd Band (Black) = 0
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> 3rd Band (Red) = Multiplier × 10²
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> 4th Band (Gold) = Tolerance ± 5%
+        </div>
+        <div class="step-box">
+          <strong>Step 5:</strong> R = 10 × 10² Ω ± 5% = <strong>1000 Ω ± 5% = 1 kΩ ± 5%</strong>
+        </div>
+      `
+    },
+    {
+      code: "13.3.1",
+      text: "State Ohm's law",
+      content: `
+        <p>The current flowing through a conductor is directly proportional to the potential difference across its ends, provided the physical state (temperature, etc.) of the conductor remains constant.</p>
+        <div class="highlight-formula">V = I R</div>
+      `
+    },
+    {
+      code: "13.3.2",
+      text: "Illustrate the I-V characteristics of a metallic conductor at constant temperature, a semiconductor diode, thermistor and a filament lamp",
+      content: `
+        <ul>
+          <li><strong>Metallic Conductor:</strong> The I-V graph is a straight line passing through the origin. It obeys Ohm's law.</li>
+          <li><strong>Filament Lamp:</strong> The graph curves downwards. As current increases, the filament heats up, increasing its resistance.</li>
+          <li><strong>Semiconductor Diode:</strong> Allows current to flow in one direction only. The graph is non-linear and does not pass through the origin.</li>
+          <li><strong>Thermistor:</strong> A non-ohmic conductor whose resistance decreases as temperature increases (NTC). The graph curves upwards.</li>
+        </ul>
+      `
+    },
+    {
+      code: "13.3.3",
+      text: "Define electromotive force (e.m.f.) and internal resistance",
+      content: `
+        <p><strong>Electromotive Force (ε):</strong> The total energy supplied by a source to move a unit positive charge around a complete circuit. It is the potential difference across the terminals of a cell when no current is drawn from it. Unit: Volt.</p>
+        <p><strong>Internal Resistance (r):</strong> The resistance offered by the electrolyte and electrodes of a cell to the flow of current through it.</p>
+      `
+    },
+    {
+      code: "13.3.4",
+      text: "Compare electromotive force with terminal potential difference",
+      content: `
+        <p><strong>EMF (ε):</strong> The total work done per unit charge by the source. It is independent of the external circuit.</p>
+        <p><strong>Terminal Potential Difference (V):</strong> The potential difference across the external circuit. It is always less than the emf when current is flowing because some energy is lost overcoming internal resistance.</p>
+        <div class="highlight-formula">V = ε - I r</div>
+        <p>They are equal only when the circuit is open (I = 0).</p>
+      `
+    },
+    {
+      code: "13.3.5",
+      text: "Derive a relation to understand the effects of internal resistance of a source of e.m.f. on the terminal potential difference",
+      content: `
+        <p>Consider a cell of emf ε and internal resistance r connected to an external resistance R. Let I be the current in the circuit.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> The total resistance of the circuit is R + r.
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> By Ohm's law: I = ε / (R + r)
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> The potential drop across the internal resistance is Ir.
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> The terminal potential difference V is the potential drop across R: V = I R
+        </div>
+        <div class="step-box">
+          <strong>Step 5:</strong> Since ε = I(R + r) = IR + Ir = V + Ir
+        </div>
+        <div class="step-box">
+          <strong>Step 6:</strong> Therefore, <strong>V = ε - I r</strong>
+        </div>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> This shows that V is less than ε by an amount Ir, which is the voltage drop due to internal resistance.
+        </div>
+      `
+    },
+    {
+      code: "13.4.1",
+      text: "Define electric power",
+      content: `
+        <p><strong>Electric Power:</strong> The rate at which electrical energy is converted into other forms of energy (like heat or light) in an electric circuit.</p>
+        <div class="highlight-formula">P = W / t = I V</div>
+        <p>Unit: Watt (W). 1 Watt = 1 Joule/second.</p>
+      `
+    },
+    {
+      code: "13.4.2",
+      text: "Derive relations for electric power in terms of current (I), voltage (V) and resistance (R)",
+      content: `
+        <div class="step-box">
+          <strong>Step 1:</strong> We know P = I V.
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> By Ohm's law, V = I R. Substitute this into the power equation:<br>
+          P = I (I R) = <strong>I² R</strong>
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> Also, from Ohm's law, I = V / R. Substitute this:<br>
+          P = (V / R) V = <strong>V² / R</strong>
+        </div>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> These three formulas (P = IV, P = I²R, P = V²/R) are used depending on which quantities are known.
+        </div>
+      `
+    },
+    {
+      code: "13.4.3",
+      text: "Calculate the power dissipation due to the internal resistance of a circuit",
+      content: `
+        <p><strong>Question:</strong> A battery of emf 12 V and internal resistance 1 Ω delivers a current of 2 A. Calculate the power lost inside the battery.</p>
+        <div class="step-box">
+          <strong>Step 1:</strong> P = I² r
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> P = (2)² × 1
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> P = 4 × 1 = <strong>4 W</strong>
+        </div>
+      `
+    },
+    {
+      code: "13.5.1",
+      text: "Explain Kirchhoff's laws",
+      content: `
+        <p><strong>Kirchhoff's First Law (Junction Rule):</strong> The sum of currents entering a junction is equal to the sum of currents leaving the junction. ΣI_in = ΣI_out.</p>
+        <p><strong>Kirchhoff's Second Law (Loop Rule):</strong> The algebraic sum of the changes in potential around any closed loop of a circuit is zero. ΣE = ΣIR.</p>
+      `
+    },
+    {
+      code: "13.5.2",
+      text: "Explain conservation of charge in a circuit with the help of Kirchhoff's first law",
+      content: `
+        <p>Kirchhoff's first law is a direct consequence of the conservation of charge. Since charge cannot accumulate at a junction, the total charge entering the junction per unit time must equal the total charge leaving it per unit time. Hence, current in = current out.</p>
+      `
+    },
+    {
+      code: "13.5.3",
+      text: "Explain conservation of energy in a circuit with the help of Kirchhoff's second law",
+      content: `
+        <p>Kirchhoff's second law is a consequence of the conservation of energy. As a charge moves around a closed loop, the net work done by the electric field must be zero. The energy gained from the source (emf) must equal the energy lost across the resistors (IR drops). Therefore, ΣE = ΣIR.</p>
+      `
+    },
+    {
+      code: "13.5.4",
+      text: "Derive a formula for equivalent resistance of two or more resistors using Kirchhoff's law in series and parallel",
+      content: `
+        <h3>Series Combination</h3>
+        <div class="step-box">
+          <strong>Step 1:</strong> In series, the same current I flows through both resistors.
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> By Kirchhoff's loop rule: V = V₁ + V₂
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> IR_eq = IR₁ + IR₂
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Dividing by I: <strong>R_eq = R₁ + R₂</strong>
+        </div>
+        
+        <h3>Parallel Combination</h3>
+        <div class="step-box">
+          <strong>Step 1:</strong> In parallel, the voltage V is the same across both resistors.
+        </div>
+        <div class="step-box">
+          <strong>Step 2:</strong> By Kirchhoff's junction rule: I = I₁ + I₂
+        </div>
+        <div class="step-box">
+          <strong>Step 3:</strong> V/R_eq = V/R₁ + V/R₂
+        </div>
+        <div class="step-box">
+          <strong>Step 4:</strong> Dividing by V: <strong>1/R_eq = 1/R₁ + 1/R₂</strong>
+        </div>
+      `
+    },
+    {
+      code: "13.5.5",
+      text: "Solve problems using Kirchhoff's laws",
+      content: `
+        <p><strong>Question:</strong> Two resistors of 6 Ω and 3 Ω are connected in parallel. This combination is connected in series with a 4 Ω resistor and a 12 V battery. Find the total current.</p>
+        <div class="step-box">
+          <strong>Step 1: Solve parallel part</strong><br>
+          1/R_p = 1/6 + 1/3 = 3/6 = 1/2<br>
+          R_p = 2 Ω
+        </div>
+        <div class="step-box">
+          <strong>Step 2: Find total resistance</strong><br>
+          R_total = R_p + 4 = 2 + 4 = 6 Ω
+        </div>
+        <div class="step-box">
+          <strong>Step 3: Find total current</strong><br>
+          I = V / R_total = 12 / 6 = <strong>2 A</strong>
+        </div>
+      `
+    }
+  ]
+};
+
+// Flatten SLO data for progress tracking
+const flatSLOs = Object.values(SLO_DATA).flat();
+
+let completed = {};
+try { completed = JSON.parse(localStorage.getItem("ffa_physics_student") || "{}"); } catch(e) {}
+
+function updateProgress() {
+  const total = flatSLOs.length;
+  const done = Object.keys(completed).filter(k => completed[k]).length;
+  document.getElementById("progress-text").textContent = `${done} of ${total} SLOs Done`;
+  document.getElementById("progress-bar").style.width = `${(done / total) * 100}%`;
+}
+
+function saveProgress() {
+  try { localStorage.setItem("ffa_physics_student", JSON.stringify(completed)); } catch(e) {}
+}
+
+function renderChapter(ch) {
+  const app = document.getElementById("app");
+  const data = SLO_DATA[ch];
+  
+  if (!data) return;
+
+  app.innerHTML = data.map((slo, index) => {
+    const id = `${ch}-${index}`;
+    const isCompleted = completed[id] ? "completed" : "";
+    const btnText = completed[id] ? "✓ Done" : "Mark as Done";
+    
+    return `
+      <div class="slo-block" id="block-${id}">
+        <div class="slo-header" onclick="toggleBlock('${id}')">
+          <div>
+            <span class="code">SLO ${slo.code}</span>
+            <h2>${slo.text}</h2>
+          </div>
+        </div>
+        <div class="slo-content">
+          ${slo.content}
+          <button class="mark-btn ${isCompleted}" onclick="toggleComplete('${id}', event)">${btnText}</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function toggleBlock(id) {
+  const block = document.getElementById(`block-${id}`);
+  block.classList.toggle("open");
+}
+
+function toggleComplete(id, event) {
+  event.stopPropagation();
+  const btn = event.target;
+  if (completed[id]) {
+    delete completed[id];
+    btn.classList.remove("completed");
+    btn.textContent = "Mark as Done";
+  } else {
+    completed[id] = true;
+    btn.classList.add("completed");
+    btn.textContent = "✓ Done";
+  }
+  saveProgress();
+  updateProgress();
+}
+
+// Quiz Logic
+const QUIZ_DATA = [
+  { q: "The distance between two masses doubles. The force becomes:", opts: ["Half", "One quarter", "Double", "Four times"], ans: 1, expl: "F ∝ 1/r², so 1/4." },
+  { q: "g at a height equal to Earth's radius above the surface?", opts: ["9.8", "4.9", "2.45", "19.6"], ans: 2, expl: "r = 2R, so g/4 = 2.45 m/s²." },
+  { q: "Which is NOT a geostationary condition?", opts: ["T = 24 h", "Above equator", "Same direction as Earth", "Polar orbit"], ans: 3, expl: "A polar orbit cannot stay fixed over one spot." },
+  { q: "Force between 2 μC and 3 μC, 30 cm apart:", opts: ["0.6 N", "0.18 N", "6 N", "1.8 N"], ans: 0, expl: "kq₁q₂/r² = 0.054/0.09 = 0.6 N." },
+  { q: "Electric field inside a hollow charged spherical shell:", opts: ["kq/r²", "σ/ε₀", "Zero", "Depends on radius"], ans: 2, expl: "Gauss: no enclosed charge, so zero." },
+  { q: "6 μF and 3 μF in series:", opts: ["9 μF", "4.5 μF", "2 μF", "18 μF"], ans: 2, expl: "1/C = 1/6 + 1/3 = 1/2." },
+  { q: "After t = RC, charge left on a discharging capacitor:", opts: ["50%", "63%", "37%", "0%"], ans: 2, expl: "e⁻¹ ≈ 0.37." },
+  { q: "Same wire material, double length, same area. New resistance:", opts: ["R/2", "R", "2R", "4R"], ans: 2, expl: "R ∝ l." },
+  { q: "ε = 12 V, r = 1 Ω, R = 5 Ω. Terminal p.d.:", opts: ["12 V", "10 V", "2 V", "6 V"], ans: 1, expl: "I = 2 A, V = 12 − 2 = 10 V." },
+  { q: "Kirchhoff's first law expresses conservation of:", opts: ["Energy", "Momentum", "Charge", "Mass"], ans: 2, expl: "Current in = current out at a junction." }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function renderQuiz() {
+  const app = document.getElementById("app");
+  if (currentQ >= QUIZ_DATA.length) {
+    app.innerHTML = `
+      <div class="quiz-container">
+        <h2>Quiz Completed</h2>
+        <p>Your Score: <strong>${score} / ${QUIZ_DATA.length}</strong></p>
+        <p>${score >= 8 ? "Excellent! You are ready for AKUEB board exams." : score >= 5 ? "Good effort. Review the topics you missed." : "Keep studying. Focus on the core concepts."}</p>
+        <button class="next-btn" onclick="resetQuiz()">Retry Quiz</button>
+      </div>
+    `;
+    return;
+  }
+
+  const q = QUIZ_DATA[currentQ];
+  app.innerHTML = `
+    <div class="quiz-container">
+      <p style="color: var(--text-muted); font-size: 14px;">Question ${currentQ + 1} of ${QUIZ_DATA.length}</p>
+      <div class="quiz-question">${q.q}</div>
+      ${q.opts.map((opt, i) => `<button class="option-btn" onclick="checkAnswer(${i})">${opt}</button>`).join("")}
+      <div class="feedback" id="quiz-feedback"></div>
+    </div>
+  `;
+}
+
+function checkAnswer(selected) {
+  const q = QUIZ_DATA[currentQ];
+  const btns = document.querySelectorAll(".option-btn");
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.ans) btn.classList.add("correct");
+    if (i === selected && i !== q.ans) btn.classList.add("wrong");
+  });
+  
+  if (selected === q.ans) score++;
+  
+  document.getElementById("quiz-feedback").innerHTML = `
+    ${q.expl}<br>
+    <button class="next-btn" onclick="nextQuestion()">${currentQ + 1 < QUIZ_DATA.length ? "Next Question" : "View Results"}</button>
+  `;
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuiz();
+}
+
+function resetQuiz() {
+  currentQ = 0;
+  score = 0;
+  renderQuiz();
+}
+
+// Navigation
+document.getElementById("nav").addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    document.querySelectorAll("#nav button").forEach(b => b.classList.remove("active"));
+    e.target.classList.add("active");
+    
+    const ch = e.target.dataset.ch;
+    if (ch === "q") {
+      resetQuiz();
+    } else {
+      renderChapter(ch);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+// Initialize
+updateProgress();
+renderChapter("g");
+</script>
+</body>
+</html>
