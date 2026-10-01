@@ -1,0 +1,211 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Functions, Limits & Differentiation — Mastery Course</title><style>
+:root{--bg:#0b1020;--card:#121a2f;--card2:#17223b;--text:#edf3ff;--muted:#aebbd4;--accent:#7dd3fc;--accent2:#c4b5fd;--good:#86efac;--line:#2a3858}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#080c18,#0e1629);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;line-height:1.7}main{max-width:1120px;margin:auto;padding:28px 18px 80px}
+.hero,section{border:1px solid var(--line);border-radius:22px;background:var(--card);padding:30px;margin-top:24px}.hero{padding:44px 34px;background:linear-gradient(135deg,#14213d,#11182d);box-shadow:0 18px 60px #0005}.badge{display:inline-block;border:1px solid #ffffff22;border-radius:999px;padding:6px 12px;color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.12em}.hero h1{font-size:clamp(38px,6vw,72px);line-height:1.05;margin:18px 0}.hero h1 span{color:var(--accent2)}.hero-sub{font-size:20px;color:var(--muted)}.hero-grid,.formula-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}.formula-grid{grid-template-columns:repeat(3,1fr)}.hero-grid div,.formula-grid>div{padding:16px;border-radius:14px;background:#ffffff08;border:1px solid #ffffff12}
+h2{font-size:34px;color:var(--accent);margin-top:0}h3{font-size:24px;color:var(--accent2);margin-top:30px}.lead{font-size:18px;color:var(--muted)}.callout,.example,.practice{padding:18px 20px;border-radius:15px;margin:18px 0;background:var(--card2);border-left:4px solid var(--accent)}.practice{border-left-color:var(--good)}.formula{font-family:Georgia,serif;font-size:23px;text-align:center;padding:16px;background:#0b1224;border-radius:12px;margin:15px 0}table{width:100%;border-collapse:collapse;margin:18px 0}th,td{padding:12px;border:1px solid var(--line);text-align:left;vertical-align:top}th{background:#1a2743;color:var(--accent)}.levels{display:flex;flex-wrap:wrap;gap:8px}.levels span{padding:7px 11px;border-radius:999px;background:#ffffff0a;border:1px solid var(--line);font-size:13px}.ladder{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.biglist li{padding:8px}.checklist{display:grid;gap:12px}.checklist label{padding:12px;background:var(--card2);border-radius:10px}@media(max-width:760px){.hero-grid,.formula-grid,.ladder{grid-template-columns:1fr}.hero{padding:28px 20px}section{padding:22px 17px}table{font-size:14px;display:block;overflow:auto}}
+@media print{body{background:white;color:#111}section,.hero{background:white;border:1px solid #bbb;box-shadow:none;color:#111}h2,h3{color:#111}.callout,.example,.practice{background:#f5f5f5}}
+</style></head><body><main>
+<section class="hero">
+<div class="badge">GRADE XII • CHAPTERS 13 & 14</div>
+<h1>Functions, Limits & Differentiation<br><span>Mastery Course</span></h1>
+<p class="hero-sub">A learn → understand → perform → redo → test workbook designed to take you from absolute beginner to exam-level mastery.</p>
+<div class="hero-grid"><div><b>Coverage</b><br>13.1–13.5 + 14.1–14.2</div><div><b>Practice</b><br>0 → 100 difficulty</div><div><b>Method</b><br>Worked examples + active recall</div><div><b>Target</b><br>95%+ mastery</div></div>
+</section>
+
+<section><h2>How to use this</h2>
+<p>Do not read this like a normal chapter. For each concept, read the explanation, cover the worked answer, reproduce the example yourself, then solve the practice without looking back. Mark mistakes and redo them later.</p>
+<div class="callout"><b>The cycle:</b> Read → close answer → solve → check → explain why → redo after a delay.</div>
+<div class="levels"><span>0–20 Foundation</span><span>21–40 Basic</span><span>41–60 Standard</span><span>61–80 Exam</span><span>81–100 Mastery</span></div></section>
+
+<section><h2>Syllabus map</h2>
+<table><tr><th>Unit</th><th>Master these skills</th></tr>
+<tr><td>13.1 Functions</td><td>Intervals, domain, codomain, range, one-one/onto, algebraic/transcendental functions, special functions, explicit/implicit, even/odd, parametric and piecewise functions.</td></tr>
+<tr><td>13.2 Inverse Functions</td><td>Find inverses, restrictions, compositions and inverse-graph relationship.</td></tr>
+<tr><td>13.3 Graphs</td><td>Standard graphs, domain/range, transformations, inverse graphs and piecewise graphs.</td></tr>
+<tr><td>13.4 Limits</td><td>Sequences, function limits, laws, algebraic limits, exponential/log/trig limits and standard limits.</td></tr>
+<tr><td>13.5 Continuity</td><td>Definition, one-sided continuity, algebraic/graphical tests and applications.</td></tr>
+<tr><td>14.1 Differentiation</td><td>Rate of change, derivative from first principles, derivative rules and higher derivatives.</td></tr>
+<tr><td>14.2 Applications</td><td>Tangents, normals, increasing/decreasing behaviour, extrema and optimization.</td></tr>
+</table>
+<div class="callout"><b>Chapter 12 is intentionally skipped for now</b> so you can focus on the denser Chapters 13 and 14 first.</div></section>
+
+<section><h2>Notation survival guide</h2>
+<div class="formula-grid"><div><b>f(x)</b><br>Output of a function at input x.</div><div><b>x → a</b><br>x gets closer and closer to a.</div><div><b>f⁻¹(x)</b><br>Inverse function, when it exists.</div><div><b>lim x→a f(x)</b><br>Value f(x) approaches.</div><div><b>f′(x)</b><br>Instantaneous rate of change / derivative.</div><div><b>Δx</b><br>Change in x.</div></div>
+<div class="callout"><b>Important:</b> f⁻¹(x) is not 1/f(x). Inverse and reciprocal are different ideas.</div></section>
+
+<section><h2>13.1 — Functions</h2>
+<h3>13.1.1 Intervals</h3>
+<p>An interval describes allowed real numbers. Square brackets include endpoints; round brackets exclude them.</p>
+<table><tr><th>Notation</th><th>Meaning</th></tr><tr><td>[2,5]</td><td>2 ≤ x ≤ 5</td></tr><tr><td>(2,5)</td><td>2 &lt; x &lt; 5</td></tr><tr><td>[2,5)</td><td>2 ≤ x &lt; 5</td></tr><tr><td>(−∞,4]</td><td>x ≤ 4</td></tr></table>
+<div class="example"><b>Example:</b> x ≥ −3 and x &lt; 5 becomes [−3,5).</div>
+
+<h3>What is a function?</h3>
+<p>A function assigns exactly one output to every allowed input. Think of it as a machine: input x enters, and f(x) comes out.</p>
+<div class="example"><b>Example:</b> f(x)=2x+3. Then f(4)=11.</div>
+<div class="example"><b>Not a function:</b> {(1,4),(1,7)} because input 1 has two different outputs.</div>
+
+<h3>Domain, codomain and range</h3>
+<p><b>Domain</b> = allowed inputs. <b>Codomain</b> = declared target set. <b>Range</b> = outputs actually produced.</p>
+<div class="callout"><b>Domain traps:</b> denominator ≠ 0; even-root radicand ≥ 0; logarithm argument &gt; 0.</div>
+<div class="example"><b>1.</b> f(x)=1/(x−3): domain x≠3.<br><b>2.</b> g(x)=√(x+5): domain x≥−5.<br><b>3.</b> h(x)=ln(x−2): domain x&gt;2.</div>
+
+<h3>One-one and onto</h3>
+<p><b>One-one:</b> different inputs never share an output. <b>Onto:</b> every element of the codomain is hit.</p>
+<div class="example"><b>Example:</b> f(x)=2x+1 from R to R is one-one and onto. If f(a)=f(b), then a=b. For any y, choose x=(y−1)/2.</div>
+
+<h3>Algebraic and transcendental functions</h3>
+<p>Algebraic functions use algebraic operations and roots: polynomials and rational functions are common examples. Transcendental functions include exponential, logarithmic and trigonometric functions.</p>
+
+<h3>Important function families</h3>
+<ul><li>Polynomial: x³−2x+1</li><li>Rational: (x+1)/(x−2)</li><li>Exponential: 2ˣ</li><li>Logarithmic: log₂x</li><li>Trigonometric: sin x, cos x, tan x</li><li>Modulus: |x|</li><li>Quadratic: ax²+bx+c</li><li>Square-root: √x</li></ul>
+
+<h3>Explicit, implicit and parametric</h3>
+<p><b>Explicit:</b> y directly in terms of x, e.g. y=x²+1.</p><p><b>Implicit:</b> x and y occur together, e.g. x²+y²=25.</p><p><b>Parametric:</b> x and y are both given using t, e.g. x=t², y=2t.</p>
+
+<h3>Even and odd</h3>
+<p>Even: f(−x)=f(x), giving y-axis symmetry. Odd: f(−x)=−f(x), giving origin symmetry.</p>
+<div class="example"><b>Example:</b> x² is even; x³ is odd; x³+x is odd.</div>
+
+<h3>Piecewise functions</h3>
+<div class="example"><b>Example:</b> f(x) = x+2 for x&lt;1 and 3x for x≥1. At x=0 use the first rule; at x=1 use the second.</div>
+
+<div class="practice"><b>Practice 20–40:</b><br>1. Domain of 1/(x+4). 2. Domain of √(7−x). 3. Is x⁴ even, odd or neither? 4. Is x³−5x even, odd or neither? 5. Domain/range of |x|. 6. Explain why 2x−7 from R to R is one-one and onto.</div>
+</section>
+
+<section><h2>13.2 — Inverse Functions</h2>
+<p>An inverse reverses a function. If f takes x to y, f⁻¹ takes y back to x. A function must be one-one on the chosen domain to have an inverse function.</p>
+<h3>Method</h3><ol><li>Write y=f(x).</li><li>Swap x and y.</li><li>Solve for y.</li><li>Rename y as f⁻¹(x).</li></ol>
+<div class="example"><b>Example:</b> f(x)=3x−5.<br>y=3x−5 → x=3y−5 → y=(x+5)/3.<br>So f⁻¹(x)=(x+5)/3.</div>
+<div class="example"><b>Verification:</b> f(f⁻¹(x))=x and f⁻¹(f(x))=x.</div>
+<h3>Quadratic warning</h3><p>x² is not one-one on all R because f(2)=f(−2). Restricting the domain to x≥0 makes its inverse √x.</p>
+<p>The graph of f⁻¹ is the reflection of f in y=x.</p>
+<div class="practice"><b>Practice 40–50:</b> Find and verify the inverse of f(x)=5x+2. Then find the inverse of x² after restricting the domain to x≥0.</div>
+</section>
+
+<section><h2>13.3 — Graphs and Transformations</h2>
+<table><tr><th>Function</th><th>Key fact</th></tr><tr><td>y=x</td><td>Line through origin.</td></tr><tr><td>y=x²</td><td>Parabola, vertex (0,0).</td></tr><tr><td>y=√x</td><td>x≥0, starts at origin.</td></tr><tr><td>y=|x|</td><td>V-shape, vertex origin.</td></tr><tr><td>y=aˣ, a&gt;1</td><td>Increasing exponential, y&gt;0.</td></tr><tr><td>y=logₐx, a&gt;1</td><td>Inverse of aˣ, x&gt;0.</td></tr></table>
+<table><tr><th>Equation change</th><th>Effect</th></tr><tr><td>f(x)+k</td><td>Up k</td></tr><tr><td>f(x)−k</td><td>Down k</td></tr><tr><td>f(x−h)</td><td>Right h</td></tr><tr><td>f(x+h)</td><td>Left h</td></tr><tr><td>−f(x)</td><td>Reflect in x-axis</td></tr><tr><td>f(−x)</td><td>Reflect in y-axis</td></tr></table>
+<div class="example"><b>Example:</b> y=(x−2)²+3 is y=x² shifted right 2 and up 3. Vertex (2,3).</div>
+<div class="example"><b>Example:</b> y=|x+4|−1 is y=|x| shifted left 4 and down 1. Vertex (−4,−1).</div>
+<div class="practice"><b>Practice 50–60:</b> 1. Describe y=(x+3)²−4. 2. Give vertex/domain/range of |x−5|+2. 3. Domain/range of √(x−1)+2. 4. Describe y=2ˣ−3 relative to y=2ˣ.</div>
+</section>
+
+<section><h2>13.4 — Limits</h2>
+<h3>13.4.1 What does x→a mean?</h3>
+<p>x→a means x gets arbitrarily close to a. A limit asks what output is approached; it does not automatically ask for the function's actual value at a.</p>
+<div class="example"><b>Example:</b> lim(x→2)(x+3)=5.</div>
+<h3>One-sided limits</h3><p>x→a⁻ approaches from the left; x→a⁺ approaches from the right. A two-sided limit exists when both agree.</p>
+<h3>Sequences</h3><p>A sequence is a₁,a₂,a₃,... . Its limit describes what happens as n→∞.</p><div class="example">aₙ=1/n → 0 as n→∞.</div>
+<h3>Limit laws</h3><ul><li>lim(f+g)=lim f+lim g</li><li>lim(f−g)=lim f−lim g</li><li>lim(cf)=c lim f</li><li>lim(fg)=(lim f)(lim g)</li><li>lim(f/g)=(lim f)/(lim g), if denominator limit ≠0</li></ul>
+<div class="example"><b>Example:</b> lim(x→2)(x²+3x−1)=4+6−1=9.</div>
+<h3>0/0: factor and cancel</h3>
+<div class="example">lim(x→3)(x²−9)/(x−3). Factor x²−9=(x−3)(x+3), cancel, then substitute 3: answer 6.</div>
+<h3>Difference of powers</h3><p>xⁿ−aⁿ=(x−a)(xⁿ⁻¹+xⁿ⁻²a+...+aⁿ⁻¹).</p>
+<div class="example">lim(x→2)(x³−8)/(x−2)=lim(x→2)(x²+2x+4)=12.</div>
+<h3>Rationalization</h3>
+<div class="example">lim(x→4)(√x−2)/(x−4). Multiply by (√x+2)/(√x+2). Simplify to 1/(√x+2), then substitute 4: 1/4.</div>
+<h3>Standard limits to master</h3>
+<div class="formula-grid"><div>lim x→0 sin x/x = 1</div><div>lim x→0 (1−cos x)/x = 0</div><div>lim x→0 (eˣ−1)/x = 1</div><div>lim x→0 ln(1+x)/x = 1</div><div>lim x→0 ((1+x)ⁿ−1)/x = n</div><div>lim x→∞ (1+1/x)ˣ = e</div></div>
+<div class="example"><b>Example:</b> lim(x→0) sin(7x)/x = 7·lim(x→0) sin(7x)/(7x)=7.</div>
+<div class="example"><b>Example:</b> lim(x→0)(2ˣ−1)/x = ln 2.</div>
+<div class="practice"><b>Practice 60–75:</b><br>1. lim(x→2)(3x²−x+1). 2. lim(x→5)(x²−25)/(x−5). 3. lim(x→1)(x³−1)/(x−1). 4. lim(x→9)(√x−3)/(x−9). 5. lim(x→0) sin(5x)/(5x). 6. lim(x→0) sin(7x)/x. 7. lim(x→0)(eˣ−1)/x. 8. lim(x→0)((1+x)^5−1)/x. 9. lim(n→∞)1/n. 10. Explain when a two-sided limit fails.</div>
+</section>
+
+<section><h2>13.5 — Continuity</h2>
+<p>f is continuous at x=a when:</p><ol><li>f(a) exists.</li><li>lim(x→a)f(x) exists.</li><li>lim(x→a)f(x)=f(a).</li></ol>
+<div class="example"><b>Example:</b> Every polynomial is continuous for every real x.</div>
+<div class="example"><b>Example:</b> 1/(x−2) is not continuous at x=2 because it is undefined there.</div>
+<h3>Discontinuities</h3><p><b>Removable:</b> a hole can be filled. <b>Jump:</b> left and right limits differ. <b>Infinite:</b> values become unbounded near a vertical asymptote.</p>
+<div class="example">For f(x)=2x+1 when x&lt;2 and 3x−1 when x≥2: left limit=5, right limit=5, f(2)=5, so it is continuous at 2.</div>
+<div class="practice"><b>Practice 75–80:</b> Test continuity at x=3 for f(x)=2x+1 when x&lt;3 and x+4 when x≥3. Show all three conditions.</div>
+</section>
+
+<section><h2>14.1 — Differentiation</h2>
+<h3>Average rate of change</h3><p>From x=a to x=b:</p><div class="formula">[f(b)−f(a)]/(b−a)</div><p>This is the secant-line slope.</p>
+<div class="example">f(x)=x² from 2 to 5: (25−4)/(5−2)=7.</div>
+<h3>Instantaneous rate and first principles</h3><div class="formula">f′(x)=lim(h→0)[f(x+h)−f(x)]/h</div>
+<div class="example"><b>Derive f=x²:</b><br>f′=lim(h→0)[(x+h)²−x²]/h<br>=lim(h→0)(2x+h)=2x.</div>
+<h3>Core rules</h3>
+<table><tr><th>Function</th><th>Derivative</th></tr><tr><td>c</td><td>0</td></tr><tr><td>xⁿ</td><td>nxⁿ⁻¹</td></tr><tr><td>cf</td><td>cf′</td></tr><tr><td>f±g</td><td>f′±g′</td></tr><tr><td>fg</td><td>f′g+fg′</td></tr><tr><td>f/g</td><td>(f′g−fg′)/g²</td></tr><tr><td>eˣ</td><td>eˣ</td></tr><tr><td>ln x</td><td>1/x</td></tr><tr><td>sin x</td><td>cos x</td></tr><tr><td>cos x</td><td>−sin x</td></tr></table>
+<h3>Product rule</h3><div class="example">y=x²sin x → y′=2x sin x+x²cos x.</div>
+<h3>Quotient rule</h3><div class="example">y=x/(x+1) → y′=[(x+1)−x]/(x+1)²=1/(x+1)².</div>
+<h3>Chain rule</h3><div class="formula">d/dx[f(g(x))]=f′(g(x))g′(x)</div><div class="example">y=(3x²+1)^5 → y′=30x(3x²+1)^4.</div>
+<h3>Higher derivatives</h3><div class="example">f=x⁴−3x² → f′=4x³−6x; f″=12x²−6.</div>
+<div class="practice"><b>Practice 80–90:</b> 1. Differentiate 7x⁵−4x²+9. 2. Differentiate (x²+1)(x³−2). 3. Differentiate x²/(x+1). 4. Differentiate (2x−5)^7. 5. Differentiate e^(3x). 6. Differentiate ln(4x+1). 7. Find the second derivative of x⁵−2x³+x.</div>
+</section>
+
+<section><h2>14.2 — Applications of Differentiation</h2>
+<h3>Tangent</h3><p>At x=a, tangent slope is f′(a):</p><div class="formula">y−f(a)=f′(a)(x−a)</div>
+<div class="example">For y=x² at x=2: f(2)=4, f′(2)=4, so y−4=4(x−2), hence y=4x−4.</div>
+<h3>Normal</h3><p>If tangent slope is m≠0, normal slope is −1/m.</p>
+<h3>Increasing/decreasing</h3><p>f′&gt;0 means increasing; f′&lt;0 means decreasing on the interval being considered.</p>
+<h3>Stationary points</h3><p>Stationary points satisfy f′(x)=0. Use derivative sign changes or the second derivative test to classify them.</p>
+<div class="example">f=x²−4x+1 → f′=2x−4=0 gives x=2. f″=2&gt;0, so it is a minimum; f(2)=−3. Minimum point=(2,−3).</div>
+<h3>Optimization workflow</h3><ol><li>Define the quantity.</li><li>Write it as a function.</li><li>Differentiate.</li><li>Set derivative to zero for candidates.</li><li>Classify/check candidates.</li><li>Interpret in context.</li></ol>
+<div class="practice"><b>Practice 90–100:</b> 1. Find tangent and normal to y=x³ at x=1. 2. Determine increasing/decreasing intervals for x³−3x²−9x. 3. Find/classify stationary points of x³−6x²+9x+2. 4. Rectangle perimeter 40: maximize area. 5. s(t)=t³−6t²+9t: find velocity, acceleration and stationary times.</div>
+</section>
+
+<section><h2>Mastery ladders</h2>
+<div class="ladder"><div><h3>0–20 Foundation</h3><p>Definitions, notation, simple domains, function evaluation, basic graph reading, substitution limits and monomial derivatives.</p></div><div><h3>21–40 Basic</h3><p>Domains with restrictions, inverses, graph shifts, factorable limits and power-rule differentiation.</p></div><div><h3>41–60 Standard</h3><p>Piecewise functions, one-sided limits, continuity, rationalization, standard limits and product/quotient/chain rules.</p></div><div><h3>61–80 Exam</h3><p>Mixed multi-step questions, parameter continuity, graph/range combinations and multi-rule differentiation.</p></div><div><h3>81–90 High difficulty</h3><p>Tricky piecewise limits, inverse reasoning, tangent/normal combinations and optimization.</p></div><div><h3>91–100 Mastery</h3><p>Unseen mixed problems where you select the method, justify it, solve accurately and interpret the result.</p></div></div>
+</section>
+
+<section><h2>Grand practice set — no solutions first</h2>
+<ol class="biglist">
+<li>Find domain and range of f(x)=√(9−x²).</li>
+<li>Determine whether x⁵−x is odd, even or neither.</li>
+<li>Find the inverse of f(x)=(2x−3)/(x+1), stating restrictions.</li>
+<li>Describe every transformation taking y=x² to y=−2(x−3)²+5.</li>
+<li>Find lim(x→4)(x²−16)/(x−4).</li>
+<li>Find lim(x→1)(x⁴−1)/(x−1).</li>
+<li>Find lim(x→0) sin(6x)/x.</li>
+<li>Find lim(x→0) ln(1+3x)/x.</li>
+<li>Find k so f(x)=x²+k for x&lt;2 and f(x)=3x for x≥2 is continuous at x=2.</li>
+<li>Use first principles to differentiate 3x²−2x.</li>
+<li>Differentiate y=(x²+1)^4 sin x.</li>
+<li>Find tangent and normal to y=ln x at x=e.</li>
+<li>Find and classify stationary points of x⁴−4x².</li>
+<li>Determine increasing/decreasing intervals for x³−3x.</li>
+<li>Optimize the area of a rectangle with fixed perimeter 60.</li>
+<li>P(t)=500e^(0.04t): find instantaneous growth rate and interpret it.</li>
+<li>Explain why 1/x is continuous on its domain but not at x=0.</li>
+<li>Prove that f⁻¹(f(x))=x on the appropriate domain when f is invertible.</li>
+<li>Construct a piecewise function with a removable discontinuity at x=3 and explain how to remove it.</li>
+<li>Mixed mastery: for a function involving a square root, logarithm and rational denominator, find its domain, discuss continuity, evaluate a relevant limit, and differentiate it where defined.</li>
+</ol>
+</section>
+
+<section><h2>Error log</h2>
+<p>Every missed question should have a reason. This turns mistakes into a revision plan.</p>
+<table><tr><th>Question</th><th>My mistake</th><th>Correct rule</th><th>Redo</th></tr>
+<tr><td></td><td></td><td></td><td></td><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></table>
+</section>
+
+<section><h2>95%+ mastery checklist</h2>
+<div class="checklist">
+<label><input type="checkbox"> I can find domains without guessing.</label>
+<label><input type="checkbox"> I can distinguish domain, codomain and range.</label>
+<label><input type="checkbox"> I can identify one-one and onto functions.</label>
+<label><input type="checkbox"> I can find and verify inverses.</label>
+<label><input type="checkbox"> I can transform and interpret graphs.</label>
+<label><input type="checkbox"> I can evaluate ordinary and one-sided limits.</label>
+<label><input type="checkbox"> I can handle 0/0 by factorization or rationalization.</label>
+<label><input type="checkbox"> I know and can apply standard trig, exponential and logarithmic limits.</label>
+<label><input type="checkbox"> I can test continuity, including piecewise functions.</label>
+<label><input type="checkbox"> I can derive from first principles.</label>
+<label><input type="checkbox"> I can use power, product, quotient and chain rules.</label>
+<label><input type="checkbox"> I can find higher derivatives.</label>
+<label><input type="checkbox"> I can find tangent and normal equations.</label>
+<label><input type="checkbox"> I can classify stationary points.</label>
+<label><input type="checkbox"> I can solve optimization problems and interpret answers.</label>
+</div>
+<div class="callout"><b>Mastery standard:</b> you should be able to solve cold, explain why the method works, and then solve a changed version without relying on the worked example.</div>
+</section>
+
+<script>
+document.querySelectorAll('input[type=checkbox]').forEach((c,i)=>{
+ const k='math-master-'+i;
+ c.checked=localStorage.getItem(k)==='1';
+ c.addEventListener('change',()=>localStorage.setItem(k,c.checked?'1':'0'));
+});
+</script>
+</main></body></html>
