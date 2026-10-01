@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grade XII Maths: videos matched to your syllabus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --paper: #F3F6FA;
+    --grid: #DCE4EE;
+    --ink: #13233A;
+    --muted: #55657B;
+    --card: #FFFFFF;
+    --line: #C9D4E2;
+    --green: #0B7A3B;
+    --green-soft: #DDF2E4;
+    --hl: #FFF0A3;
+    --margin: #E9A0A0;
+    --focus: #1F5FD1;
+    --warn: #7A4B00;
+    --warn-soft: #FFF3D6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0E1621;
+      --grid: #18232F;
+      --ink: #E5ECF4;
+      --muted: #9BAABD;
+      --card: #152030;
+      --line: #2A3A4E;
+      --green: #4FD08A;
+      --green-soft: #12301F;
+      --hl: #4A4210;
+      --margin: #6B3A3A;
+      --focus: #7AA7FF;
+      --warn: #F2C26B;
+      --warn-soft: #3A2E12;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0E1621;
+    --grid: #18232F;
+    --ink: #E5ECF4;
+    --muted: #9BAABD;
+    --card: #152030;
+    --line: #2A3A4E;
+    --green: #4FD08A;
+    --green-soft: #12301F;
+    --hl: #4A4210;
+    --margin: #6B3A3A;
+    --focus: #7AA7FF;
+    --warn: #F2C26B;
+    --warn-soft: #3A2E12;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0;
+    font-family: "Lexend", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  button { font: inherit; color: inherit; }
+  a { color: var(--focus); }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  header.top { margin-bottom: 20px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.2rem); line-height: 1.2; margin: 0 0 8px; font-weight: 700; letter-spacing: -0.01em; }
+  .lede { margin: 0 0 14px; color: var(--muted); max-width: 62ch; }
+  .overall { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); }
+  .bar { flex: 1 1 200px; max-width: 320px; height: 10px; border-radius: 6px; background: var(--line); overflow: hidden; }
+  .bar > span { display: block; height: 100%; background: var(--green); width: 0; transition: width .25s ease; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 18px; }
+  .tab {
+    border: 2px solid var(--line); background: var(--card); border-radius: 10px;
+    padding: 10px 14px; cursor: pointer; text-align: left; line-height: 1.3; min-height: 48px;
+  }
+  .tab b { display: block; font-weight: 600; }
+  .tab small { color: var(--muted); font-size: 0.8rem; }
+  .tab[aria-selected="true"] { border-color: var(--ink); background: var(--hl); }
+
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 24px; align-items: start; }
+  .panel { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+
+  .list {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 6px 0 14px; border-left: 3px solid var(--margin);
+  }
+  .topic { margin: 0; padding: 16px 18px 6px; font-size: 1.02rem; font-weight: 600; }
+  .topic span { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  ul.slos { list-style: none; margin: 0; padding: 0; }
+  .slo-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; border-top: 1px solid var(--line); }
+  .slo-pick {
+    display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 4px 10px; text-align: left;
+    background: transparent; border: 0; padding: 12px 8px 12px 18px; cursor: pointer; min-height: 56px;
+  }
+  .slo-row.sel .slo-pick { background: var(--hl); }
+  .code { font-weight: 600; color: var(--green); font-variant-numeric: tabular-nums; }
+  .slo-text { font-size: 0.95rem; line-height: 1.5; }
+  .meta { grid-column: 2; display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 0 8px; background: var(--paper); }
+  .chip.vid { border-color: var(--green); color: var(--green); }
+  .chip.none { border-style: dashed; }
+  .tick {
+    width: 56px; border: 0; border-left: 1px solid var(--line); background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tick .box {
+    width: 24px; height: 24px; border: 2px solid var(--muted); border-radius: 6px;
+    display: grid; place-items: center; font-weight: 700; font-size: 15px; line-height: 1; color: transparent;
+  }
+  .tick[aria-pressed="true"] .box { background: var(--green); border-color: var(--green); color: var(--card); }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .card-head { padding: 14px 16px 4px; }
+  .card-head .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card-head h2 { font-size: 1.05rem; margin: 0; font-weight: 600; }
+  .card-head p { margin: 6px 0 0; font-size: 0.95rem; }
+  .simple { margin: 12px 16px; padding: 10px 12px; border-left: 4px solid var(--green); background: var(--green-soft); border-radius: 0 8px 8px 0; font-size: 0.93rem; }
+  .simple b { display: block; font-weight: 600; margin-bottom: 2px; }
+
+  .player { aspect-ratio: 16 / 9; background: #000; width: 100%; }
+  .player iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .noplayer { aspect-ratio: 16 / 9; display: grid; place-items: center; text-align: center; padding: 16px; background: var(--paper); color: var(--muted); font-size: 0.92rem; border-block: 1px solid var(--line); }
+  .caption { padding: 8px 16px; font-size: 0.85rem; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+
+  .res { list-style: none; margin: 0; padding: 4px 16px 10px; }
+  .res li { margin: 0; }
+  .res-item {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; width: 100%; text-align: left;
+    padding: 10px 10px; margin: 6px 0; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--paper); text-decoration: none; color: var(--ink); cursor: pointer; align-items: start;
+  }
+  .res-item[aria-current="true"] { border-color: var(--ink); background: var(--hl); }
+  .kind { font-size: 0.75rem; border-radius: 6px; padding: 1px 8px; background: var(--card); border: 1px solid var(--line); white-space: nowrap; }
+  .res-title { font-size: 0.92rem; font-weight: 500; line-height: 1.4; }
+  .res-src { font-size: 0.8rem; color: var(--muted); }
+
+  .gap { margin: 12px 16px 16px; padding: 12px; border: 1px dashed var(--line); border-radius: 10px; font-size: 0.92rem; }
+  .gap p { margin: 0 0 10px; }
+  .btn {
+    display: inline-block; border: 2px solid var(--ink); background: var(--card); color: var(--ink);
+    padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.92rem; cursor: pointer; min-height: 44px;
+  }
+  .note { margin: 0 16px 14px; padding: 10px 12px; border-radius: 8px; background: var(--warn-soft); color: var(--warn); font-size: 0.88rem; }
+  .done-btn { margin: 0 16px 16px; }
+  .done-btn[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: var(--card); }
+
+  footer.legend { margin-top: 28px; font-size: 0.85rem; color: var(--muted); max-width: 80ch; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .panel { position: static; order: -1; }
+    .slo-pick { grid-template-columns: 52px minmax(0, 1fr); padding-left: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Grade XII Maths: videos matched to your syllabus</h1>
+    <p class="lede">Pick an outcome from the list. The video or notes that teach it appear next to it, with a plain-language version of what the outcome is asking. Tick the box when it makes sense.</p>
+    <div class="overall" aria-live="polite">
+      <span id="overallText"></span>
+      <div class="bar" aria-hidden="true"><span id="overallBar"></span></div>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs" role="tablist" aria-label="Chapters"></div>
+
+  <div class="layout">
+    <section class="list" id="list" aria-label="Student learning outcomes"></section>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+
+  <footer class="legend">
+    Only the YouTube videos can play on this page. Khan Academy and article links open in a new tab. Outcomes showing a dashed "No video yet" tag had no resource I could verify, so they carry a YouTube search button with a suggested search instead. "Class work only" outcomes (formative assessment) are not tested in the annual exam.
+  </footer>
+</div>
+
+<script>
+(function () {
+  var LVL = { R: 'Remember', U: 'Understand', A: 'Apply', An: 'Analyse', E: 'Evaluate', FA: 'Class work only' };
+
+  var R = {
+    khanSlope: { t: 'link', kind: 'Video', title: 'Equation of a line from two points', src: 'Khan Academy', url: 'https://www.khanacademy.org/math/algebra-basics/alg-basics-graphing-lines-and-slope/alg-basics-writing-slope-intercept/v/equation-of-a-line-3' },
+    normal1: { t: 'yt', id: 'xBUQMvfF53s', title: 'Normal form of a straight line, video 1', src: 'YouTube, recommended by CK-12' },
+    normal2: { t: 'yt', id: 'p6_TXNUvQtc', title: 'Normal form of a straight line, video 2', src: 'YouTube, recommended by CK-12' },
+    ck12: { t: 'link', kind: 'Notes', title: 'Various forms of the equation of a line (with normal form videos)', src: 'CK-12', url: 'https://flexbooks.ck12.org/cbook/ck-12-algebra-i-concepts/section/5.5/related/lesson/various-forms-of-equation-of-a-line-xi-maths/' },
+    bhanzu: { t: 'link', kind: 'Notes', title: 'Five forms of a straight line, with six worked examples', src: 'Bhanzu', url: 'https://bhanzu.com/math/geometry/equation-of-a-straight-line' },
+    convert: { t: 'link', kind: 'Video', title: 'Converting between forms of a line (video lessons)', src: 'Online Math Learning', url: 'https://www.onlinemathlearning.com/forms-linear-equations.html' },
+    kullabs: { t: 'link', kind: 'Notes', title: 'Pair of straight lines: homogeneous equation, nature and angle', src: 'Kullabs', url: 'https://www.kullabs.org/class-11/mathematics/coordinate-geometry-straight-line-/pair-of-straight-lines' },
+    unacademy: { t: 'link', kind: 'Notes', title: 'Pairs of straight lines: formulas and conditions', src: 'Unacademy', url: 'https://unacademy.com/content/jee/study-material/mathematics/pairs-of-straight-lines-an-introduction/' },
+    matherama: { t: 'link', kind: 'Notes', title: 'Angle between a pair of straight lines, derived step by step', src: 'Matherama', url: 'https://matherama.com/Tutorials/Chapter%2009%20-%20Pair%20of%20Straight%20Lines/04%20-%20Angles/' },
+    shaalaa: { t: 'link', kind: 'Notes', title: 'Angle between lines of ax² + 2hxy + by² = 0', src: 'Shaalaa', url: 'https://www.shaalaa.com/concept-notes/angle-between-lines-represented-by-ax2-2hxy-by2-0_14008' },
+    angleVid: { t: 'yt', id: 'E6KTLVAbO_I', title: 'Angle between the lines of ax² + 2hxy + by² = 0 (Class 12 lecture)', src: 'YouTube' },
+    khanFunctions: { t: 'link', kind: 'Video', title: 'Functions unit: evaluate, domain and range, inverse functions', src: 'Khan Academy', url: 'https://www.khanacademy.org/math/college-algebra/xa5dd2923c88e7aa8:functions' },
+    khanRestrict: { t: 'link', kind: 'Video', title: 'One-to-one mappings and when a function is invertible', src: 'Khan Academy', url: 'https://www.khanacademy.org/math/engageny-precalc/precalc-4/precalc-4c/v/restricting-trig-function-domain' },
+    libre: { t: 'link', kind: 'Notes', title: 'One-to-one and inverse functions, with domain and range', src: 'LibreTexts', url: 'https://math.libretexts.org/Courses/Monroe_Community_College/MTH_165_College_Algebra_MTH_175_Precalculus/02:_Functions_and_Their_Graphs/2.05:_One-to-One_and_Inverse_Functions' },
+    khanLimIntro: { t: 'link', kind: 'Video', title: 'Introducing limits (11 min video, then practice)', src: 'Khan Academy', url: 'https://www.khanacademy.org/math/ap-calculus-ab/ab-limits-new/ab-1-2/e/limits-intro' },
+    khanIntuition: { t: 'link', kind: 'Video', title: 'Limit intuition review', src: 'Khan Academy', url: 'https://www.khanacademy.org/math/ap-calculus-bc/bc-limits-new/bc-limits-optional/v/limit-intuition-review' },
+    khanSubst: { t: 'link', kind: 'Video', title: 'Limits by direct substitution (2 min)', src: 'Khan Academy', url: 'https://www.khanacademy.org/math/calculus-1/cs1-limits-and-continuity/cs1-limits-by-direct-substitution/v/limit-by-substitution' },
+    khanLimUnit: { t: 'link', kind: 'Video', title: 'Limits and continuity: the whole unit', src: 'Khan Academy', url: 'https://www.khanacademy.org/math/calculus-1/cs1-limits-and-continuity' },
+    limInf: { t: 'yt', id: 'eh_ATp0hbB0', title: 'Introduction to limits at infinity', src: 'Khan Academy on YouTube' },
+    b1: { t: 'yt', id: 'WUvTyaaNkzM', title: 'The essence of calculus (chapter 1)', src: '3Blue1Brown' },
+    b2: { t: 'yt', id: '9vKqVkMQHKk', title: 'The paradox of the derivative (chapter 2)', src: '3Blue1Brown' },
+    b3: { t: 'link', kind: 'Video', title: 'Essence of calculus playlist: chapter 3 is the power rule, chapter 4 the product rule', src: '3Blue1Brown', url: 'https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr' }
+  };
+
+  var DATA = [
+    { n: 12, title: 'Straight Line', topics: [
+      { id: '12.1', title: 'Equation of Straight Line', slos: [
+        { c: '12.1.1', l: 'U', t: 'Describe the equation of a straight line parallel to the coordinate axes.',
+          s: 'A horizontal line is y = k and a vertical line is x = h. Every point on the line shares one fixed coordinate.',
+          r: [R.bhanzu], q: 'equation of line parallel to x axis y axis' },
+        { c: '12.1.2', l: 'U', t: 'Describe the forms of the equation of a line: point-slope, slope-intercept, two-points, two-intercepts, normal and symmetric.',
+          s: 'It is the same line written in different ways. Choose the form that matches what you are given: a point and a slope, two points, or where the line cuts the axes.',
+          r: [R.khanSlope, R.normal1, R.normal2, R.ck12, R.bhanzu], q: 'symmetric form of a straight line', note: 'Symmetric form (part f) has no resource here yet. The search button finds one.' },
+        { c: '12.1.3', l: 'A', t: 'Convert the general form of a line into the forms in 12.1.2.',
+          s: 'Start from Ax + By + C = 0 and rearrange it into whichever form the question asks for.',
+          r: [R.convert, R.bhanzu], q: 'convert general form of line to intercept form normal form' },
+        { c: '12.1.4', l: 'FA', t: 'Find the distance between a point and a line, and between two parallel lines.',
+          s: 'The distance from (x₁, y₁) to Ax + By + C = 0 is |Ax₁ + By₁ + C| divided by √(A² + B²). For two parallel lines, pick any point on one and use the same formula.',
+          r: [], q: 'distance of a point from a line coordinate geometry' },
+        { c: '12.1.5', l: 'U', t: 'Describe concurrent lines and the point of concurrency.',
+          s: 'Lines that all pass through the same single point are concurrent. That shared point is the point of concurrency.',
+          r: [], q: 'concurrent lines point of concurrency' },
+        { c: '12.1.6', l: 'A', t: 'Find the equations of the medians, altitudes and perpendicular bisectors of a triangle for given vertices.',
+          s: 'A median joins a vertex to the midpoint of the opposite side. An altitude drops from a vertex at 90° to the opposite side. A perpendicular bisector cuts a side in half at 90°. Each is a line you write using the forms in 12.1.2.',
+          r: [], q: 'equation of median altitude perpendicular bisector of triangle' },
+        { c: '12.1.7', l: 'A', t: 'Determine the condition of concurrency of three straight lines.',
+          s: 'Three lines meet at one point exactly when the 3×3 determinant of their coefficients equals zero.',
+          r: [], q: 'condition of concurrency of three lines determinant' },
+        { c: '12.1.8', l: 'E', t: 'Prove that in a triangle the perpendicular bisectors, medians and altitudes are concurrent.',
+          s: 'A proof that each set of three special lines meets at a single point: the circumcentre, centroid and orthocentre.',
+          r: [], q: 'prove medians concurrent centroid coordinate geometry' }
+      ]},
+      { id: '12.2', title: 'Angle Between Lines', slos: [
+        { c: '12.2.1', l: 'A', t: 'Find the angle between two intersecting lines.',
+          s: 'Use the slopes: tan θ = |(m₁ − m₂) / (1 + m₁m₂)|.',
+          r: [], q: 'angle between two lines slopes tan theta' },
+        { c: '12.2.2', l: 'A', t: 'Find the equation of the family of lines through the intersection of two given lines.',
+          s: 'If the lines are L₁ = 0 and L₂ = 0, then L₁ + kL₂ = 0 gives one line of the family for each value of k.',
+          r: [], q: 'family of lines through intersection of two lines' },
+        { c: '12.2.3', l: 'A', t: 'Calculate the angles of a triangle when the slopes of the sides are given.',
+          s: 'Take the sides two at a time and apply the angle formula from 12.2.1 at each vertex.',
+          r: [], q: 'angles of a triangle from slopes of sides' }
+      ]},
+      { id: '12.3', title: 'Area of Polygon', slos: [
+        { c: '12.3.1', l: 'A', t: 'Find the area of a triangular region whose vertices are given.',
+          s: 'Plug the three vertices into the coordinate area formula. It is a fixed pattern, so practice it until it is automatic.',
+          r: [], q: 'area of triangle from coordinates of vertices' },
+        { c: '12.3.2', l: 'A', t: 'Find the area of a quadrilateral region whose vertices are given.',
+          s: 'Split the quadrilateral into two triangles and add their areas, or apply the same coordinate pattern around the four vertices in order.',
+          r: [], q: 'area of quadrilateral from coordinates of vertices' }
+      ]},
+      { id: '12.4', title: 'Homogeneous Linear and Quadratic Equations in Two Variables', slos: [
+        { c: '12.4.1', l: 'R', t: 'Define the second-degree homogeneous equation in two variables.',
+          s: 'Every term has total degree 2: ax² + 2hxy + by². There is no x term, no y term and no constant.',
+          r: [R.kullabs], q: 'second degree homogeneous equation in x and y' },
+        { c: '12.4.2', l: 'A', t: 'Find the equation of the pair of lines represented jointly by ax² + 2hxy + by² = 0.',
+          s: 'Two lines through the origin, y = m₁x and y = m₂x, multiply out to this shape. So one equation hides two lines.',
+          r: [R.kullabs, R.matherama], q: 'pair of lines ax2+2hxy+by2=0 separate equations' },
+        { c: '12.4.3', l: 'A', t: 'Determine the nature of the lines using the discriminant D = √(h² − ab).',
+          s: 'Look at h² − ab. Positive means two different real lines. Zero means the two lines coincide. Negative means there are no real lines.',
+          r: [R.kullabs, R.unacademy], q: 'nature of pair of straight lines h squared minus ab' },
+        { c: '12.4.4', l: 'A', t: 'Find the acute angle between a pair of straight lines through the origin.',
+          s: 'tan θ = 2√(h² − ab) / |a + b|. If a + b = 0 the lines are perpendicular.',
+          r: [R.angleVid, R.matherama, R.shaalaa], q: 'angle between pair of straight lines ax2+2hxy+by2' },
+        { c: '12.4.5', l: 'A', t: 'Solve real-world problems using the concepts of analytical geometry.',
+          s: 'Turn the situation into coordinates first, then use the lines, distances and areas from this chapter.',
+          r: [], q: 'analytical geometry word problems straight line' }
+      ]}
+    ]},
+    { n: 13, title: 'Functions and Limits', topics: [
+      { id: '13.1', title: 'Functions and Types of Functions', slos: [
+        { c: '13.1.1', l: 'U', t: 'Describe open, closed, and semi-open and semi-closed intervals.',
+          s: 'An open interval (a, b) leaves out both ends. A closed interval [a, b] includes both. A semi-open one such as [a, b) includes only one end.',
+          r: [], q: 'types of intervals open closed semi-open' },
+        { c: '13.1.2', l: 'A', t: 'Represent the intervals in 13.1.1 on a number line.',
+          s: 'Draw a filled dot where the end is included and an empty circle where it is left out, then shade between.',
+          r: [], q: 'represent intervals on number line' },
+        { c: '13.1.3', l: 'U', t: 'Describe a function as a rule of correspondence, with notation, domain, codomain and range, including one-one and onto functions.',
+          s: 'A function gives each input exactly one output. Domain is the allowed inputs. Range is the outputs actually produced. One-one means no two inputs share an output. Onto means every value in the codomain gets used.',
+          r: [R.khanFunctions, R.khanRestrict, R.libre], q: 'function domain codomain range one-one onto' },
+        { c: '13.1.4', l: 'A', t: 'Find the value of a function for given values of the variables.',
+          s: 'Put the given number in place of x and calculate.',
+          r: [R.khanFunctions], q: 'evaluate functions' },
+        { c: '13.1.5', l: 'U', t: 'Identify functions as algebraic or transcendental.',
+          s: 'Algebraic functions use powers, roots and + − × ÷, like x² + 3. Transcendental functions need more, like sin x, eˣ and log x.',
+          r: [], q: 'algebraic and transcendental functions' },
+        { c: '13.1.6', l: 'U', t: 'Describe trigonometric, inverse trigonometric, logarithmic, exponential and modulus functions.',
+          s: 'These are the main families of transcendental functions. Know what each graph roughly does and what inputs are allowed.',
+          r: [], q: 'trigonometric logarithmic exponential modulus functions overview' },
+        { c: '13.1.7', l: 'U', t: 'Describe quadratic and square root functions.',
+          s: 'A quadratic gives a parabola. A square root function gives half of a parabola lying on its side.',
+          r: [], q: 'quadratic function and square root function graph' },
+        { c: '13.1.8', l: 'U', t: 'Describe explicit and implicit, even and odd, parametric and piecewise functions.',
+          s: 'Explicit: y = f(x). Implicit: x and y are mixed, like x² + y² = 4. Even: f(−x) = f(x). Odd: f(−x) = −f(x). Parametric: x and y both depend on a third variable. Piecewise: different rules on different parts of the domain.',
+          r: [], q: 'even odd functions explicit implicit piecewise parametric' },
+        { c: '13.1.9', l: 'A', t: 'Find the domain and range of algebraic functions.',
+          s: 'Domain: which x values are allowed (no dividing by zero, no square root of a negative). Range: which y values you can actually get.',
+          r: [R.khanFunctions], q: 'find domain and range of algebraic functions' },
+        { c: '13.1.10', l: 'A', t: 'Find the domain and range of transcendental functions.',
+          s: 'Same idea as 13.1.9, using what you know about sin x, eˣ and log x. For example, log x needs x greater than 0.',
+          r: [R.khanFunctions], q: 'domain and range of exponential logarithmic functions' },
+        { c: '13.1.11', l: 'A', t: 'Solve problems related to exponential and logarithmic functions.',
+          s: 'Exponentials and logarithms undo each other. Rewrite one form as the other to solve for the unknown.',
+          r: [], q: 'exponential and logarithmic equations solving' },
+        { c: '13.1.12', l: 'A', t: 'Solve compound interest problems using the exponential function.',
+          s: 'With compound interest the amount is multiplied by the same factor every period, which is exactly exponential growth.',
+          r: [], q: 'compound interest exponential function' }
+      ]},
+      { id: '13.2', title: 'Inverse Functions', slos: [
+        { c: '13.2.1', l: 'U', t: 'Describe the inverse of a function and its notation.',
+          s: 'The inverse f⁻¹ undoes f. If f sends a to b, then f⁻¹ sends b back to a.',
+          r: [R.khanFunctions, R.libre], q: 'intro to inverse functions' },
+        { c: '13.2.2', l: 'A', t: 'Find the inverse of a function and its domain and range.',
+          s: 'Swap x and y, then solve for y. The domain of f⁻¹ is the range of f, and the range of f⁻¹ is the domain of f.',
+          r: [R.libre, R.khanRestrict], q: 'find the inverse of a function step by step' }
+      ]},
+      { id: '13.3', title: 'Graph of Functions', slos: [
+        { c: '13.3.1', l: 'A', t: 'Plot the graph of y = xⁿ (n ≠ 0), where n is rational.',
+          s: 'Make a table of x and y values for n like 2, 3 and 1/2, plot the points and see how the shape changes with n.',
+          r: [], q: 'graph of y = x^n for different n' },
+        { c: '13.3.2', l: 'An', t: 'Find the equation of a quadratic from its graph using y = a(x − p)(x − q).',
+          s: 'If the curve cuts the x-axis at p and q, the equation is y = a(x − p)(x − q). Use one more point on the curve to find a.',
+          r: [], q: 'find quadratic equation from graph x intercepts and a point' },
+        { c: '13.3.3', l: 'A', t: 'Sketch the graph of a quadratic function using its factors.',
+          s: 'The factors give the x-intercepts. Add the y-intercept and the turning point, then draw the parabola.',
+          r: [], q: 'sketch quadratic graph using factors' },
+        { c: '13.3.4', l: 'U', t: 'Distinguish among linear, quadratic and square root functions graphically.',
+          s: 'Linear is a straight line. Quadratic is a U-shaped parabola. Square root starts at a point and curves away to one side.',
+          r: [], q: 'linear quadratic square root graphs compare' },
+        { c: '13.3.5', l: 'An', t: 'Interpret the graph of exponential and logarithmic functions.',
+          s: 'Exponential graphs rise or fall steeply and never touch the x-axis. Logarithmic graphs are their mirror image in the line y = x.',
+          r: [], q: 'graphs of exponential and logarithmic functions' },
+        { c: '13.3.6', l: 'A', t: 'Draw the graph of the modulus function y = c|x ± a| ± b.',
+          s: '|x| is a V shape. The a value shifts it left or right, b shifts it up or down, and c stretches it or flips it.',
+          r: [], q: 'graph of modulus function absolute value transformations' },
+        { c: '13.3.7', l: 'An', t: 'Find the domain and range of a function using its graph.',
+          s: 'Domain is how far the graph stretches left to right. Range is how far it stretches bottom to top.',
+          r: [R.khanFunctions], q: 'domain and range from graph' },
+        { c: '13.3.8', l: 'An', t: 'Interpret the relation between a one-one function and its inverse through a graph.',
+          s: 'The graph of f⁻¹ is the mirror image of f in the line y = x. The horizontal line test tells you whether an inverse exists.',
+          r: [R.khanRestrict], q: 'horizontal line test inverse function graph reflection y=x' },
+        { c: '13.3.9', l: 'A', t: 'Illustrate transformations of a graph: horizontal shift, vertical shift and scaling.',
+          s: 'Adding a number outside the function moves the graph up or down. Adding inside moves it left or right. Multiplying stretches or squashes it.',
+          r: [], q: 'graph transformations horizontal vertical shift scaling' },
+        { c: '13.3.10', l: 'An', t: 'Interpret the graph or sketch of piecewise functions.',
+          s: 'Draw each piece only over its own interval, and mark with a filled or empty dot whether each end point is included.',
+          r: [], q: 'piecewise function graph how to draw' }
+      ]},
+      { id: '13.4', title: 'Limit of a Function', slos: [
+        { c: '13.4.1', l: 'U', t: 'Describe the phrases x → 0, x → a and x → ∞.',
+          s: 'x → a means x gets very close to a without having to equal it. x → ∞ means x grows without bound.',
+          r: [R.khanLimIntro, R.limInf], q: 'what does x approaches a mean limits' },
+        { c: '13.4.2', l: 'U', t: 'Describe the limit of a sequence.',
+          s: 'A sequence is a list of numbers. Its limit is the value the terms settle toward as you go further along the list.',
+          r: [], q: 'limit of a sequence introduction' },
+        { c: '13.4.3', l: 'A', t: 'Find the limit of a sequence.',
+          s: 'Divide the top and bottom by the highest power of n, then see what each part tends to.',
+          r: [], q: 'find limit of a sequence examples' },
+        { c: '13.4.4', l: 'U', t: 'Describe the limit of a function.',
+          s: 'The limit is the value f(x) gets close to as x gets close to a number, even if f is not defined at that number.',
+          r: [R.khanLimIntro, R.khanIntuition], q: 'limit of a function intuition' },
+        { c: '13.4.5', l: 'R', t: 'State the theorems of limits for sum, difference, power, product and quotient.',
+          s: 'You may split a limit across + − × ÷ and powers. For a quotient, the bottom limit must not be zero.',
+          r: [R.khanLimUnit], q: 'limit theorems sum product quotient' },
+        { c: '13.4.6', l: 'A', t: 'Find the limit of a function using the theorems of limits.',
+          s: 'Try direct substitution first. If it works, you are done. If it gives 0/0, simplify or factor and try again.',
+          r: [R.khanSubst, R.khanLimUnit], q: 'finding limits using limit laws' },
+        { c: '13.4.7', l: 'E', t: 'Evaluate limits of standard forms: (xⁿ − aⁿ)/(x − a), (1 + 1/x)ˣ, sin x / x and similar.',
+          s: 'Learn the standard results: (1 + 1/x)ˣ tends to e as x → ∞, and sin x / x tends to 1 as x → 0 (x in radians). Then rewrite harder limits to look like these.',
+          r: [R.khanLimUnit], q: 'standard limits sin x over x (1+1/x)^x e' },
+        { c: '13.4.8', l: 'E', t: 'Evaluate limits of algebraic, exponential, logarithmic and trigonometric functions.',
+          s: 'Mixed problems that use everything from 13.4.6 and 13.4.7. Identify which standard form each one resembles.',
+          r: [R.khanLimUnit], q: 'evaluate limits exponential logarithmic trigonometric' }
+      ]},
+      { id: '13.5', title: 'Continuous and Discontinuous Functions', slos: [
+        { c: '13.5.1', l: 'A', t: 'Determine the existence and non-existence of a limit by illustrating the left-hand and right-hand limits.',
+          s: 'Find the limit coming from the left and from the right. The limit exists only if both are the same number.',
+          r: [R.khanLimUnit], q: 'left hand limit right hand limit existence' },
+        { c: '13.5.2', l: 'U', t: 'Describe the continuity of a function at a point and in an interval.',
+          s: 'A function is continuous at a point if you can draw through it without lifting your pen: the limit exists, the value exists and they are equal.',
+          r: [R.khanLimUnit], q: 'continuity of a function at a point definition' },
+        { c: '13.5.3', l: 'A', t: 'Determine the continuity and discontinuity of a function at a point and in an interval.',
+          s: 'Check the three conditions from 13.5.2 at the point in question. If any one fails, the function is discontinuous there.',
+          r: [R.khanLimUnit], q: 'determine continuity discontinuity at a point examples' },
+        { c: '13.5.4', l: 'FA', t: 'Apply logarithm, exponential, limit and continuity ideas to real-world problems such as growth, decay, finance and stock prices.',
+          s: 'Word problems where a quantity grows or decays over time. Class work, not tested in the exam.',
+          r: [], q: 'exponential growth and decay real world problems' }
+      ]}
+    ]},
+    { n: 14, title: 'Differentiation', topics: [
+      { id: '14.1', title: 'Derivative of a Function', slos: [
+        { c: '14.1.1', l: 'U', t: 'Distinguish between independent and dependent variables.',
+          s: 'The independent variable is the input you choose (usually x). The dependent variable is the output that responds (usually y).',
+          r: [], q: 'independent and dependent variables' },
+        { c: '14.1.2', l: 'A', t: 'Determine the approximate change in the dependent variable when the independent variable is increased or decreased.',
+          s: 'For a small change in x, the change in y is roughly the derivative times that change in x.',
+          r: [], q: 'approximate change using differentials dy = f prime dx' },
+        { c: '14.1.3', l: 'U', t: 'Explain the concept of rate of change.',
+          s: 'How fast one quantity changes compared with another, like kilometres per hour or rupees per kilogram.',
+          r: [R.b2], q: 'rate of change explained' },
+        { c: '14.1.4', l: 'U', t: 'Distinguish between the average and the instantaneous rate of change.',
+          s: 'Average is the change over a stretch, the slope between two points. Instantaneous is the change at one moment, the slope of the tangent there.',
+          r: [R.b2], q: 'average rate of change vs instantaneous rate of change' },
+        { c: '14.1.5', l: 'A', t: 'Solve problems based on the average and instantaneous rate of change.',
+          s: 'Average: divide the total change by the interval. Instantaneous: take the derivative and evaluate it at the given point.',
+          r: [], q: 'average and instantaneous rate of change problems' },
+        { c: '14.1.6', l: 'U', t: 'Describe the derivative as the instantaneous rate of change of the dependent variable with respect to the independent variable, and its notation.',
+          s: 'dy/dx and f′(x) both mean the instantaneous rate of change of y as x changes.',
+          r: [R.b1, R.b2], q: 'what is a derivative notation dy/dx' },
+        { c: '14.1.7', l: 'A', t: 'Find the derivative using the definition (first principles) for y = xⁿ and y = (ax + b)ⁿ.',
+          s: 'f′(x) is the limit as h → 0 of [f(x + h) − f(x)] / h. Substitute your function, simplify, then let h go to 0.',
+          r: [R.b2], q: 'derivative from first principles x^n' },
+        { c: '14.1.8', l: 'A', t: 'Find the derivative of algebraic functions using the direct method (power rule).',
+          s: 'The derivative of xⁿ is n·xⁿ⁻¹. Bring the power down, then reduce the power by one.',
+          r: [R.b3], q: 'power rule derivative examples' }
+      ]},
+      { id: '14.2', title: 'Theorems on Differentiation and their Applications', slos: [
+        { c: '14.2.1', l: 'A', t: 'Find the derivative of a constant multiple, a sum or difference, a product and a quotient of functions.',
+          s: 'Constants come out front. Sums and differences are done term by term. Products and quotients have their own rules.',
+          r: [R.b3], q: 'product rule quotient rule derivative', note: 'The 3Blue1Brown series covers the product rule. Search for a separate quotient rule video.' },
+        { c: '14.2.2', l: 'A', t: 'Determine the derivative of polynomial or rational functions using the combined differentiation rules.',
+          s: 'Break the function into parts, pick the right rule for each part, and combine the results.',
+          r: [], q: 'derivative of rational functions quotient rule examples' }
+      ]}
+    ]}
+  ];
+
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem('g12-done') || '{}') || {}; } catch (e) { done = {}; }
+  function save() { try { localStorage.setItem('g12-done', JSON.stringify(done)); } catch (e) {} }
+
+  var all = [];
+  DATA.forEach(function (ch) { ch.topics.forEach(function (tp) { tp.slos.forEach(function (s) { s.ch = ch.n; all.push(s); }); }); });
+  var byCode = {};
+  all.forEach(function (s) { byCode[s.c] = s; });
+
+  function firstYt(s) { for (var i = 0; i < s.r.length; i++) { if (s.r[i].t === 'yt') return i; } return -1; }
+
+  var activeCh = 12;
+  var sel = '12.1.2';
+  var curRes = firstYt(byCode[sel]);
+
+  var tabsEl = document.getElementById('tabs');
+  var listEl = document.getElementById('list');
+  var panelEl = document.getElementById('panel');
+
+  function videoCount(s) { return s.r.filter(function (r) { return r.t === 'yt' || r.kind === 'Video'; }).length; }
+  function chapterProgress(n) {
+    var list = all.filter(function (s) { return s.ch === n; });
+    return { d: list.filter(function (s) { return done[s.c]; }).length, t: list.length };
+  }
+
+  function renderOverall() {
+    var d = all.filter(function (s) { return done[s.c]; }).length;
+    document.getElementById('overallText').textContent = d + ' of ' + all.length + ' outcomes marked as understood';
+    document.getElementById('overallBar').style.width = (all.length ? (d / all.length * 100) : 0) + '%';
+  }
+
+  function renderTabs() {
+    tabsEl.innerHTML = '';
+    DATA.forEach(function (ch) {
+      var p = chapterProgress(ch.n);
+      var b = document.createElement('button');
+      b.className = 'tab';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', String(ch.n === activeCh));
+      b.innerHTML = '<b>' + ch.n + '. ' + ch.title + '</b><small>' + p.d + ' of ' + p.t + ' marked</small>';
+      b.addEventListener('click', function () {
+        activeCh = ch.n;
+        var first = all.filter(function (s) { return s.ch === ch.n; })[0];
+        select(first.c, false);
+      });
+      tabsEl.appendChild(b);
+    });
+  }
+
+  function renderList() {
+    var ch = DATA.filter(function (c) { return c.n === activeCh; })[0];
+    var html = '';
+    ch.topics.forEach(function (tp) {
+      html += '<h3 class="topic"><span>' + tp.id + '</span>' + tp.title + '</h3><ul class="slos">';
+      tp.slos.forEach(function (s) {
+        var vc = videoCount(s);
+        var tag;
+        if (vc > 0) tag = '<span class="chip vid">' + vc + (vc === 1 ? ' video' : ' videos') + '</span>';
+        else if (s.r.length > 0) tag = '<span class="chip">Notes only</span>';
+        else tag = '<span class="chip none">No video yet</span>';
+        var isDone = !!done[s.c];
+        html += '<li class="slo-row' + (s.c === sel ? ' sel' : '') + '">' +
+          '<button class="slo-pick" data-code="' + s.c + '" aria-current="' + (s.c === sel) + '">' +
+          '<span class="code">' + s.c + '</span><span class="slo-text">' + s.t + '</span>' +
+          '<span class="meta"><span class="chip">' + LVL[s.l] + '</span>' + tag + '</span></button>' +
+          '<button class="tick" data-tick="' + s.c + '" aria-pressed="' + isDone + '" aria-label="Mark ' + s.c + ' as understood"><span class="box" aria-hidden="true">✓</span></button></li>';
+      });
+      html += '</ul>';
+    });
+    listEl.innerHTML = html;
+  }
+
+  function renderPanel() {
+    var s = byCode[sel];
+    var html = '<div class="card"><div class="card-head"><div class="row"><h2>' + s.c + '</h2><span class="chip">' + LVL[s.l] + '</span></div><p>' + s.t + '</p></div>';
+    html += '<div class="simple"><b>In simple words</b>' + s.s + '</div>';
+
+    var r = (curRes >= 0) ? s.r[curRes] : null;
+    if (r && r.t === 'yt') {
+      html += '<div class="player"><iframe src="https://www.youtube-nocookie.com/embed/' + r.id + '?rel=0" title="' + r.title.replace(/"/g, '') + '" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
+      html += '<div class="caption"><span>' + r.src + '</span><a href="https://www.youtube.com/watch?v=' + r.id + '" target="_blank" rel="noopener">Video not showing? Open it on YouTube</a></div>';
+    } else if (s.r.length) {
+      html += '<div class="noplayer"><span>No video plays on this page for this outcome. Open one of the links below.</span></div>';
+    } else {
+      html += '<div class="noplayer"><span>No verified resource for this outcome yet.</span></div>';
+    }
+
+    if (s.r.length) {
+      html += '<ul class="res">';
+      s.r.forEach(function (x, i) {
+        if (x.t === 'yt') {
+          html += '<li><button class="res-item" data-res="' + i + '" aria-current="' + (i === curRes) + '"><span class="kind">Plays here</span><span><span class="res-title">' + x.title + '</span><br><span class="res-src">' + x.src + '</span></span></button></li>';
+        } else {
+          html += '<li><a class="res-item" href="' + x.url + '" target="_blank" rel="noopener"><span class="kind">' + x.kind + '</span><span><span class="res-title">' + x.title + '</span><br><span class="res-src">' + x.src + ', opens in a new tab</span></span></a></li>';
+        }
+      });
+      html += '</ul>';
+    }
+
+    if (s.note) html += '<div class="note">' + s.note + '</div>';
+
+    if (!s.r.length || s.note) {
+      html += '<div class="gap">' + (!s.r.length ? '<p>Try a YouTube search with a ready-made phrase for this outcome.</p>' : '') +
+        '<a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=' + encodeURIComponent(s.q) + '">Search YouTube: ' + s.q + '</a></div>';
+    }
+
+    var isDone = !!done[s.c];
+    html += '<button class="btn done-btn" id="doneBtn" aria-pressed="' + isDone + '">' + (isDone ? 'Marked as understood' : 'Mark as understood') + '</button></div>';
+    panelEl.innerHTML = html;
+  }
+
+  function renderAll() { renderTabs(); renderList(); renderPanel(); renderOverall(); }
+
+  function select(code, scroll) {
+    sel = code;
+    var s = byCode[code];
+    activeCh = s.ch;
+    curRes = firstYt(s);
+    renderAll();
+    if (scroll && window.matchMedia('(max-width: 900px)').matches) {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      panelEl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+
+  function toggle(code) {
+    if (done[code]) delete done[code]; else done[code] = 1;
+    save();
+    renderTabs(); renderList(); renderPanel(); renderOverall();
+  }
+
+  listEl.addEventListener('click', function (e) {
+    var tick = e.target.closest('[data-tick]');
+    if (tick) { toggle(tick.getAttribute('data-tick')); return; }
+    var pick = e.target.closest('[data-code]');
+    if (pick) select(pick.getAttribute('data-code'), true);
+  });
+
+  panelEl.addEventListener('click', function (e) {
+    var rb = e.target.closest('[data-res]');
+    if (rb) { curRes = parseInt(rb.getAttribute('data-res'), 10); renderPanel(); return; }
+    if (e.target.closest('#doneBtn')) toggle(sel);
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
