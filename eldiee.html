@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday Eldie</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..800,0..100&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --night:  #16143f;
+  --night2: #221f5c;
+  --peach:  #ff9f7f;
+  --sun:    #ffd166;
+  --lilac:  #c9b8ff;
+  --mint:   #8ff0cf;
+  --ink:    #fdf6ee;
+  --soft:   rgba(253,246,238,.72);
+  --disp: 'Fraunces', Georgia, serif;
+  --body: 'Figtree', system-ui, sans-serif;
+}
+html, body { height: 100%; background: var(--night); color: var(--ink); font-family: var(--body); overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* sunset footer */
+#horizon { position: fixed; left: 0; right: 0; bottom: 0; height: 38vh; z-index: 0; pointer-events: none; }
+#horizon svg { width: 100%; height: 100%; display: block; }
+
+#top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: max(14px, env(safe-area-inset-top)) 18px 0;
+  font-size: 14px; color: var(--soft);
+}
+#mute { background: none; border: 1px solid rgba(253,246,238,.3); border-radius: 20px; padding: 5px 12px; font-size: 13px; }
+#mute[hidden] { display: none; }
+
+.scene {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 70px 22px 130px; text-align: center; overflow-y: auto;
+  opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility .6s;
+}
+.scene.on { opacity: 1; visibility: visible; }
+
+h1, h2 { font-family: var(--disp); font-weight: 600; font-variation-settings: 'SOFT' 100; line-height: 1.05; letter-spacing: -.01em; }
+h1 { font-size: clamp(40px, 9vw, 92px); }
+h2 { font-size: clamp(28px, 5vw, 52px); }
+p.lead { font-size: clamp(17px, 2vw, 22px); color: var(--soft); max-width: 460px; line-height: 1.6; margin-top: 14px; }
+
+.btn {
+  margin-top: 28px; padding: 14px 30px; border-radius: 40px;
+  border: none; background: var(--sun); color: #2a2160; font-weight: 600; font-size: 17px;
+  transition: transform .15s, box-shadow .2s;
+  box-shadow: 0 6px 0 #d9a93a;
+}
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #d9a93a; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid rgba(253,246,238,.4); box-shadow: none; }
+
+/* ---------- intro: boarding pass ---------- */
+.pass {
+  width: min(380px, 88vw); background: var(--ink); color: #2a2160;
+  border-radius: 22px; text-align: left; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+  transform: rotate(-2deg);
+}
+.pass-head { background: var(--peach); padding: 18px 22px; font-family: var(--disp); font-size: 26px; font-weight: 700; }
+.pass-row { display: flex; justify-content: space-between; gap: 12px; padding: 14px 22px; border-bottom: 2px dashed #d8cfe8; font-size: 15px; }
+.pass-row b { font-family: var(--disp); font-size: 20px; display: block; margin-top: 2px; }
+.pass-row small { color: #6e66a3; font-size: 13px; }
+.pass-foot { padding: 16px 22px; font-size: 14px; color: #6e66a3; }
+
+/* ---------- distance ---------- */
+#route { width: min(720px, 94vw); height: auto; overflow: visible; }
+#kmnum { font-family: var(--disp); font-size: clamp(54px, 12vw, 120px); font-weight: 700; color: var(--sun); line-height: 1; margin-top: 4px; font-variant-numeric: tabular-nums; }
+#kmextra { min-height: 28px; margin-top: 10px; color: var(--mint); font-size: 18px; opacity: 0; transition: opacity .6s; }
+#kmextra.on { opacity: 1; }
+
+/* ---------- days ---------- */
+#grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 9px; width: min(360px, 82vw); margin: 22px 0 10px; }
+#grid i { aspect-ratio: 1; border-radius: 50%; background: rgba(253,246,238,.12); transition: background .3s, transform .3s; }
+#grid i.lit { background: var(--lilac); transform: scale(1.05); }
+#grid i.last.lit { background: var(--sun); box-shadow: 0 0 0 5px rgba(255,209,102,.3); }
+.gridlbl { display: flex; justify-content: space-between; width: min(360px, 82vw); font-size: 14px; color: var(--soft); }
+#daynum { font-family: var(--disp); font-size: clamp(54px, 12vw, 110px); font-weight: 700; line-height: 1; }
+
+/* ---------- notes deck ---------- */
+.deck { width: min(340px, 86vw); height: 250px; perspective: 1000px; margin-top: 26px; }
+.card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3,1.2,.4,1), opacity .25s; cursor: pointer; }
+.card.flip { transform: rotateY(180deg); }
+.card.out { opacity: 0; }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 22px; padding: 26px; display: flex; align-items: center; justify-content: center; }
+.front { background: var(--lilac); color: #2a2160; font-family: var(--disp); font-size: 30px; font-weight: 700; }
+.back { background: var(--ink); color: #2a2160; transform: rotateY(180deg); font-size: 20px; line-height: 1.5; font-weight: 500; text-align: left; }
+#deckmeta { margin-top: 18px; font-size: 14px; color: var(--soft); min-height: 20px; }
+
+/* ---------- hug ---------- */
+#hugsvg { width: min(380px, 84vw); height: auto; overflow: visible; }
+#arms { opacity: 0; transition: opacity .5s; }
+#arms.on { opacity: 1; }
+#hugstat { margin-top: 14px; font-size: 16px; color: var(--soft); min-height: 24px; font-variant-numeric: tabular-nums; }
+.gifrow { display: flex; gap: 10px; margin-top: 16px; }
+.gifrow img { height: 84px; border-radius: 14px; }
+.spark { position: fixed; z-index: 40; pointer-events: none; font-size: 22px; animation: rise 1.4s ease-out forwards; }
+@keyframes rise { from { opacity: 1; transform: translateY(0) scale(.7); } to { opacity: 0; transform: translateY(-140px) scale(1.4); } }
+
+/* ---------- finale ---------- */
+#fin h1 { max-width: 14ch; }
+#fin h1 span { display: inline-block; }
+.sig { margin-top: 16px; font-size: 16px; color: var(--soft); }
+#confetti { position: fixed; inset: 0; z-index: 25; pointer-events: none; }
+
+/* ---------- controls ---------- */
+#nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  padding: 0 18px max(18px, env(safe-area-inset-bottom));
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+#nav button.n { background: rgba(22,20,63,.7); border: 1.5px solid rgba(253,246,238,.35); border-radius: 30px; padding: 10px 22px; font-weight: 500; backdrop-filter: blur(6px); }
+#nav button.n:disabled { opacity: .25; cursor: default; }
+#nav button.n.pulse { border-color: var(--sun); animation: pulse 1.2s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(255,209,102,.25); } }
+#pips { display: flex; gap: 7px; }
+#pips i { width: 7px; height: 7px; border-radius: 50%; background: rgba(253,246,238,.25); transition: all .3s; }
+#pips i.on { background: var(--sun); width: 22px; border-radius: 4px; }
+
+button:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .scene, .card, #grid i, #arms { transition: none; }
+  .spark { animation-duration: .01s; }
+}
+</style>
+</head>
+<body>
+
+<audio id="bgm" src="song.mp3" loop preload="auto"></audio>
+
+<div id="horizon" aria-hidden="true">
+  <svg viewBox="0 0 800 300" preserveAspectRatio="xMidYMax slice">
+    <circle cx="400" cy="250" r="120" fill="#ffd166" opacity=".9"/>
+    <path d="M0 230 Q100 195 200 225 T400 215 T600 228 T800 205 V300 H0Z" fill="#ff9f7f" opacity=".85"/>
+    <path d="M0 255 Q120 228 240 252 T480 245 T800 240 V300 H0Z" fill="#a98bff" opacity=".9"/>
+    <path d="M0 280 Q150 262 300 278 T600 272 T800 276 V300 H0Z" fill="#221f5c"/>
+  </svg>
+</div>
+
+<div id="top">
+  <span>9 November 2026</span>
+  <button id="mute" aria-label="Toggle music">music on</button>
+</div>
+
+<!-- 0 intro -->
+<section class="scene on" id="s0">
+  <div class="pass">
+    <div class="pass-head">Hug in transit</div>
+    <div class="pass-row"><div><small>To</small><b>Eldie</b></div><div><small>From</small><b>Your menace</b></div></div>
+    <div class="pass-row"><div><small>Route</small><b>9,231 km</b></div><div><small>Friends since</small><b>21 Aug</b></div></div>
+    <div class="pass-foot">Arrives 9 Nov 2026. No customs, no refunds, no ignoring me.</div>
+  </div>
+  <button class="btn" id="open">Open it</button>
+</section>
+
+<!-- 1 distance -->
+<section class="scene" id="s1">
+  <h2>The distance I'm annoying you across</h2>
+  <svg id="route" viewBox="0 0 800 260">
+    <path id="arc" d="M70 200 Q400 -60 730 200" fill="none" stroke="rgba(253,246,238,.35)" stroke-width="3" stroke-dasharray="3 12" stroke-linecap="round"/>
+    <circle cx="70" cy="200" r="9" fill="#8ff0cf"/>
+    <circle cx="730" cy="200" r="9" fill="#ffd166"/>
+    <g id="plane"><circle r="15" fill="#fdf6ee"/><text text-anchor="middle" y="6" font-size="18">✈</text></g>
+  </svg>
+  <div id="kmnum">0</div>
+  <p class="lead" style="margin-top:6px">kilometres of me getting on your nerves in baby mode</p>
+  <div id="kmextra">+10% because baby mode travels extra = 10,154 km</div>
+</section>
+
+<!-- 2 days -->
+<section class="scene" id="s2">
+  <div id="daynum">0</div>
+  <h2 style="font-size:clamp(24px,4vw,40px);margin-top:6px">days of you having to put up with me</h2>
+  <div id="grid"></div>
+  <div class="gridlbl"><span>21 Aug</span><span>9 Nov</span></div>
+  <p class="lead">That's about 1,920 hours of you ignoring my texts. Respectfully.</p>
+</section>
+
+<!-- 3 notes -->
+<section class="scene" id="s3">
+  <h2>Fifteen notes. Yes, fifteen.</h2>
+  <div class="deck">
+    <div class="card" id="card">
+      <div class="face front" id="cfront">tap me</div>
+      <div class="face back" id="cback"></div>
+    </div>
+  </div>
+  <div id="deckmeta"></div>
+</section>
+
+<!-- 4 hug -->
+<section class="scene" id="s4">
+  <h2>Hug delivery, since you won't reply</h2>
+  <svg id="hugsvg" viewBox="0 0 400 260" aria-label="Two friends hugging">
+    <g id="L" style="transition:transform 1.6s cubic-bezier(.3,1,.4,1);transform:translateX(-85px)">
+      <ellipse cx="172" cy="178" rx="46" ry="62" fill="#ff9f7f"/>
+      <circle cx="172" cy="96" r="36" fill="#ffd9bf"/>
+      <path d="M136 92 Q140 54 172 54 Q206 54 208 92 Q190 72 136 92Z" fill="#5b3a6e"/>
+      <path d="M160 100 q6 6 12 0 M176 100 q6 6 12 0" stroke="#5b3a6e" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M166 114 q8 8 16 0" stroke="#5b3a6e" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="152" cy="108" r="6" fill="#ff9f7f" opacity=".55"/>
+    </g>
+    <g id="R" style="transition:transform 1.6s cubic-bezier(.3,1,.4,1);transform:translateX(85px)">
+      <ellipse cx="228" cy="178" rx="46" ry="62" fill="#a98bff"/>
+      <circle cx="228" cy="96" r="36" fill="#f3c9a8"/>
+      <path d="M192 96 Q192 52 228 52 Q264 52 264 96 Q250 66 192 96Z" fill="#2a2160"/>
+      <path d="M216 100 q6 6 12 0 M232 100 q6 6 12 0" stroke="#2a2160" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M222 114 q8 8 16 0" stroke="#2a2160" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="248" cy="108" r="6" fill="#ff9f7f" opacity=".55"/>
+    </g>
+    <g id="arms" fill="none" stroke-width="15" stroke-linecap="round">
+      <path d="M190 150 Q232 128 252 160" stroke="#e57f5f"/>
+      <path d="M210 150 Q168 128 148 160" stroke="#8a6be0"/>
+    </g>
+  </svg>
+  <button class="btn" id="sendhug">Send a hug</button>
+  <div id="hugstat">hugs delivered: 0</div>
+  <div class="gifrow" id="gifrow">
+    <img src="hug1.gif" alt="" onerror="this.remove()">
+    <img src="hug2.gif" alt="" onerror="this.remove()">
+    <img src="hug3.gif" alt="" onerror="this.remove()">
+  </div>
+</section>
+
+<!-- 5 finale -->
+<section class="scene" id="fin">
+  <h1 id="tag">HAPPY BIRTHDAYYY ELDIEEEE</h1>
+  <p class="lead">You've never been serious, so today shouldn't be hard. Eat cake, ignore my texts, I'm used to it.</p>
+  <button class="btn" id="more">One more hug</button>
+  <button class="btn ghost" id="again" style="margin-top:14px;box-shadow:none">Watch again</button>
+  <div class="sig">9 November 2026</div>
+</section>
+
+<canvas id="confetti"></canvas>
+
+<div id="nav">
+  <button class="n" id="back">Back</button>
+  <div id="pips"></div>
+  <button class="n" id="next">Next</button>
+</div>
+
+<script>
+const scenes = ['s0','s1','s2','s3','s4','fin'].map(id => document.getElementById(id));
+const pipsEl = document.getElementById('pips');
+scenes.forEach(() => pipsEl.appendChild(document.createElement('i')));
+const $ = id => document.getElementById(id);
+let cur = 0, timers = [], raf = [];
+const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+const ease = t => 1 - Math.pow(1 - t, 3);
+
+function countTo(el, from, to, ms, fmt) {
+  const t0 = performance.now();
+  const step = now => {
+    const t = Math.min(1, (now - t0) / ms);
+    el.textContent = Math.round(from + (to - from) * ease(t)).toLocaleString('en-US');
+    if (t < 1) raf.push(requestAnimationFrame(step));
+    else if (fmt) fmt();
+  };
+  raf.push(requestAnimationFrame(step));
+}
+
+/* ---------- scene logic ---------- */
+function clearAll() { timers.forEach(clearTimeout); raf.forEach(cancelAnimationFrame); timers = []; raf = []; }
+
+function go(n) {
+  n = Math.max(0, Math.min(scenes.length - 1, n));
+  clearAll();
+  scenes.forEach((s, i) => s.classList.toggle('on', i === n));
+  pipsEl.querySelectorAll('i').forEach((p, i) => p.classList.toggle('on', i === n));
+  cur = n;
+  $('back').disabled = n === 0;
+  $('next').disabled = n === scenes.length - 1 || (n === 0 && !opened);
+  $('next').classList.remove('pulse');
+  enter(n);
+}
+
+function enter(n) {
+  if (n === 1) {
+    const arc = $('arc'), plane = $('plane'), len = arc.getTotalLength();
+    $('kmextra').classList.remove('on'); $('kmnum').textContent = '0';
+    const t0 = performance.now(), D = 3600;
+    const step = now => {
+      const t = Math.min(1, (now - t0) / D), p = arc.getPointAtLength(len * ease(t));
+      plane.setAttribute('transform', `translate(${p.x},${p.y})`);
+      if (t < 1) raf.push(requestAnimationFrame(step));
+    };
+    raf.push(requestAnimationFrame(step));
+    countTo($('kmnum'), 0, 9231, D, () => later(() => {
+      $('kmextra').classList.add('on');
+      countTo($('kmnum'), 9231, 10154, 1400);
+    }, 400));
+  }
+  if (n === 2) {
+    const g = $('grid'); g.innerHTML = '';
+    for (let i = 0; i < 80; i++) { const d = document.createElement('i'); if (i === 79) d.className = 'last'; g.appendChild(d); }
+    $('daynum').textContent = '0';
+    const dots = g.children;
+    for (let i = 0; i < 80; i++) later(() => { dots[i].classList.add('lit'); $('daynum').textContent = i + 1; }, 300 + i * 38);
+  }
+  if (n === 3) { noteIdx = 0; setNote(true); }
+  if (n === 4) {
+    $('arms').classList.remove('on');
+    $('L').style.transform = 'translateX(-85px)'; $('R').style.transform = 'translateX(85px)';
+    later(() => { $('L').style.transform = 'translateX(0)'; $('R').style.transform = 'translateX(0)'; }, 200);
+    later(() => $('arms').classList.add('on'), 1500);
+  }
+  if (n === 5) { later(() => burst(160), 400); }
+}
+
+/* ---------- intro ---------- */
+let opened = false;
+$('open').onclick = () => {
+  opened = true;
+  const a = $('bgm'); a.volume = 0;
+  a.play().then(() => fadeVol(a, .5, 2200)).catch(() => $('mute').hidden = true);
+  go(1);
+};
+$('bgm').addEventListener('error', () => $('mute').hidden = true);
+function fadeVol(el, to, ms) {
+  const from = el.volume, t0 = performance.now();
+  const s = now => { const t = Math.min(1, (now - t0) / ms); el.volume = from + (to - from) * t; if (t < 1) requestAnimationFrame(s); };
+  requestAnimationFrame(s);
+}
+$('mute').onclick = () => {
+  const a = $('bgm');
+  if (a.paused) { a.play().catch(() => {}); $('mute').textContent = 'music on'; }
+  else { a.pause(); $('mute').textContent = 'music off'; }
+};
+
+/* ---------- notes ---------- */
+const NOTES = [
+  ['tap me', "I hate you. Not actually. I just love you and you ignore me. Rude."],
+  ['founder notice', "As a founder, I have to make sure you're not corrupted for my company. Stay away from boring people. That's policy."],
+  ['lucky you', "You're lucky you met me when you did. Otherwise you'd be stuck with boring friends and you know it."],
+  ['official complaint', "You leave me on seen like it's a hobby. Filing this under emotional damage, minor."],
+  ['fun fact', "You've never been serious a single day in your life. Do not start now, it would scare me."],
+  ['suspicious', "Who are you texting instead of me? I want names, faces and a written explanation."],
+  ['performance review', "Chaos: 10/10. Replying on time: 3/10. Needs improvement. Please do not improve."],
+  ['mum mode', "You act like my mother and I act like your baby. It's a perfect system, please never change it."],
+  ['jealousy report', "If you have a new favourite person I'm fine. Totally fine. Just send me their name so I can run a background check as a founder."],
+  ['terms and conditions', "By being my friend you agree to unlimited teasing, random texts, and zero refunds. You already clicked accept."],
+  ['rare compliment', "You're actually really funny. Screenshot this, it won't happen again."],
+  ['company memo', "You passed the vibe check, so you're now employee of the month. Pay: unlimited hugs and insults."],
+  ['soft hour', "Real talk for one second: I'm really glad you're in my life. Okay, back to bullying you."],
+  ['baby mode', "Yes, I'm in baby mode again. No, you can't put me on timeout. Sorry, mum."],
+  ['last one', "Happy birthday, Eldie. I hate you (not actually). Now go be unserious and eat something nice."]
+];
+let noteIdx = 0, flipped = false;
+function setNote(initial) {
+  const c = $('card');
+  const apply = () => {
+    c.classList.remove('flip'); flipped = false;
+    $('cfront').textContent = NOTES[noteIdx][0];
+    $('cback').textContent = NOTES[noteIdx][1];
+    $('deckmeta').textContent = `note ${noteIdx + 1} of ${NOTES.length}, tap the card`;
+    c.classList.remove('out');
+  };
+  if (initial) { c.style.transition = 'none'; apply(); void c.offsetWidth; c.style.transition = ''; }
+  else { c.classList.add('out'); setTimeout(() => { c.style.transition = 'none'; apply(); void c.offsetWidth; c.style.transition = ''; }, 260); }
+}
+$('card').onclick = () => {
+  if (!flipped) {
+    $('card').classList.add('flip'); flipped = true;
+    if (noteIdx === NOTES.length - 1) { $('deckmeta').textContent = 'that was the last note'; $('next').classList.add('pulse'); }
+    else $('deckmeta').textContent = 'tap again for the next one';
+  } else if (noteIdx < NOTES.length - 1) { noteIdx++; setNote(false); }
+};
+
+/* ---------- hugs ---------- */
+let hugs = 0;
+$('sendhug').onclick = e => {
+  hugs++;
+  $('hugstat').textContent = `hugs delivered: ${hugs}  ·  distance hugged: ${(hugs * 9231).toLocaleString('en-US')} km` + (hugs >= 5 ? '  ·  no limit, keep going' : '');
+  const r = e.currentTarget.getBoundingClientRect();
+  for (let i = 0; i < 6; i++) {
+    const s = document.createElement('span'); s.className = 'spark'; s.textContent = ['✦', '✧', '✺'][i % 3];
+    s.style.left = (r.left + Math.random() * r.width) + 'px'; s.style.top = (r.top - 4) + 'px';
+    s.style.color = ['#ffd166', '#c9b8ff', '#8ff0cf', '#ff9f7f'][i % 4];
+    s.style.animationDelay = (i * 60) + 'ms';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1700);
+  }
+  const g = $('hugsvg'); g.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 380 });
+};
+
+/* ---------- finale ---------- */
+const cv = $('confetti'), cc = cv.getContext('2d'); let parts = [], running = false;
+function fit() { cv.width = innerWidth; cv.height = innerHeight; } fit(); addEventListener('resize', fit);
+function burst(n) {
+  const cols = ['#ffd166', '#ff9f7f', '#c9b8ff', '#8ff0cf', '#fdf6ee'];
+  for (let i = 0; i < n; i++) parts.push({
+    x: innerWidth / 2, y: innerHeight * .4, vx: (Math.random() - .5) * 13, vy: -Math.random() * 12 - 3,
+    w: Math.random() * 8 + 4, h: Math.random() * 5 + 3, r: Math.random() * 6, vr: (Math.random() - .5) * .3,
+    c: cols[i % cols.length], life: 1
+  });
+  if (!running) { running = true; requestAnimationFrame(tick); }
+}
+function tick() {
+  cc.clearRect(0, 0, cv.width, cv.height);
+  parts.forEach(p => {
+    p.vy += .28; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.vx *= .99; p.life -= .006;
+    cc.save(); cc.translate(p.x, p.y); cc.rotate(p.r); cc.globalAlpha = Math.max(0, p.life);
+    cc.fillStyle = p.c; cc.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); cc.restore();
+  });
+  parts = parts.filter(p => p.life > 0 && p.y < innerHeight + 30);
+  if (parts.length) requestAnimationFrame(tick); else running = false;
+}
+$('more').onclick = () => burst(140);
+$('again').onclick = () => { parts = []; go(0); };
+
+/* ---------- navigation ---------- */
+$('next').onclick = () => go(cur + 1);
+$('back').onclick = () => go(cur - 1);
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' && !$('next').disabled) go(cur + 1);
+  if (e.key === 'ArrowLeft' && !$('back').disabled) go(cur - 1);
+});
+let tx = null;
+addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
+addEventListener('touchend', e => {
+  if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null;
+  if (Math.abs(dx) < 70) return;
+  if (dx < 0 && !$('next').disabled) go(cur + 1);
+  if (dx > 0 && !$('back').disabled) go(cur - 1);
+}, { passive: true });
+
+go(0);
+</script>
+</body>
+</html>
