@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Gift for Kamiya</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='45%25' r='60%25'%3E%3Cstop offset='0%25' stop-color='%23fefae0'/%3E%3Cstop offset='55%25' stop-color='%23dda15e'/%3E%3Cstop offset='100%25' stop-color='%23bc6c25'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%231b2510'/%3E%3Ccircle cx='16' cy='15' r='9' fill='url(%23g)'/%3E%3Ccircle cx='19' cy='12' r='7' fill='%231b2510' opacity='0.35'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style-pre.css">
+</head>
+<body>
+
+  <div id="moon"></div>
+  <canvas id="stars"></canvas>
+  <div id="hearts"></div>
+
+  <div id="screen-start" class="screen active">
+    <p class="lbl">a little something for</p>
+    <h1 class="name">Kamiya</h1>
+    <p class="sub">tap the box to open it</p>
+    <button id="gift" aria-label="Open gift">
+      <div class="box-lid"></div>
+      <div class="box-base"></div>
+      <div class="box-ribbon-v"></div>
+      <div class="box-ribbon-h"></div>
+      <div class="box-bow">🎀</div>
+    </button>
+  </div>
+
+  <div id="screen-letter" class="screen">
+    <p class="lbl">inside the box</p>
+    <h2 class="ttl">a letter, before your birthday</h2>
+    <p class="verse" id="letter-text"></p>
+    <button class="btn" id="to-cake">next →</button>
+  </div>
+
+  <div id="screen-cake" class="screen">
+    <p class="lbl">make a wish</p>
+    <h2 class="ttl">20 candles, one wish</h2>
+    <div id="cake">
+      <div class="cake-top"></div>
+      <div id="candles"></div>
+      <div class="cake-body"></div>
+      <div class="cake-plate"></div>
+    </div>
+    <p class="sub" id="cake-hint">tap each flame to blow it out</p>
+    <button class="btn" id="to-final" disabled>continue →</button>
+  </div>
+
+  <div id="screen-final" class="screen">
+    <div class="heart-wrap">
+      <svg width="54" height="52" viewBox="0 0 60 56">
+        <path id="hp" d="M30 52 C10 36 2 26 2 16 C2 7 9 2 16 2 C22 2 27 6 30 10 C33 6 38 2 44 2 C51 2 58 7 58 16 C58 26 50 36 30 52Z" fill="none" stroke="#dda15e" stroke-width="2"/>
+      </svg>
+    </div>
+    <h1 class="name">Happy Pre-Birthday</h1>
+    <h1 class="name" id="final-name">Kamiya.</h1>
+    <p class="dtag">20 · November · twenty is almost here</p>
+    <p class="sub">this is only the beginning. the real day is still coming.</p>
+    <button class="btn" id="replay">↺ open it again</button>
+  </div>
+
+  <script src="script-pre.js"></script>
+</body>
+</html>
